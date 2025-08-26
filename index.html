@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yu-Kai (Kyle) Huang - AI Transformation Leader</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'tech-blue': '#0066cc',
+                        'tech-dark': '#1a1a2e',
+                        'tech-accent': '#00d4ff'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .tech-pattern {
+            background-image: 
+                radial-gradient(circle at 25px 25px, rgba(255,255,255,0.1) 2px, transparent 0),
+                radial-gradient(circle at 75px 75px, rgba(255,255,255,0.1) 2px, transparent 0);
+            background-size: 100px 100px;
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .skill-tag {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin: 0.25rem;
+            display: inline-block;
+        }
+        
+        .section-divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #667eea, transparent);
+            margin: 3rem 0;
+        }
+        
+        .achievement-badge {
+            background: linear-gradient(45deg, #00d4ff, #0066cc);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-left: 0.5rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header Section -->
+    <header class="gradient-bg tech-pattern text-white py-12">
+        <div class="container mx-auto px-6 text-center">
+            <h1 class="text-4xl font-bold mb-3 text-white drop-shadow-lg">Yu-Kai (Kyle) Huang</h1>
+            <p class="text-xl font-light mb-6 text-blue-100">"Driving AI, Defining New Productivity"</p>
+            <div class="flex flex-wrap justify-center gap-4 text-base">
+                <div class="flex items-center">
+                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
+                    </svg>
+                    +886-XXX-XXXX
+                </div>
+                <div class="flex items-center">
+                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
+                        <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
+                    </svg>
+                    kyle.huang@email.com
+                </div>
+                <div class="flex items-center">
+                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M4.083 9h1.946c.089-1.546.383-2.97.837-4.118A6.004 6.004 0 004.083 9zM10 2a8 8 0 100 16 8 8 0 000-16zm0 2c-.076 0-.232.032-.465.262-.238.234-.497.623-.737 1.182-.389.907-.673 2.142-.766 3.556h3.936c-.093-1.414-.377-2.649-.766-3.556-.24-.56-.5-.948-.737-1.182C10.232 4.032 10.076 4 10 4zm3.971 5c-.089-1.546-.383-2.97-.837-4.118A6.004 6.004 0 0115.917 9h-1.946zm-2.003 2H8.032c.093 1.414.377 2.649.766 3.556.24.56.5.948.737 1.182.233.23.389.262.465.262.076 0 .232-.032.465-.262.238-.234.498-.623.737-1.182.389-.907.673-2.142.766-3.556zm1.166 4.118c.454-1.147.748-2.572.837-4.118h1.946a6.004 6.004 0 01-2.783 4.118zm-6.268 0C6.412 13.97 6.118 12.546 6.03 11H4.083a6.004 6.004 0 002.783 4.118z" clip-rule="evenodd"/>
+                    </svg>
+                    www.kyle-huang.com
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Summary Section -->
+    <section class="py-12 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6">Professional Summary</h2>
+                <p class="text-lg text-gray-600 leading-relaxed mb-6">
+                    Accomplished technology leader with <strong>15+ years of experience</strong> in enterprise AI transformation, 
+                    Generative AI, and cloud-native systems. Proven track record of delivering <strong>5+ man-years of productivity gains</strong> 
+                    through innovative AI solutions and automation frameworks.
+                </p>
+                <div class="grid md:grid-cols-2 gap-8 text-left">
+                    <div class="bg-gray-50 p-6 rounded-lg">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Core Strengths</h3>
+                        <ul class="space-y-2 text-gray-600">
+                            <li>• Product thinking & strategic vision</li>
+                            <li>• Clear technical communication</li>
+                            <li>• Empathetic collaboration</li>
+                            <li>• Continuous learning & curiosity</li>
+                        </ul>
+                    </div>
+                    <div class="bg-gray-50 p-6 rounded-lg">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Recognition</h3>
+                        <ul class="space-y-2 text-gray-600">
+                            <li>• 10+ IEEE publications</li>
+                            <li>• Best Paper Awards</li>
+                            <li>• Invited university talks</li>
+                            <li>• Industry innovation awards</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- Expertise Highlights -->
+    <section class="py-12 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-8">Expertise Highlights</h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <!-- AI Transformation Leadership -->
+                <div class="bg-white p-6 rounded-xl shadow-lg card-hover">
+                    <div class="text-3xl mb-3">🤖</div>
+                    <h3 class="text-lg font-bold text-gray-800 mb-3">AI Transformation Leadership</h3>
+                    <ul class="text-gray-600 space-y-2 mb-4">
+                        <li>• MediaTek AI initiatives</li>
+                        <li>• 50+ applications deployed</li>
+                        <li>• 5.5 man-years productivity</li>
+                        <li>• Product-first mindset</li>
+                    </ul>
+                    <span class="achievement-badge">Leadership</span>
+                </div>
+
+                <!-- Team & Project Leadership -->
+                <div class="bg-white p-6 rounded-xl shadow-lg card-hover">
+                    <div class="text-3xl mb-3">👥</div>
+                    <h3 class="text-lg font-bold text-gray-800 mb-3">Team & Project Leadership</h3>
+                    <ul class="text-gray-600 space-y-2 mb-4">
+                        <li>• Agile & Scrum methodologies</li>
+                        <li>• Cross-functional communication</li>
+                        <li>• Empathetic team building</li>
+                        <li>• Strategic project delivery</li>
+                    </ul>
+                    <span class="achievement-badge">Management</span>
+                </div>
+
+                <!-- Communication & Product Thinking -->
+                <div class="bg-white p-6 rounded-xl shadow-lg card-hover">
+                    <div class="text-3xl mb-3">💡</div>
+                    <h3 class="text-lg font-bold text-gray-800 mb-3">Communication & Product Thinking</h3>
+                    <ul class="text-gray-600 space-y-2 mb-4">
+                        <li>• Technical to business insights</li>
+                        <li>• Strategic problem-solving</li>
+                        <li>• Stakeholder empathy</li>
+                        <li>• Innovation facilitation</li>
+                    </ul>
+                    <span class="achievement-badge">Strategy</span>
+                </div>
+
+                <!-- Cloud-Native Architecture -->
+                <div class="bg-white p-6 rounded-xl shadow-lg card-hover">
+                    <div class="text-3xl mb-3">☁️</div>
+                    <h3 class="text-lg font-bold text-gray-800 mb-3">Cloud-Native Architecture</h3>
+                    <ul class="text-gray-600 space-y-2 mb-4">
+                        <li>• AWS Certified Professional</li>
+                        <li>• Docker & Kubernetes</li>
+                        <li>• CI/CD pipelines</li>
+                        <li>• Microservices design</li>
+                    </ul>
+                    <span class="achievement-badge">AWS Certified</span>
+                </div>
+
+                <!-- Enterprise Infrastructure -->
+                <div class="bg-white p-6 rounded-xl shadow-lg card-hover">
+                    <div class="text-3xl mb-3">🏗️</div>
+                    <h3 class="text-lg font-bold text-gray-800 mb-3">Enterprise Infrastructure</h3>
+                    <ul class="text-gray-600 space-y-2 mb-4">
+                        <li>• AWS & GCP platforms</li>
+                        <li>• OpenStack deployment</li>
+                        <li>• Hybrid-cloud solutions</li>
+                        <li>• Scalable architectures</li>
+                    </ul>
+                    <span class="achievement-badge">Infrastructure</span>
+                </div>
+
+                <!-- Research & Innovation -->
+                <div class="bg-white p-6 rounded-xl shadow-lg card-hover">
+                    <div class="text-3xl mb-3">🔬</div>
+                    <h3 class="text-lg font-bold text-gray-800 mb-3">Research & Innovation</h3>
+                    <ul class="text-gray-600 space-y-2 mb-4">
+                        <li>• 10+ IEEE publications</li>
+                        <li>• Edge computing research</li>
+                        <li>• V2X communication</li>
+                        <li>• Industry impact studies</li>
+                    </ul>
+                    <span class="achievement-badge">Research</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- Education -->
+    <section class="py-12 bg-white">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-8">Education</h2>
+            <div class="max-w-3xl mx-auto space-y-6">
+                <div class="bg-gradient-to-r from-blue-50 to-purple-50 p-6 rounded-lg border-l-4 border-tech-blue">
+                    <h3 class="text-xl font-bold text-gray-800">Ph.D. in Computer Science</h3>
+                    <p class="text-gray-600">National Taiwan University</p>
+                </div>
+                <div class="bg-gradient-to-r from-blue-50 to-purple-50 p-6 rounded-lg border-l-4 border-tech-blue">
+                    <h3 class="text-xl font-bold text-gray-800">M.S. in Computer Science</h3>
+                    <p class="text-gray-600">National Taiwan University</p>
+                </div>
+                <div class="bg-gradient-to-r from-blue-50 to-purple-50 p-6 rounded-lg border-l-4 border-tech-blue">
+                    <h3 class="text-xl font-bold text-gray-800">B.S. in Computer Science</h3>
+                    <p class="text-gray-600">National Tsing Hua University</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- Experience -->
+    <section class="py-12 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-8">Professional Experience</h2>
+            
+            <!-- MediaTek -->
+            <div class="max-w-5xl mx-auto mb-8">
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover">
+                    <div class="flex flex-wrap justify-between items-start mb-4">
+                        <div>
+                            <h3 class="text-xl font-bold text-gray-800">Technical Manager</h3>
+                            <p class="text-lg text-tech-blue font-semibold">MediaTek Inc.</p>
+                        </div>
+                        <span class="bg-tech-blue text-white px-4 py-2 rounded-full font-semibold">Feb 2022 – Present</span>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="space-y-4">
+                            <div class="border-l-4 border-tech-accent pl-4">
+                                <h4 class="font-bold text-gray-800">DataChat App Platform</h4>
+                                <p class="text-gray-600 text-sm">Generative AI for 10+ data formats, 40,000+ queries/year</p>
+                                <span class="achievement-badge">2.25 FTE Saved</span>
+                            </div>
+                            <div class="border-l-4 border-tech-accent pl-4">
+                                <h4 class="font-bold text-gray-800">Multi-modal KSF RAG Algorithm</h4>
+                                <p class="text-gray-600 text-sm">40% fuzzy search accuracy improvement</p>
+                                <span class="achievement-badge">1.5 FTE Saved</span>
+                            </div>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="border-l-4 border-tech-accent pl-4">
+                                <h4 class="font-bold text-gray-800">AI Factory Framework</h4>
+                                <p class="text-gray-600 text-sm">15+ chatbots in 6 months, LangFlow integration</p>
+                                <span class="achievement-badge">1.75 FTE Saved</span>
+                            </div>
+                            <div class="border-l-4 border-tech-accent pl-4">
+                                <h4 class="font-bold text-gray-800">Team Leadership</h4>
+                                <p class="text-gray-600 text-sm">Solo to team lead, Agile/Scrum, Docker/Kubernetes</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hon Hai Research Institute -->
+            <div class="max-w-5xl mx-auto mb-12">
+                <div class="bg-white rounded-xl shadow-lg p-8 card-hover">
+                    <div class="flex flex-wrap justify-between items-start mb-6">
+                        <div>
+                            <h3 class="text-2xl font-bold text-gray-800">Research Fellow</h3>
+                            <p class="text-xl text-tech-blue font-semibold">Hon Hai Research Institute</p>
+                        </div>
+                        <span class="bg-tech-blue text-white px-4 py-2 rounded-full font-semibold">Jan 2021 – Feb 2022</span>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div class="border-l-4 border-green-400 pl-4">
+                            <h4 class="font-bold text-gray-800">"An Edge Intelligent Framework for O-RAN based IoV Networks"</h4>
+                            <p class="text-gray-600 text-sm">O-RAN for IoV with real-world data validation</p>
+                            <span class="achievement-badge">Best Paper Award</span>
+                        </div>
+                        <div class="border-l-4 border-green-400 pl-4">
+                            <h4 class="font-bold text-gray-800">"Relayed Collective Perception Service..."</h4>
+                            <p class="text-gray-600 text-sm">V2X communication, redundancy mitigation, time synchronization</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Shalom Inc -->
+            <div class="max-w-5xl mx-auto mb-12">
+                <div class="bg-white rounded-xl shadow-lg p-8 card-hover">
+                    <div class="flex flex-wrap justify-between items-start mb-6">
+                        <div>
+                            <h3 class="text-2xl font-bold text-gray-800">Chief Technology Officer</h3>
+                            <p class="text-xl text-tech-blue font-semibold">Shalom Inc.</p>
+                        </div>
+                        <span class="bg-tech-blue text-white px-4 py-2 rounded-full font-semibold">Apr 2015 – Aug 2020</span>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="space-y-4">
+                            <div class="border-l-4 border-purple-400 pl-4">
+                                <h4 class="font-bold text-gray-800">Cloud-based PMS</h4>
+                                <p class="text-gray-600 text-sm">Taiwan's #1 solution, 150+ B2B customers</p>
+                            </div>
+                            <div class="border-l-4 border-purple-400 pl-4">
+                                <h4 class="font-bold text-gray-800">AI-driven CRM</h4>
+                                <p class="text-gray-600 text-sm">20% increased customer interaction</p>
+                            </div>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="border-l-4 border-purple-400 pl-4">
+                                <h4 class="font-bold text-gray-800">Automated ERP</h4>
+                                <p class="text-gray-600 text-sm">15% sales increase through automation</p>
+                            </div>
+                            <div class="border-l-4 border-purple-400 pl-4">
+                                <h4 class="font-bold text-gray-800">Hybrid Cloud Architecture</h4>
+                                <p class="text-gray-600 text-sm">AWS-GCP integration, CI/CD pipelines</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Samsung & Quanta (Condensed) -->
+            <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-6">
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover">
+                    <div class="mb-4">
+                        <h3 class="text-xl font-bold text-gray-800">Senior Engineer</h3>
+                        <p class="text-tech-blue font-semibold">Samsung HQ – Korea</p>
+                        <span class="text-sm text-gray-500">Feb 2014 – Apr 2015</span>
+                    </div>
+                    <p class="text-gray-600 text-sm mb-2">3G/4G RRC protocols development</p>
+                    <span class="achievement-badge">Best Employee Award</span>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover">
+                    <div class="mb-4">
+                        <h3 class="text-xl font-bold text-gray-800">Senior Engineer</h3>
+                        <p class="text-tech-blue font-semibold">Quanta Research Institute</p>
+                        <span class="text-sm text-gray-500">Sep 2010 – Feb 2014</span>
+                    </div>
+                    <p class="text-gray-600 text-sm">BabyCam & Telemedicine (OpenStack, real-time video, MIT collaboration)</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- Publications -->
+    <section class="py-12 bg-white">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-8">Publications</h2>
+            <div class="max-w-5xl mx-auto space-y-6">
+                
+                <!-- Publication 1 -->
+                <div class="bg-gradient-to-r from-blue-50 to-purple-50 p-6 rounded-xl shadow-lg card-hover border-l-4 border-tech-blue">
+                    <div class="flex items-start justify-between mb-3">
+                        <div class="flex-1">
+                            <h3 class="text-lg font-bold text-gray-800 mb-2">
+                                "Relayed Collective Perception Service With Redundancy Mitigation and Time Synchronization for V2X Communications Networks"
+                            </h3>
+                            <p class="text-gray-700 font-medium mb-2">
+                                Yu-Kai Huang, P. Chennakesavula and Jen-Ming Wu
+                            </p>
+                            <p class="text-gray-600 text-sm mb-3">
+                                2023 IEEE 97th Vehicular Technology Conference (VTC2023-Spring), Florence, Italy, 2023, pp. 1-5
+                            </p>
+                            <p class="text-xs text-gray-500">
+                                DOI: 10.1109/VTC2023-Spring57618.2023.10199752
+                            </p>
+                        </div>
+                        <div class="ml-4 flex flex-col items-end">
+                            <span class="bg-tech-blue text-white px-3 py-1 rounded-full text-sm font-semibold mb-2">2023</span>
+                            <div class="text-2xl">🚗</div>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs font-medium">V2X Communications</span>
+                        <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-xs font-medium">Time Synchronization</span>
+                        <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-medium">Redundancy Mitigation</span>
+                    </div>
+                </div>
+
+                <!-- Publication 2 -->
+                <div class="bg-gradient-to-r from-green-50 to-blue-50 p-6 rounded-xl shadow-lg card-hover border-l-4 border-green-500">
+                    <div class="flex items-start justify-between mb-3">
+                        <div class="flex-1">
+                            <h3 class="text-lg font-bold text-gray-800 mb-2">
+                                "An Edge Intelligent Framework for O-RAN based IoV Networks"
+                            </h3>
+                            <p class="text-gray-700 font-medium mb-2">
+                                Yu-Kai Huang, Ai-Chun Pang, and Jen-Ming Wu
+                            </p>
+                            <p class="text-gray-600 text-sm mb-3">
+                                2021 IEEE 94th Vehicular Technology Conference (VTC2021-Fall), Norman, OK, USA, 2021, pp. 1-5
+                            </p>
+                            <p class="text-xs text-gray-500">
+                                DOI: 10.1109/VTC2021-Fall52928.2021.9625234
+                            </p>
+                        </div>
+                        <div class="ml-4 flex flex-col items-end">
+                            <span class="bg-green-500 text-white px-3 py-1 rounded-full text-sm font-semibold mb-2">2021</span>
+                            <span class="achievement-badge">Best Paper</span>
+                            <div class="text-xl mt-2">🏆</div>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-medium">Edge Computing</span>
+                        <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs font-medium">O-RAN</span>
+                        <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-xs font-medium">IoV Networks</span>
+                    </div>
+                </div>
+
+                <!-- Publication 3 -->
+                <div class="bg-gradient-to-r from-purple-50 to-pink-50 p-6 rounded-xl shadow-lg card-hover border-l-4 border-purple-500">
+                    <div class="flex items-start justify-between mb-3">
+                        <div class="flex-1">
+                            <h3 class="text-lg font-bold text-gray-800 mb-2">
+                                "Distributed Throughput Optimization for ZigBee Cluster-Tree Networks"
+                            </h3>
+                            <p class="text-gray-700 font-medium mb-2">
+                                Yu-Kai Huang, Ai-Chun Pang, Pi-Cheng Hsiu, Weihua Zhuang, and Pangfeng Liu
+                            </p>
+                            <p class="text-gray-600 text-sm mb-3">
+                                IEEE Transactions on Parallel and Distributed Systems, 23(3): 513-520, 2012
+                            </p>
+                        </div>
+                        <div class="ml-4 flex flex-col items-end">
+                            <span class="bg-purple-500 text-white px-3 py-1 rounded-full text-sm font-semibold mb-2">2012</span>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-medium">Journal</span>
+                            <div class="text-2xl mt-2">📡</div>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-xs font-medium">Distributed Systems</span>
+                        <span class="bg-pink-100 text-pink-800 px-3 py-1 rounded-full text-xs font-medium">ZigBee Networks</span>
+                        <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs font-medium">Throughput Optimization</span>
+                    </div>
+                </div>
+
+                <!-- Publication Summary -->
+                <div class="bg-gray-100 p-6 rounded-xl text-center">
+                    <div class="flex justify-center items-center space-x-8">
+                        <div class="text-center">
+                            <div class="text-3xl font-bold text-tech-blue">10+</div>
+                            <div class="text-gray-600 text-sm">IEEE Publications</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-3xl font-bold text-green-500">2</div>
+                            <div class="text-gray-600 text-sm">Best Paper Awards</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-3xl font-bold text-purple-500">5+</div>
+                            <div class="text-gray-600 text-sm">Research Areas</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- Invited Talks -->
+    <section class="py-12 bg-white">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-8">Selected Invited Talks</h2>
+            <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-6">
+                <div class="bg-gradient-to-r from-blue-50 to-purple-50 p-6 rounded-lg">
+                    <h3 class="font-bold text-gray-800 mb-2">AI Transformation in Enterprise</h3>
+                    <p class="text-gray-600 text-sm">National Taiwan University • 2023</p>
+                </div>
+                <div class="bg-gradient-to-r from-blue-50 to-purple-50 p-6 rounded-lg">
+                    <h3 class="font-bold text-gray-800 mb-2">Cloud-Native Architecture Patterns</h3>
+                    <p class="text-gray-600 text-sm">National Tsing Hua University • 2022</p>
+                </div>
+                <div class="bg-gradient-to-r from-blue-50 to-purple-50 p-6 rounded-lg">
+                    <h3 class="font-bold text-gray-800 mb-2">Edge Computing for IoV Networks</h3>
+                    <p class="text-gray-600 text-sm">National Taiwan University • 2021</p>
+                </div>
+                <div class="bg-gradient-to-r from-blue-50 to-purple-50 p-6 rounded-lg">
+                    <h3 class="font-bold text-gray-800 mb-2">Generative AI in Production</h3>
+                    <p class="text-gray-600 text-sm">National Tsing Hua University • 2023</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- Technical Skills -->
+    <section class="py-12 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-8">Technical Skills</h2>
+            <div class="max-w-5xl mx-auto grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                
+                <div class="bg-white p-5 rounded-xl shadow-lg">
+                    <h3 class="text-lg font-bold text-gray-800 mb-3">Languages</h3>
+                    <div class="flex flex-wrap">
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">JavaScript</span>
+                        <span class="skill-tag">TypeScript</span>
+                        <span class="skill-tag">Java</span>
+                        <span class="skill-tag">C++</span>
+                        <span class="skill-tag">Go</span>
+                    </div>
+                </div>
+
+                <div class="bg-white p-5 rounded-xl shadow-lg">
+                    <h3 class="text-lg font-bold text-gray-800 mb-3">DevOps & Cloud-Native</h3>
+                    <div class="flex flex-wrap">
+                        <span class="skill-tag">Docker</span>
+                        <span class="skill-tag">Kubernetes</span>
+                        <span class="skill-tag">CI/CD</span>
+                        <span class="skill-tag">Terraform</span>
+                        <span class="skill-tag">Ansible</span>
+                    </div>
+                </div>
+
+                <div class="bg-white p-5 rounded-xl shadow-lg">
+                    <h3 class="text-lg font-bold text-gray-800 mb-3">Cloud Platforms</h3>
+                    <div class="flex flex-wrap">
+                        <span class="skill-tag">AWS Certified</span>
+                        <span class="skill-tag">GCP</span>
+                        <span class="skill-tag">OpenStack</span>
+                        <span class="skill-tag">Azure</span>
+                    </div>
+                </div>
+
+                <div class="bg-white p-5 rounded-xl shadow-lg">
+                    <h3 class="text-lg font-bold text-gray-800 mb-3">AI & Data Science</h3>
+                    <div class="flex flex-wrap">
+                        <span class="skill-tag">LangChain</span>
+                        <span class="skill-tag">TensorFlow</span>
+                        <span class="skill-tag">PyTorch</span>
+                        <span class="skill-tag">RAG</span>
+                        <span class="skill-tag">LLMs</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="gradient-bg tech-pattern text-white py-10">
+        <div class="container mx-auto px-6 text-center">
+            <h3 class="text-xl font-bold mb-3">Let's Connect</h3>
+            <p class="text-blue-100 mb-5">Ready to drive AI transformation and define new productivity together?</p>
+            <div class="flex justify-center space-x-6">
+                <button class="bg-white text-tech-blue px-6 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-colors">
+                    Contact Me
+                </button>
+                <button class="border-2 border-white text-white px-6 py-3 rounded-lg font-semibold hover:bg-white hover:text-tech-blue transition-colors">
+                    Download Resume
+                </button>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Add scroll animation for cards
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all cards
+        document.querySelectorAll('.card-hover').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+
+        // Contact button functionality
+        document.querySelector('footer button:first-child').addEventListener('click', () => {
+            window.location.href = 'mailto:kyle.huang@email.com';
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9753ca31d7e74a8a',t:'MTc1NjIxNjEzOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
