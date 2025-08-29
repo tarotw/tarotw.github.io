@@ -483,27 +483,106 @@
                     <div class="flex flex-wrap gap-2">
                         <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-xs font-medium">Distributed Systems</span>
                         <span class="bg-pink-100 text-pink-800 px-3 py-1 rounded-full text-xs font-medium">ZigBee Networks</span>
-                        <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs font-medium">Throughput Optimization</span>
-                    </div>
+                    <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs font-medium">Throughput Optimization</span>
                 </div>
+            </div>
 
-                <!-- Publication Summary -->
-                <div class="bg-gray-100 p-6 rounded-xl text-center">
-                    <div class="flex justify-center items-center space-x-8">
-                        <div class="text-center">
-                            <div class="text-3xl font-bold text-tech-blue">10+</div>
-                            <div class="text-gray-600 text-sm">IEEE Publications</div>
-                        </div>
-                        <div class="text-center">
-                            <div class="text-3xl font-bold text-green-500">2</div>
-                            <div class="text-gray-600 text-sm">Best Paper Awards</div>
-                        </div>
-                        <div class="text-center">
-                            <div class="text-3xl font-bold text-purple-500">5+</div>
-                            <div class="text-gray-600 text-sm">Research Areas</div>
-                        </div>
+            <!-- Toggle for more publications -->
+            <div class="text-center">
+                <button id="toggle-publications" class="bg-tech-blue text-white px-4 py-2 rounded-lg">Show More</button>
+            </div>
+
+            <!-- Additional Publications -->
+            <div id="more-publications" class="hidden space-y-6 mt-6">
+                <div class="bg-white p-6 rounded-xl shadow-md border-l-4 border-gray-200">
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">Stochastic Delay Guarantees in ZigBee Cluster-Tree Networks</h3>
+                    <p class="text-gray-700 mb-1">Yu-Kai Huang, Chin-Fu Kuo, Ai-Chun Pang, and Weihua Zhuang</p>
+                    <p class="text-gray-600 text-sm">IEEE International Conference on Communications (ICC), Ottawa, Canada, June 10-15, 2012.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md border-l-4 border-gray-200">
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">Mobility-Robust Tree Construction in Zigbee Wireless Networks</h3>
+                    <p class="text-gray-700 mb-1">Wei-Ho Chung, Pi-Cheng Hsiu, Yuan-Yao Shih, Ai-Chun Pang, Yu-Kai Huang, and Kuan-Chang Hung</p>
+                    <p class="text-gray-600 text-sm">IEEE Conference on Communications (ICC), Kyoto, Japan, June 5-9, 2011.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md border-l-4 border-gray-200">
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">NAT-ZigBee: NAT-based Address Assignment for Scalable ZigBee Networks</h3>
+                    <p class="text-gray-700 mb-1">Yuan-Yao Chih, Yu-Kai Huang, Ai-Chun Pang, Pangfeng Liu, and Wei-Ni Chu</p>
+                    <p class="text-gray-600 text-sm">ICST International Conference on Heterogeneous Networking for Quality, Reliability, Security and Robustness (QShine), Houston, Texas, USA, 2010.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md border-l-4 border-gray-200">
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">A Comprehensive Analysis of Low-Power Operation for Beacon-enabled IEEE 802.15.4 Wireless Networks</h3>
+                    <p class="text-gray-700 mb-1">Yu-Kai Huang, Ai-Chun Pang, Hui-Nien Hung</p>
+                    <p class="text-gray-600 text-sm">IEEE Transactions on Wireless Communications, 8(11): 5601-5611, 2009.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md border-l-4 border-gray-200">
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">An Adaptive GTS Allocation Scheme for IEEE 802.15.4</h3>
+                    <p class="text-gray-700 mb-1">Yu-Kai Huang, Ai-Chun Pang, Hui-Nien Hung</p>
+                    <p class="text-gray-600 text-sm">IEEE Transactions on Parallel and Distributed Systems, 19(5): 641-651, 2008.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md border-l-4 border-gray-200">
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">An Integrated Deployment Tool for ZigBee-based Wireless Sensor Networks</h3>
+                    <p class="text-gray-700 mb-1">Yu-Kai Huang, Pi-Cheng Hsiu, Wei-Ni Chu, Kuan-Chang Hung, Ai-Chun Pang, Tei-Wei Kuo, Min Di, and Hua-Wei Fang</p>
+                    <p class="text-gray-600 text-sm">IEEE International Conf. on Embedded and Ubiquitous Computing (EUC), Shanghai, China, Dec. 17-20, 2008.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md border-l-4 border-gray-200">
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">QoS Enhancement for Co-existence of IEEE 802.11e and Legacy IEEE 802.11</h3>
+                    <p class="text-gray-700 mb-1">Ya-Ling Hsu, Yu-Kai Huang, Ai-Chun Pang</p>
+                    <p class="text-gray-600 text-sm">IEEE Global Telecommunications Conference (GLOBECOM), New Orleans, LA, USA, 2008.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md border-l-4 border-gray-200">
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">Energy-Efficient MAC Design for IEEE 802.15.4-Based Wireless Sensor Networks</h3>
+                    <p class="text-gray-700 mb-1">Yu-Kai Huang, Sze-Wei Huang, Ai-Chun Pang</p>
+                    <p class="text-gray-600 text-sm">International Workshop on System and Software for Wireless SoC (WSOC), in conjunction with The International Conf. on Embedded and Ubiquitous Computing (EUC), Taipei, Taiwan, Dec. 17-20, 2007.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md border-l-4 border-gray-200">
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">A Comprehensive Study of Low-Power Operation in IEEE 802.15.4</h3>
+                    <p class="text-gray-700 mb-1">Yu-Kai Huang, Ai-Chun Pang</p>
+                    <p class="text-gray-600 text-sm">ACM/IEEE International Symposium on Modeling, Analysis and Simulation of Wireless and Mobile Systems (MSWiM), Chania, Crete Island, Greece, October 22–26, 2007.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md border-l-4 border-gray-200">
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">Performance Analysis for IEEE 802.15.4 Wireless Personal Area Networks</h3>
+                    <p class="text-gray-700 mb-1">Yu-Kai Huang, Hsueh-Wen Tseng, and Ai-Chun Pang</p>
+                    <p class="text-gray-600 text-sm">EMERGING WIRELESS LANS, WIRELESS PANS AND WIRELESS MANS., Yang Xiao and Yi Pan (editors), Wiley, 2007.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md border-l-4 border-gray-200">
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">AGA: Adaptive GTS Allocation with Low Latency and Fairness Considerations for IEEE 802.15.4</h3>
+                    <p class="text-gray-700 mb-1">Yu-Kai Huang, Ai-Chun Pang, Tei-Wei Kuo</p>
+                    <p class="text-gray-600 text-sm">IEEE International Conference on Communications (ICC), Istanbul, Turkey, Jun. 11-15, 2006.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md border-l-4 border-gray-200">
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">Another Real-Time Operating System and Unified MAC Protocol for Home Controlling and Monitoring</h3>
+                    <p class="text-gray-700 mb-1">Chuan-Yue Yang, Yu-Kai Huang, Nei-Chiung Perng, Jian-Jia Chen, Yun-Han Lee, Chia-Mei Hung, Heng-Ruey Hsu, Szu-Wei Huang, Hsueh-Wen Tseng, Ai-Chun Pang, and Tei-Wei Kuo</p>
+                    <p class="text-gray-600 text-sm">The 3rd Workshop on Software Technologies for Future Embedded & Ubiquitous Systems in conjunction with IEEE International Symposium on Object-oriented Real-time distributed Computing, Gyeongju, Korea, Apr. 27-28, 2006.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md border-l-4 border-gray-200">
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">具有競爭協助機制媒介存取(MACAT)協定的資料傳輸方法及通訊系統-Data Transmission Method Using a MACAT Protocol and Communication System Using the Method</h3>
+                    <p class="text-gray-700 mb-1">Ya-Ling Hsu, Chi-Hsu Chen, Yu-Kai Huang, Tzu-Jane Tsai, Ai-Chun Pang</p>
+                    <p class="text-gray-600 text-sm">(with ICL/ITRI, submitted to USA and ROC Patent Offices)</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md border-l-4 border-gray-200">
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">主機裝置、傳輸方法及其電腦程式產品-Host Apparatus, Transmission Method and Computer Program Product Thereof</h3>
+                    <p class="text-gray-700 mb-1">Yung-Chih Liu, Yu-Kai Huang, Ai-Chun Pang, and Kuan-Chang Chen</p>
+                    <p class="text-gray-600 text-sm">(with III, submitted to USA and ROC Patent Offices)</p>
+                </div>
+            </div>
+
+            <!-- Publication Summary -->
+            <div class="bg-gray-100 p-6 rounded-xl text-center mt-6">
+                <div class="flex justify-center items-center space-x-8">
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-tech-blue">10+</div>
+                        <div class="text-gray-600 text-sm">IEEE Publications</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-green-500">2</div>
+                        <div class="text-gray-600 text-sm">Best Paper Awards</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-purple-500">5+</div>
+                        <div class="text-gray-600 text-sm">Research Areas</div>
                     </div>
                 </div>
+            </div>
             </div>
         </div>
     </section>
@@ -617,6 +696,18 @@
         // Contact button functionality
         document.querySelector('footer button:first-child').addEventListener('click', () => {
             window.location.href = 'mailto:taro.tw@gmail.com';
+        });
+
+        // Toggle more publications
+        document.getElementById('toggle-publications').addEventListener('click', function () {
+            const more = document.getElementById('more-publications');
+            if (more.classList.contains('hidden')) {
+                more.classList.remove('hidden');
+                this.textContent = 'Show Less';
+            } else {
+                more.classList.add('hidden');
+                this.textContent = 'Show More';
+            }
         });
     </script>
 <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97541b0c84464a93',t:'MTc1NjIxOTQ1NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
