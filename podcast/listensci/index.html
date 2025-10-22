@@ -570,16 +570,6 @@
         }
         card.appendChild(description);
 
-        if (enclosure) {
-          const audio = document.createElement('audio');
-          audio.className = 'audio-player';
-          audio.controls = true;
-          audio.preload = 'none';
-          audio.src = enclosure;
-          audio.setAttribute('aria-label', `${title} 節目音訊`);
-          card.appendChild(audio);
-        }
-
         if (keywords) {
           const keywordBadge = document.createElement('div');
           keywordBadge.className = 'episode-keywords';
