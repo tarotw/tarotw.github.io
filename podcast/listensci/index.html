@@ -582,7 +582,7 @@
 
       async function hydrate() {
         try {
-          const response = await fetch('rssfeed.xml', { cache: 'no-cache' });
+          const response = await fetch('https://feeds.soundon.fm/podcasts/cbbe3124-188a-4de6-87b4-2b65ed4f2d46.xml', { cache: 'no-cache' });
           if (!response.ok) {
             throw new Error(`HTTP ${response.status}`);
           }
