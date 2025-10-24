@@ -126,6 +126,45 @@
         gap: 1.35rem;
       }
 
+      .cta-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.65rem;
+      }
+
+      .cta-button {
+        align-self: flex-start;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.8rem 1.6rem;
+        border-radius: 999px;
+        background: var(--accent);
+        color: #fff;
+        font-weight: 700;
+        text-decoration: none;
+        box-shadow: var(--shadow);
+        transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+      }
+
+      .cta-button:hover,
+      .cta-button:focus-visible {
+        background: var(--accent-dark);
+        transform: translateY(-2px);
+        box-shadow: 0 22px 48px -24px rgba(20, 44, 90, 0.6);
+      }
+
+      .cta-button:focus-visible {
+        outline: 2px solid #fff;
+        outline-offset: 3px;
+      }
+
+      .cta-note {
+        margin: 0;
+        font-size: 0.92rem;
+        color: var(--muted);
+      }
+
       .hero-content h1 {
         font-family: 'Signika', 'Noto Sans TC', sans-serif;
         font-size: clamp(2rem, 2.6vw + 1.8rem, 3rem);
@@ -445,6 +484,17 @@
             這是一檔為學齡兒童量身打造、也讓大人愛不釋手的科普廣播節目！
           </p>
           <div class="host-info" id="show-author">主持：Kyle Huang</div>
+          <div class="cta-group">
+            <a
+              class="cta-button"
+              href="https://www.facebook.com/profile.php?id=61577975781160"
+              target="_blank"
+              rel="noreferrer noopener"
+            >
+              👍 前往 Facebook 粉絲頁按讚
+            </a>
+            <p class="cta-note">加入粉絲頁掌握最新活動與幕後花絮，一起支持節目！</p>
+          </div>
         </div>
       </section>
 
