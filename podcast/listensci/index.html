@@ -560,52 +560,10 @@
       const loadingEl = document.getElementById('loading');
       const errorEl = document.getElementById('error');
       const episodesContainer = document.getElementById('episodes');
-      const RSS_FEED_URL =
-        'https://script.google.com/macros/s/AKfycbz-bKmW0_TCyWnOjonbX8JjLkrLXop76e9mfHol-XDvwoT931GVXMW9-mzS6xMF7RIe/exec';
-      const RSS_FALLBACK_URL = 'rssfeed.xml';
-      const APPLE_LOOKUP_URL =
-        'https://itunes.apple.com/lookup?id=1812447277&country=tw&media=podcast&entity=podcastEpisode&limit=300';
-
-      const normalizeGuid = (value) => (typeof value === 'string' ? value.trim().toLowerCase() : '');
-
-      async function fetchRssFeed() {
-        try {
-          const response = await fetch(RSS_FEED_URL, { cache: 'no-cache', mode: 'cors' });
-          if (!response.ok) {
-            throw new Error(`HTTP ${response.status}`);
-          }
-          return response;
-        } catch (error) {
-          console.warn('Remote RSS 讀取失敗，改用預備來源。', error);
-          const fallbackResponse = await fetch(RSS_FALLBACK_URL, { cache: 'no-cache' });
-          if (!fallbackResponse.ok) {
-            throw new Error(`HTTP ${fallbackResponse.status}`);
-          }
-          return fallbackResponse;
-        }
-      }
-
-      async function fetchAppleEpisodeMap() {
-        try {
-          const response = await fetch(APPLE_LOOKUP_URL, { cache: 'no-cache', mode: 'cors' });
-          if (!response.ok) {
-            throw new Error(`HTTP ${response.status}`);
-          }
-          const data = await response.json();
-          const results = Array.isArray(data?.results) ? data.results : [];
-          const map = new Map();
-          results.forEach((result) => {
-            if (result?.wrapperType !== 'podcastEpisode') return;
-            const guid = normalizeGuid(result.episodeGuid);
-            if (!guid || !result.trackViewUrl) return;
-            map.set(guid, result.trackViewUrl);
-          });
-          return map;
-        } catch (error) {
-          console.warn('Apple Podcasts 內容載入失敗，將略過外部播放連結。', error);
-          return new Map();
-        }
-      }
+      const platformsContainer = document.getElementById('platforms');
+      const brandEl = document.querySelector('.brand');
+      const API_ENDPOINT =
+        'https://script.google.com/macros/s/AKfycbwESpSo8MjUFhn9iivMhO2svxlQpCUh350uuOlOB52rLPJR-eJr2IOesR1lTnkvjYN_/exec';
 
       function sanitize(html) {
         if (!html) return '';
@@ -633,7 +591,51 @@
         return template.innerHTML;
       }
 
-      function formatDate(pubDate) {
+      function toPlainText(html) {
+        if (!html) return '';
+        const template = document.createElement('template');
+        template.innerHTML = html;
+        return template.content.textContent?.trim() ?? '';
+      }
+
+      function resolveValue(source, paths, defaultValue = undefined) {
+        if (!source) return defaultValue;
+        const candidates = Array.isArray(paths) ? paths : [paths];
+        for (const candidate of candidates) {
+          if (candidate == null) continue;
+          const segments = Array.isArray(candidate) ? candidate : `${candidate}`.split('.');
+          let current = source;
+          let valid = true;
+          for (const segment of segments) {
+            if (current == null) {
+              valid = false;
+              break;
+            }
+            const key = `${segment}`;
+            if (Object.prototype.hasOwnProperty.call(current, key)) {
+              current = current[key];
+            } else if (typeof current === 'object' && current !== null) {
+              const lowerKey = Object.keys(current).find((name) => name.toLowerCase() === key.toLowerCase());
+              if (lowerKey) {
+                current = current[lowerKey];
+              } else {
+                valid = false;
+                break;
+              }
+            } else {
+              valid = false;
+              break;
+            }
+          }
+          if (valid && current != null && current !== '') {
+            return current;
+          }
+        }
+        return defaultValue;
+      }
+
+      function formatDate(value) {
+        const pubDate = Array.isArray(value) ? value[0] : value;
         if (!pubDate) return '';
         const formatter = new Intl.DateTimeFormat('zh-TW', {
           year: 'numeric',
@@ -642,16 +644,18 @@
           weekday: 'short'
         });
         const date = new Date(pubDate);
-        if (Number.isNaN(date.getTime())) return pubDate;
+        if (Number.isNaN(date.getTime())) return `${pubDate}`;
         return formatter.format(date);
       }
 
       function formatDuration(durationValue) {
-        if (!durationValue) return '';
+        if (durationValue == null || durationValue === '') return '';
         let totalSeconds = 0;
-        if (/^[0-9]+$/.test(durationValue.trim())) {
+        if (typeof durationValue === 'number' && Number.isFinite(durationValue)) {
+          totalSeconds = durationValue;
+        } else if (typeof durationValue === 'string' && /^[0-9]+$/.test(durationValue.trim())) {
           totalSeconds = parseInt(durationValue, 10);
-        } else {
+        } else if (typeof durationValue === 'string') {
           const parts = durationValue.split(':').map((part) => parseInt(part, 10) || 0);
           if (parts.length === 3) {
             totalSeconds = parts[0] * 3600 + parts[1] * 60 + parts[2];
@@ -663,7 +667,7 @@
         }
         const hours = Math.floor(totalSeconds / 3600);
         const minutes = Math.floor((totalSeconds % 3600) / 60);
-        const seconds = totalSeconds % 60;
+        const seconds = Math.floor(totalSeconds % 60);
         const segments = [];
         if (hours) segments.push(`${hours} 小時`);
         if (minutes) segments.push(`${minutes} 分`);
@@ -671,20 +675,115 @@
         return segments.join(' ');
       }
 
-      function createEpisodeCard(item, appleEpisodeMap = new Map()) {
-        const title = item.querySelector('title')?.textContent?.trim() ?? '未命名集數';
-        const pubDate = item.querySelector('pubDate')?.textContent;
-        const duration = item.getElementsByTagName('itunes:duration')[0]?.textContent;
-        const rawDescription =
-          item.getElementsByTagName('content:encoded')[0]?.textContent ||
-          item.querySelector('description')?.textContent ||
-          '';
+      function normalizeKeywords(value) {
+        if (!value) return '';
+        if (Array.isArray(value)) {
+          return value.filter(Boolean).map((v) => `${v}`.trim()).filter(Boolean).join('、');
+        }
+        return `${value}`
+          .split(/[,、]/)
+          .map((part) => part.trim())
+          .filter(Boolean)
+          .join('、');
+      }
+
+      function getEpisodeCollection(data) {
+        if (!data || typeof data !== 'object') return [];
+        const candidates = [
+          data.episodes,
+          data.items,
+          data.entries,
+          data.result,
+          data.records,
+          data.show?.episodes,
+          data.show?.items,
+          data.data?.episodes,
+          data.data?.items
+        ];
+        for (const candidate of candidates) {
+          if (Array.isArray(candidate)) {
+            return candidate;
+          }
+        }
+        return [];
+      }
+
+      function getPlatformsCollection(data) {
+        if (!data || typeof data !== 'object') return [];
+        const candidates = [
+          data.platforms,
+          data.show?.platforms,
+          data.links?.platforms,
+          data.show?.links?.platforms,
+          data.data?.platforms
+        ];
+        for (const candidate of candidates) {
+          if (Array.isArray(candidate) && candidate.length) {
+            return candidate;
+          }
+        }
+        return [];
+      }
+
+      function createEpisodeCard(episode) {
+        const title = resolveValue(episode, ['title', 'name'], '未命名集數');
+        const pubDate = resolveValue(episode, ['pubDate', 'publishedAt', 'publishDate', 'date', 'datePublished']);
+        const duration = resolveValue(episode, [
+          'durationSeconds',
+          'duration',
+          'audio.duration',
+          'audio.length',
+          'meta.duration'
+        ]);
+        const rawDescription = resolveValue(episode, [
+          'descriptionHtml',
+          'content',
+          'description',
+          'summaryHtml',
+          'summary'
+        ]);
         const sanitizedDescription = sanitize(rawDescription);
-        const summary = item.getElementsByTagName('itunes:summary')[0]?.textContent?.trim();
-        const keywords = item.getElementsByTagName('itunes:keywords')[0]?.textContent?.trim();
-        const cover = item.getElementsByTagName('itunes:image')[0]?.getAttribute('href');
-        const guid = normalizeGuid(item.querySelector('guid')?.textContent);
-        const appleLink = guid ? appleEpisodeMap.get(guid) : undefined;
+        const summary = resolveValue(episode, ['summaryText', 'shortDescription']);
+        const keywords = normalizeKeywords(
+          resolveValue(episode, ['keywords', 'tags', 'meta.keywords'])
+        );
+        const cover = resolveValue(episode, ['image', 'cover', 'artwork', 'episodeImage']);
+
+        const links = resolveValue(episode, ['links'], {}) || {};
+        const candidateLinkKeys = [
+          'apple',
+          'applePodcasts',
+          'soundon',
+          'soundOn',
+          'spotify',
+          'kkbox',
+          'youtube',
+          'website',
+          'web',
+          'primary',
+          'listen'
+        ];
+        let listenLink;
+        for (const key of candidateLinkKeys) {
+          if (!links) break;
+          const value = resolveValue(links, [key]);
+          if (value) {
+            listenLink = value;
+            break;
+          }
+        }
+        listenLink =
+          listenLink ||
+          resolveValue(episode, [
+            'appleUrl',
+            'appleLink',
+            'url',
+            'link',
+            'shareUrl',
+            'audio.url',
+            'audio',
+            'enclosure.url'
+          ]);
 
         const card = document.createElement('article');
         card.className = 'episode-card';
@@ -708,10 +807,15 @@
         }
         if (duration) {
           const length = document.createElement('span');
-          length.textContent = `節目長度：${formatDuration(duration)}`;
-          meta.appendChild(length);
+          const formattedDuration = formatDuration(duration);
+          if (formattedDuration) {
+            length.textContent = `節目長度：${formattedDuration}`;
+            meta.appendChild(length);
+          }
         }
-        card.appendChild(meta);
+        if (meta.children.length) {
+          card.appendChild(meta);
+        }
 
         const heading = document.createElement('h3');
         heading.className = 'episode-title';
@@ -727,16 +831,16 @@
         }
         card.appendChild(description);
 
-        if (appleLink) {
+        if (listenLink) {
           const actions = document.createElement('div');
           actions.className = 'episode-actions';
 
           const playLink = document.createElement('a');
           playLink.className = 'episode-action';
-          playLink.href = appleLink;
+          playLink.href = listenLink;
           playLink.target = '_blank';
           playLink.rel = 'noopener noreferrer';
-          playLink.setAttribute('aria-label', `在 Apple Podcasts 播放〈${title}〉`);
+          playLink.setAttribute('aria-label', `前往收聽〈${title}〉`);
 
           const icon = document.createElement('span');
           icon.className = 'icon';
@@ -746,7 +850,7 @@
 
           const srText = document.createElement('span');
           srText.className = 'sr-only';
-          srText.textContent = `在 Apple Podcasts 播放〈${title}〉`;
+          srText.textContent = `前往收聽〈${title}〉`;
           playLink.appendChild(srText);
 
           actions.appendChild(playLink);
@@ -763,33 +867,184 @@
         return card;
       }
 
+      function renderPlatforms(platforms) {
+        if (!platformsContainer || !Array.isArray(platforms) || !platforms.length) return;
+        platformsContainer.innerHTML = '';
+        const fragment = document.createDocumentFragment();
+        platforms.forEach((platform) => {
+          const name = resolveValue(platform, ['name', 'title']);
+          const url = resolveValue(platform, ['url', 'link', 'href']);
+          if (!name || !url) return;
+          const description = resolveValue(platform, ['description', 'note', 'summary']);
+          const icon = resolveValue(platform, ['icon', 'symbol']);
+
+          const article = document.createElement('article');
+          article.className = 'platform-card';
+
+          const iconWrapper = document.createElement('div');
+          iconWrapper.className = 'platform-icon';
+          iconWrapper.setAttribute('aria-hidden', 'true');
+          iconWrapper.textContent = icon || '🔗';
+          article.appendChild(iconWrapper);
+
+          const content = document.createElement('div');
+          const anchor = document.createElement('a');
+          anchor.href = url;
+          anchor.target = '_blank';
+          anchor.rel = 'noreferrer';
+          anchor.textContent = name;
+          content.appendChild(anchor);
+
+          if (description) {
+            const desc = document.createElement('span');
+            desc.textContent = description;
+            content.appendChild(desc);
+          }
+
+          article.appendChild(content);
+          fragment.appendChild(article);
+        });
+        if (fragment.childNodes.length) {
+          platformsContainer.appendChild(fragment);
+        }
+      }
+
+      function buildStructuredData(show, episodes) {
+        const showTitle = resolveValue(show, ['title', 'name']);
+        const showLink = resolveValue(show, ['url', 'link', 'homepage', 'website']);
+        const showImage = resolveValue(show, ['image', 'cover', 'artwork']);
+        const showLanguage = resolveValue(show, ['language', 'lang'], 'zh-Hant');
+        const showDescription =
+          resolveValue(show, ['descriptionHtml', 'description', 'summaryHtml', 'summary']) || '';
+        const plainDescription = toPlainText(showDescription) || showDescription;
+        const showAuthor = resolveValue(show, ['author', 'host', 'creator', 'owner']);
+
+        const structured = {
+          '@context': 'https://schema.org/',
+          '@type': 'PodcastSeries',
+          name: showTitle,
+          url: showLink,
+          image: showImage,
+          inLanguage: showLanguage,
+          description: plainDescription || undefined,
+          author: showAuthor
+            ? {
+                '@type': 'Person',
+                name: Array.isArray(showAuthor) ? showAuthor.join('、') : `${showAuthor}`
+              }
+            : undefined,
+          potentialAction: showLink
+            ? [
+                {
+                  '@type': 'ListenAction',
+                  target: [showLink]
+                }
+              ]
+            : undefined,
+          episode: Array.isArray(episodes)
+            ? episodes.map((episode) => {
+                const episodeTitle = resolveValue(episode, ['title', 'name']);
+                const episodeUrl =
+                  resolveValue(episode, ['links.apple', 'links.soundon', 'links.primary', 'url', 'link']) ||
+                  resolveValue(episode, ['audio.url', 'audio']);
+                const episodeDescription =
+                  toPlainText(
+                    sanitize(
+                      resolveValue(episode, [
+                        'descriptionHtml',
+                        'content',
+                        'description',
+                        'summaryHtml',
+                        'summary'
+                      ]) || ''
+                    )
+                  ) || resolveValue(episode, ['summaryText', 'shortDescription']);
+                const episodeDate = resolveValue(episode, [
+                  'pubDate',
+                  'publishedAt',
+                  'publishDate',
+                  'date',
+                  'datePublished'
+                ]);
+                const episodeImage = resolveValue(episode, ['image', 'cover', 'artwork', 'episodeImage']);
+
+                return {
+                  '@type': 'PodcastEpisode',
+                  name: episodeTitle,
+                  url: episodeUrl,
+                  datePublished: episodeDate,
+                  description: episodeDescription,
+                  image: episodeImage
+                };
+              })
+            : undefined
+        };
+
+        Object.keys(structured).forEach((key) => {
+          if (structured[key] == null) {
+            delete structured[key];
+          }
+          if (Array.isArray(structured[key])) {
+            structured[key] = structured[key].filter(Boolean);
+            if (!structured[key].length) {
+              delete structured[key];
+            }
+          }
+        });
+
+        structuredDataEl.textContent = JSON.stringify(structured, null, 2);
+      }
+
+      async function fetchShowData() {
+        const response = await fetch(API_ENDPOINT, {
+          cache: 'no-cache',
+          mode: 'cors',
+          credentials: 'omit',
+          headers: {
+            Accept: 'application/json'
+          },
+          referrerPolicy: 'no-referrer'
+        });
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+        const text = await response.text();
+        const trimmed = text.trim();
+        if (!trimmed) {
+          throw new Error('API 回傳內容為空白');
+        }
+        try {
+          return JSON.parse(trimmed);
+        } catch (parseError) {
+          console.error('API JSON 解析失敗', parseError);
+          throw new Error('API 回傳格式錯誤');
+        }
+      }
+
       async function hydrate() {
         try {
-          const appleEpisodesPromise = fetchAppleEpisodeMap();
-          const response = await fetchRssFeed();
-          const xmlText = await response.text();
-          const parser = new DOMParser();
-          const doc = parser.parseFromString(xmlText, 'application/xml');
+          const data = await fetchShowData();
+          const show =
+            resolveValue(data, ['show']) ||
+            resolveValue(data, ['data.show']) ||
+            data;
 
-          const parserError = doc.querySelector('parsererror');
-          if (parserError) {
-            throw new Error('RSS 解析失敗');
-          }
-
-          const channel = doc.querySelector('channel');
-          if (!channel) {
-            throw new Error('找不到頻道資訊');
-          }
-
-          const showTitle = channel.querySelector(':scope > title')?.textContent?.trim();
-          const showDescription = channel.querySelector(':scope > description')?.textContent;
-          const showAuthor = channel.getElementsByTagName('itunes:author')[0]?.textContent;
-          const showImage = channel.querySelector('image > url')?.textContent;
-          const showLink = channel.querySelector(':scope > link')?.textContent;
-          const language = channel.querySelector(':scope > language')?.textContent || 'zh-Hant';
+          const showTitle = resolveValue(show, ['title', 'name']);
+          const showDescription = resolveValue(show, [
+            'descriptionHtml',
+            'description',
+            'summaryHtml',
+            'summary'
+          ]);
+          const showAuthor = resolveValue(show, ['host', 'author', 'creator', 'owner']);
+          const showImage = resolveValue(show, ['image', 'cover', 'artwork']);
+          const showLink = resolveValue(show, ['url', 'link', 'website', 'homepage', 'rss']);
+          const showLanguage = resolveValue(show, ['language', 'lang'], 'zh-Hant');
+          const showKeywords = normalizeKeywords(resolveValue(show, ['keywords', 'tags']));
 
           if (showTitle) {
             document.getElementById('show-title').textContent = showTitle;
+            brandEl.textContent = showTitle;
           }
 
           if (showDescription) {
@@ -797,7 +1052,10 @@
           }
 
           if (showAuthor) {
-            document.getElementById('show-author').textContent = `主持：${showAuthor}`;
+            const authorText = Array.isArray(showAuthor)
+              ? showAuthor.join('、')
+              : `${showAuthor}`;
+            document.getElementById('show-author').textContent = `主持：${authorText}`;
           }
 
           if (showImage) {
@@ -813,45 +1071,40 @@
             }
           }
 
+          if (showKeywords) {
+            const descriptionEl = document.getElementById('show-description');
+            if (descriptionEl && !descriptionEl.textContent.includes(showKeywords)) {
+              const keywordsEl = document.createElement('p');
+              keywordsEl.className = 'episode-keywords';
+              keywordsEl.textContent = `節目關鍵字：${showKeywords}`;
+              descriptionEl.appendChild(keywordsEl);
+            }
+          }
+
           const now = new Date();
           document.getElementById('copyright-year').textContent = now.getFullYear();
 
-          const items = Array.from(channel.getElementsByTagName('item'));
-          const appleEpisodeMap = await appleEpisodesPromise;
+          const episodes = getEpisodeCollection(data);
           episodesContainer.innerHTML = '';
-          if (!items.length) {
+          if (!episodes.length) {
             const empty = document.createElement('div');
             empty.className = 'error';
             empty.textContent = '目前尚無公開集數，敬請期待！';
             episodesContainer.appendChild(empty);
           } else {
             const fragment = document.createDocumentFragment();
-            items.forEach((item) => {
-              fragment.appendChild(createEpisodeCard(item, appleEpisodeMap));
+            episodes.forEach((episode) => {
+              fragment.appendChild(createEpisodeCard(episode));
             });
             episodesContainer.appendChild(fragment);
           }
 
-          const structuredData = {
-            '@context': 'https://schema.org/',
-            '@type': 'PodcastSeries',
-            name: showTitle,
-            url: showLink,
-            image: showImage,
-            inLanguage: language,
-            description: channel.getElementsByTagName('itunes:summary')[0]?.textContent || showDescription,
-            author: {
-              '@type': 'Person',
-              name: showAuthor
-            },
-            potentialAction: [
-              {
-                '@type': 'ListenAction',
-                target: [showLink]
-              }
-            ]
-          };
-          structuredDataEl.textContent = JSON.stringify(structuredData, null, 2);
+          const platforms = getPlatformsCollection(data);
+          renderPlatforms(platforms);
+
+          buildStructuredData(show, episodes);
+
+          structuredDataEl.dataset.language = showLanguage;
         } catch (error) {
           console.error(error);
           loadingEl?.remove();
