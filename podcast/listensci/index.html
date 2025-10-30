@@ -563,7 +563,7 @@
       const platformsContainer = document.getElementById('platforms');
       const brandEl = document.querySelector('.brand');
       const API_ENDPOINT =
-        'https://script.google.com/macros/s/AKfycbwESpSo8MjUFhn9iivMhO2svxlQpCUh350uuOlOB52rLPJR-eJr2IOesR1lTnkvjYN_/exec';
+        'https://script.google.com/macros/s/AKfycbzWs9UclErL3e1oCoaXjz8iVQ4wpz9xOIhMKqM9-UBpc11ZZF-rW04IWR5EQSTQcx-S/exec';
 
       function sanitize(html) {
         if (!html) return '';
@@ -998,7 +998,8 @@
       async function fetchShowData() {
         const response = await fetch(API_ENDPOINT, {
           redirect: "follow",
-          cache: 'no-cache',
+          mode: 'cors',
+          method: 'GET'
           headers: {
             "Content-Type":'text/plain;charset=utf-8'
           },
