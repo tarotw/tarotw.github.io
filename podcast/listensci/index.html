@@ -997,11 +997,10 @@
 
       async function fetchShowData() {
         const response = await fetch(API_ENDPOINT, {
+          redirect: "follow",
           cache: 'no-cache',
-          mode: 'cors',
-          credentials: 'omit',
           headers: {
-            Accept: 'application/json'
+            "Content-Type":'text/plain;charset=utf-8'
           },
           referrerPolicy: 'no-referrer'
         });
