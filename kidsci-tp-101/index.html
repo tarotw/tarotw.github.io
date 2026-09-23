@@ -195,19 +195,58 @@ button,input,a{scroll-margin-block:190px 100px}
 .lang-switch{flex-direction:row;flex-wrap:nowrap;flex-shrink:0;white-space:nowrap}.lang-switch button{flex:0 0 auto;white-space:nowrap}
 @media(max-width:760px){.head-actions{align-items:center;min-width:max-content}.experiments{display:flex;flex-wrap:nowrap}.experiments button{flex:0 0 auto;white-space:nowrap}}
 @media(max-width:320px){.top{padding-left:8px;padding-right:8px}.brand img{width:74px;height:32px}.head-actions{gap:3px}.lang-switch{height:42px}.lang-switch button{min-width:34px;height:36px;min-height:36px;padding:0 5px}.head-actions .icon-button{width:34px;min-height:34px}.experiments button,html[lang=en] .experiments button{padding-left:7px;padding-right:7px}}
-/* Mobile: branding above, mode and language switches side by side below. */
+/* Phone layout: one compact header; page scrolling always wins over the canvas. */
+.mobile-gesture,#about-mobile{display:none}
+@media(max-width:1200px),(pointer:coarse){#scene{touch-action:pan-y pinch-zoom!important}.desktop-gesture{display:none}.mobile-gesture{display:inline}}
 @media(max-width:760px){
-  .top{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-rows:54px 56px;gap:0 12px;height:calc(116px + env(safe-area-inset-top,0px))}
-  .top .brand{display:flex;grid-column:1;grid-row:1}
+  .app{grid-template-rows:calc(60px + env(safe-area-inset-top,0px)) 59px auto auto}
+  .top{position:sticky;top:0;display:grid;grid-template-columns:minmax(60px,1fr) auto auto;grid-template-rows:1fr;height:calc(60px + env(safe-area-inset-top,0px));padding:env(safe-area-inset-top,0px) 10px 0;gap:7px}
+  .top .brand{grid-column:1;grid-row:1;min-width:0;gap:0}
+  .top .brand img{width:90px;max-width:100%;height:36px}
+  .top .brand a{display:flex;align-items:center;min-height:44px;min-width:0}
   .top .head-actions{display:contents}
-  .top #about-open{grid-column:2;grid-row:1;justify-self:end;width:36px;min-height:36px}
-  .top .experiments{grid-column:1;grid-row:2;justify-self:start;align-self:center;margin:0;height:46px;padding:2px;gap:0}
-  .top .experiments button,html[lang=en] .top .experiments button{height:40px;min-height:40px;padding:0 12px;font-size:12px}
-  .top .lang-switch{grid-column:2;grid-row:2;justify-self:end;align-self:center;display:flex;flex-direction:row;flex-wrap:nowrap;height:46px;padding:2px}
-  .top .lang-switch button{height:40px;min-height:40px;min-width:40px;padding:0 8px;font-size:12px}
+  .top #about-open{display:none}
+  .top .experiments{position:static;grid-column:2;grid-row:1;margin:0;height:44px;padding:2px;gap:0;align-self:center}
+  .top .experiments button,html[lang=en] .top .experiments button{height:38px;min-height:38px;padding:0 10px;font-size:12px}
+  .top .lang-switch{grid-column:3;grid-row:1;display:flex;align-self:center;height:44px;padding:2px;margin:0}
+  .top .lang-switch button{height:38px;min-height:38px;min-width:35px;padding:0 6px;font-size:12px}
+  .listen-strip{position:relative;top:auto;padding:0 12px}
+  .stage{height:clamp(300px,44svh,400px);min-height:300px;max-height:400px;scroll-margin-top:calc(60px + env(safe-area-inset-top,0px))}
+  #scene{touch-action:pan-y pinch-zoom!important}
+  .scene-toptools{top:12px;right:10px;gap:4px}
+  .scene-toptools .icon-button{width:34px;min-height:36px}
+  #about-mobile{display:inline-flex}
+  .workspace .stage .scene-copy,html[lang=en] .workspace .stage .scene-copy{top:14px;left:14px;max-width:calc(100% - 134px)}
+  .workspace .stage .scene-copy h2,html[lang=en] .workspace .stage .scene-copy h2{font-size:19px;line-height:1.3;letter-spacing:0}
+  .scene-copy .location,.scene-copy .view-number{display:none}
+  .workspace .stage .scene-copy p{font-size:10px;line-height:1.5;margin-top:5px}
+  .scene-copy .quake-now{margin-top:8px;min-height:32px;font-size:10px}
+  .stage-bottom{left:14px;bottom:10px;right:14px;pointer-events:none}
+  .stage-bottom p{font-size:10px;max-width:none;color:#e2efef}
+  .desktop-gesture{display:none}.mobile-gesture{display:inline}
+  .magnify{left:14px;bottom:35px;font-size:9px}
+  .knowledge{left:14px;bottom:58px;max-width:150px}.knowledge p{font-size:9px;line-height:1.5}
+  .shake-cue{right:10px;top:auto;bottom:56px;width:180px;padding:8px}.shake-cue strong{font-size:12px}.shake-cue span{font-size:10px}
+  .workspace>.observation-dock,.workspace>.observation-dock.is-comparing{display:contents}
+  .observation-dock .feel-section{order:4;padding:14px 12px;background:#142d38;border-top:1px solid var(--line)}
+  .workspace.is-comparing .feel-section{order:2}
+  .observation-dock .feel-heading h3{font-size:14px}.observation-dock .feel-heading>span{font-size:9px}
+  .observation-dock .feel-room{padding:7px}.observation-dock .observation{height:108px;max-height:108px}
+  .observation-dock .tower-choices{margin:6px 0;gap:4px}
+  .observation-dock .tower-choices .segmented button{font-size:12px;min-height:44px}
+  .observation-dock .chart-details{order:5;padding:16px 14px;margin:0;background:#102630}
+  .observation-dock>.model-note{order:6;padding:0 14px 16px;background:#102630}
+  .workspace>.panel{order:3;overflow:visible;overscroll-behavior:auto;padding:16px 14px;gap:12px}
+  .direct-controls{order:-1;border-top:0;border-bottom:1px solid var(--line);padding:0 0 14px;gap:10px}
+  .direct-controls .switch-row h3{font-size:14px}.direct-controls .segmented button{font-size:12px}
+  button,input,a{scroll-margin-block:80px 30px}
 }
-@media(max-width:760px) and (max-height:560px){
-  .app{grid-template-rows:calc(116px + env(safe-area-inset-top,0px)) 50px auto calc(72px + env(safe-area-inset-bottom,0px))}
+@media(max-width:360px){
+  .top{padding-left:8px;padding-right:8px;gap:5px}
+  .top .brand img{width:74px;height:32px}
+  .top .experiments button,html[lang=en] .top .experiments button{padding:0 7px;font-size:11px}
+  .top .lang-switch button{min-width:32px;padding:0 5px;font-size:11px}
+  .observation-dock .feel-heading{display:block}.observation-dock .feel-heading>span{display:block;margin-top:4px;max-width:none;text-align:left}
 }
 </style>
 </head>
@@ -234,10 +273,10 @@ button,input,a{scroll-margin-block:190px 100px}
 <main class="workspace"><section class="stage" id="stage" aria-label="台北101互動3D模型">
 <canvas id="scene" tabindex="0" aria-label="可旋轉的3D模型。拖曳轉動，滾輪縮放；鍵盤方向鍵旋轉，加減鍵縮放，Home回到預設視角。"></canvas>
 <div class="scene-copy"><div class="location" id="location">台灣・台北　25.034° N / 121.565° E</div><h2 id="scene-title">讓風來。<br>讓它穩穩站著。</h2><p id="scene-description">一座 508 公尺的摩天大樓，<br>如何與風、與大地一起呼吸？</p><span class="view-number" id="view-number">全景探索 / Taipei 101</span><button class="quake-now" id="quake-now"><svg><use href="#i-frame"/></svg><span>來一場地震！</span></button></div>
-<div class="scene-toptools"><button class="icon-button" id="reset-view" aria-label="回到預設視角" title="回到預設視角"><svg><use href="#i-reset"/></svg></button><button class="icon-button" id="fullscreen" aria-label="全螢幕" title="全螢幕"><svg><use href="#i-expand"/></svg></button></div>
+<div class="scene-toptools"><button class="icon-button" id="about-mobile" aria-label="操作說明與科學來源"><svg><use href="#i-info"/></svg></button><button class="icon-button" id="reset-view" aria-label="回到預設視角" title="回到預設視角"><svg><use href="#i-reset"/></svg></button><button class="icon-button" id="fullscreen" aria-label="全螢幕" title="全螢幕"><svg><use href="#i-expand"/></svg></button></div>
 <div class="labels" id="labels"></div><div id="shake-cue" class="shake-cue" hidden><strong id="shake-message"></strong><span id="shake-hint"></span><div class="quake-progress"><i id="quake-progress"></i></div></div><div class="magnify" id="scale-note"><i></i>晃動放大 200 倍，讓微小變化看得見</div>
 <aside class="knowledge" id="knowledge" hidden><h3 id="knowledge-title"></h3><p id="knowledge-copy"></p></aside>
-<div class="stage-bottom"><p id="gesture-note">拖曳旋轉 · 滾動縮放<br>點選標記，走進大樓的秘密</p><div class="playback"><button class="icon-button" id="pause" aria-label="暫停模擬"><svg><use href="#i-pause"/></svg></button><button class="speed-button" id="speed" aria-label="模擬速度，目前1倍">1×</button><span class="clock" id="clock">0.0 s</span><button class="icon-button" id="restart" aria-label="重新開始實驗" title="重新開始實驗"><svg><use href="#i-reset"/></svg></button></div></div>
+<div class="stage-bottom"><p id="gesture-note"><span class="desktop-gesture">拖曳旋轉 · 滾動縮放<br>點選標記，走進大樓的秘密</span><span class="mobile-gesture">↕ 上下滑看控制　↔ 左右滑轉模型</span></p><div class="playback"><button class="icon-button" id="pause" aria-label="暫停模擬"><svg><use href="#i-pause"/></svg></button><button class="speed-button" id="speed" aria-label="模擬速度，目前1倍">1×</button><span class="clock" id="clock">0.0 s</span><button class="icon-button" id="restart" aria-label="重新開始實驗" title="重新開始實驗"><svg><use href="#i-reset"/></svg></button></div></div>
 <div class="toast" id="toast" role="status" hidden></div><div class="loading" id="loading"><div class="loader-tower"></div><span>正在搭起你的摩天大樓…</span></div>
 <section class="fallback" id="fallback" hidden><h2>先從三個工程秘密開始</h2><p>3D 畫面暫時無法啟動。請確認網路連線，並使用支援 WebGL 2 的瀏覽器；你仍可操作右側實驗與波形圖。</p><button onclick="location.reload()">重新載入 3D</button><ul><li><strong>660 噸的金色球體：</strong>透過慣性與大樓交換能量，油壓阻尼器再把振動能量消散。</li><li><strong>巨型柱與鋼骨：</strong>核心、外伸桁架與巨型柱共同抵抗側向力。</li><li><strong>380 支基樁：</strong>將主樓重量穿過鬆軟土層，傳遞到深處堅實的岩層。</li></ul></section>
 </section>
@@ -337,7 +376,7 @@ Object.assign(dictionary,{"左邊有金球，右邊沒有金球。":"Left: with 
 Object.assign(dictionary,{"Podcast 官方封面":"Official podcast artwork","科學好好聽 · 公開收聽 · 邊聽邊玩":"Science, Well Heard · Public episode · Listen & play","公開收聽":"Public episode","23 分鐘 · 邊聽邊玩":"23 min · Listen & play","本集已公開，可直接在上方播放；也可以前往 Apple Podcasts 收聽。":"This episode is public. Play it above or listen in Apple Podcasts."});
 const originals=new WeakMap(),attributes=new WeakMap();
 Object.assign(dictionary,{"一起來做實驗":"Try an experiment","同一陣風，誰更晃？":"Same wind. More sway?","一起搖，誰更晃？":"Which tower sways more?","左邊大樓":"Left tower","右邊大樓":"Right tower","外型":"Shape","金球":"Ball","缺角":"Notched","方柱":"Square","有":"On","無":"Off","左邊大樓的外型":"Left tower shape","右邊大樓的外型":"Right tower shape","左邊大樓的金球":"Left tower ball","右邊大樓的金球":"Right tower ball","一樣的風，誰晃得比較多？":"Same wind. Which tower sways more?","外型一樣了！下一步，只改金球。":"Same shape! Next, change only the ball.","把兩棟變成一樣的外型。":"Give both towers the same shape.","現在只差一顆金球！看幾個來回，誰晃得比較多？":"Only the ball is different now! Watch a few cycles. Which sways more?","只幫其中一棟裝上金球，看看差多少。":"Put a ball in just one tower. What changes?","回到起始搭配":"Back to the starting pair","下一個試試看":"Try the next step","這次外型和金球都不同喔！試著讓其中一項一樣，比較容易發現秘密。":"Both the shape and ball are different! Make one the same to find the difference more easily.","現在只有地震。換成強風，看看外型的差別。":"This is a quake only. Try wind to compare the shapes.","兩棟設定一樣，應該一起晃！試著只改一項。":"Same settings, same sway! Try changing just one thing.","左塔":"Left","右塔":"Right","最近30秒的大樓位移曲線，青色為左塔，橘色為右塔":"Tower displacement over the last 30 seconds: teal is left, coral is right","左塔頂樓位移":"Left tower displacement","右塔頂樓位移":"Right tower displacement","相同環境，兩種回應":"Same conditions, two responses","一樣的風，誰更晃？":"Same wind. More sway?","幫兩棟大樓選外型、裝金球。一次改一件事，找出差別！":"Choose a shape and ball for each tower. Change one thing at a time!","青色左塔・橘色右塔":"Teal: left tower · Coral: right tower","同一陣風，看看兩棟大樓怎麼動。":"Same wind. Watch both towers move.","在「雙塔對照」中，分別幫左右大樓選外型、裝上或拿掉金球。兩棟共用風速與地震輸入。一次改一件事，比較容易找出原因；按「下一個試試看」跟著探索。畫面放大搖晃，數據保留模型原始位移。":"In Twin towers, choose each tower’s shape and add or remove its ball. Both share the wind speed and ground motion. Change one thing at a time to see why it matters; use Try the next step for guidance. Motion is enlarged; readings show the original model displacement.","兩條曲線同時從靜止開始，使用相同風速、推動節奏與地震輸入。雙塔對照的青線是左塔，橘線是右塔；外型會改變模型中的風力係數，地震輸入不因外型改變。百分比比較最近 30 秒的位移均方根（RMS），至少觀察 28 秒後顯示；不代表真實建築的改善幅度。切換外型或金球時，雙塔會一起歸零。缺角選項包含 101 的退縮與缺角外型。":"Both curves start from rest with the same wind speed, forcing rhythm and ground motion. Teal is the left tower; coral is the right. Shape changes the model’s wind coefficient, but not the quake input. Percentages compare the last 30 seconds of displacement RMS after at least 28 seconds, not real building performance. Changing shape or ball resets both towers. Notched includes Taipei 101’s setbacks and corner notches."});
-Object.assign(dictionary,{"頂樓感受與科學數據":"Top-floor experience and scientific measurements","直接控制":"Direct controls","一樣的地面搖晃，誰晃得比較多？":"Same ground motion. Which tower sways more?","按「搖晃地面」，開始新的地震實驗。":"Press Shake the ground to start a new earthquake experiment.","本機檔案無法內嵌播放，請在 Apple Podcasts 開啟本集。":"The player cannot be embedded in a local file. Open this episode in Apple Podcasts."});
+Object.assign(dictionary,{"3D模型：上下滑動捲頁，左右滑動旋轉；雙指縮放網頁。":"3D model: swipe vertically to scroll, horizontally to rotate; pinch to zoom the page.","↕ 上下滑看控制　↔ 左右滑轉模型":"↕ Scroll to controls · ↔ Turn the model","頂樓感受與科學數據":"Top-floor experience and scientific measurements","直接控制":"Direct controls","一樣的地面搖晃，誰晃得比較多？":"Same ground motion. Which tower sways more?","按「搖晃地面」，開始新的地震實驗。":"Press Shake the ground to start a new earthquake experiment.","本機檔案無法內嵌播放，請在 Apple Podcasts 開啟本集。":"The player cannot be embedded in a local file. Open this episode in Apple Podcasts."});
 let lang='zh-Hant';try{if(localStorage.getItem('science-lab-language')==='en')lang='en';}catch{}
 function english(value){
 let shortPair=value.match(/^(缺角|方柱) · (有金球|無金球)$/);
@@ -404,7 +443,7 @@ function updateComparisonGuide(){
 }
 function syncComparisonUI(){
   const compare=state.mode==='compare';
-  $('observation-dock').classList.toggle('is-comparing',compare);
+  $('observation-dock').classList.toggle('is-comparing',compare);document.querySelector('.workspace').classList.toggle('is-comparing',compare);
   $$('.tower-choices').forEach(group=>{
     group.hidden=!compare;const cfg=state.towers[+group.dataset.tower];
     group.querySelectorAll('[data-tower-shape]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.towerShape===cfg.shape));
@@ -467,6 +506,7 @@ lastTrace=state.time;acc=0;state.demo=true;setPaused(reduced);updateReadouts();u
 }
 $('wind-demo').onclick=()=>{windDemo();setPaused(false);};
 $('compare-feel').onclick=()=>{setMode('compare');if(innerWidth<=760)$('stage').scrollIntoView({behavior:reduced?'instant':'smooth',block:'start'});};
+$('about-mobile').onclick=()=>$('about').showModal();
 const player=$('player-panel');
 $('listen-open').onclick=()=>{player.hidden=false;player.classList.remove('is-minimized');$('listen-open').setAttribute('aria-expanded','true');$('player-minimize').setAttribute('aria-expanded','true');$('player-minimize').textContent='−';$('player-minimize').setAttribute('aria-label','收合播放器');const localFile=location.protocol==='file:';$('apple-player').hidden=localFile;$('player-note').textContent=localFile?'本機檔案無法內嵌播放，請在 Apple Podcasts 開啟本集。':'本集已公開，可直接在上方播放；也可以前往 Apple Podcasts 收聽。';if(!localFile&&!$('apple-player').getAttribute('src'))$('apple-player').src='https://embed.podcasts.apple.com/tw/podcast/id1812447277?i=1000786775645&theme=dark';};
 $('player-minimize').onclick=()=>{const minimized=player.classList.toggle('is-minimized');$('player-minimize').textContent=minimized?'+':'−';$('player-minimize').setAttribute('aria-expanded',!minimized);$('player-minimize').setAttribute('aria-label',minimized?'展開播放器':'收合播放器');};
@@ -480,7 +520,7 @@ function setView(v){state.view=v;$$('[data-view]').forEach(b=>b.setAttribute('ar
 function updateHazardHero(){if(state.mode==='compare'){$('scene-title').textContent=state.hazard==='wind'?'一樣的風，誰更晃？':'一起搖，誰更晃？';return;}if(state.view!=='overview'||state.mode==='compare')return;if(state.hazard==='quake'){$('scene-title').innerHTML='地震來了。<br>看看 101 怎麼搖。';$('scene-description').innerHTML='地面一推，大樓就動起來。<br>找到虛線，比較它左右晃動的位置。';}else if(state.hazard==='both'){$('scene-title').innerHTML='風來了。<br>地面也動了。';$('scene-description').innerHTML='空中與腳下的力量，一起抵達。<br>看大樓、看金球，再看頂樓的水杯。';}else{$('scene-title').innerHTML=views.overview.title;$('scene-description').innerHTML=views.overview.description;}}
 function sDamperText(){return state.damper?'有金球・讓能量慢慢消散':'沒有金球・直接承受搖晃';}
 function setMode(m){clearTimeout(toastTimer);$('toast').hidden=true;const before=[towerConfig(0),towerConfig(1)];state.mode=m;$$('[data-mode]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.mode===m));$('damper').disabled=m==='compare';$('damper-status').textContent=sDamperText();syncComparisonUI();if(before.some((cfg,index)=>{const next=towerConfig(index);return cfg.shape!==next.shape||cfg.damper!==next.damper;}))resetExperiment();if(m==='compare'){setView('overview');}else{setView(state.view);}updateFeel();drawChart();}
-$$('[data-view]').forEach(b=>b.onclick=()=>{if(state.mode==='compare')setMode('free');setView(b.dataset.view);if(innerWidth<=760)$('stage').scrollIntoView({behavior:reduced?'instant':'smooth',block:'start'});});$$('[data-mode]').forEach(b=>b.onclick=()=>setMode(b.dataset.mode));
+$$('[data-view]').forEach(b=>b.onclick=()=>{if(state.mode==='compare')setMode('free');setView(b.dataset.view);if(innerWidth<=760)$('stage').scrollIntoView({behavior:reduced?'instant':'smooth',block:'start'});});$$('[data-mode]').forEach(b=>b.onclick=()=>{setMode(b.dataset.mode);if(innerWidth<=760)$('stage').scrollIntoView({behavior:reduced?'instant':'smooth',block:'start'});});
 $('pause').onclick=()=>setPaused(!state.paused);$('restart').onclick=()=>{resetExperiment();toast('實驗歸零，兩座模型從靜止重新開始。');};$('speed').onclick=()=>{state.speed=state.speed===1?2:state.speed===2?4:1;$('speed').textContent=state.speed+'×';$('speed').setAttribute('aria-label',`模擬速度，目前${state.speed}倍`);};$('reset-view').onclick=()=>state.engine?.resetCamera();
 $('fullscreen').onclick=async()=>{try{if(document.fullscreenElement)await document.exitFullscreen();else if($('app').requestFullscreen)await $('app').requestFullscreen();else toast('此瀏覽器不支援全螢幕，可旋轉手機放大畫面。');}catch{toast('目前無法切換全螢幕，請使用瀏覽器的全螢幕功能。');}};
 $('about-open').onclick=()=>$('about').showModal();$('about-close').onclick=()=>$('about').close();$('about').addEventListener('click',e=>{if(e.target===$('about')){const r=$('about').getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)$('about').close();}});
@@ -508,6 +548,12 @@ function buildScene(T,OrbitControls,RoomEnvironment,s,$,toast){
 const canvas=$('scene'),stage=$('stage'),scene=new T.Scene(),renderer=new T.WebGLRenderer({canvas,antialias:true,alpha:true,powerPreference:'high-performance'});
 renderer.setPixelRatio(Math.min(devicePixelRatio,1.75));renderer.setClearColor(0x142c3a,0);renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.25;renderer.shadowMap.enabled=true;renderer.shadowMap.type=T.PCFSoftShadowMap;
 scene.fog=new T.Fog(0x304857,78,180);const camera=new T.PerspectiveCamera(38,1,.1,400);const controls=new OrbitControls(camera,canvas);controls.enableDamping=true;controls.dampingFactor=.07;controls.enablePan=false;controls.minDistance=14;controls.maxDistance=105;controls.maxPolarAngle=Math.PI*.49;
+// Preserve native vertical scrolling and page pinch-zoom on touch devices.
+// OrbitControls only handles horizontal one-finger rotation on narrow screens.
+const phoneInput=matchMedia('(max-width:1200px), (pointer:coarse)');
+function syncPhoneInput(){controls.enableZoom=!phoneInput.matches;controls.touches.ONE=T.TOUCH.ROTATE;controls.touches.TWO=phoneInput.matches?null:T.TOUCH.DOLLY_PAN;canvas.setAttribute('aria-label',phoneInput.matches?'3D模型：上下滑動捲頁，左右滑動旋轉；雙指縮放網頁。':'可旋轉的3D模型。拖曳轉動，滾輪縮放；鍵盤方向鍵旋轉，加減鍵縮放，Home回到預設視角。');}
+phoneInput.addEventListener('change',syncPhoneInput);syncPhoneInput();
+
 const pmrem=new T.PMREMGenerator(renderer),envRoom=new RoomEnvironment();const env=pmrem.fromScene(envRoom,.06);scene.environment=env.texture;envRoom.dispose();pmrem.dispose();
 scene.add(new T.HemisphereLight(0xd0e9f2,0x304e66,1.6));const sun=new T.DirectionalLight(0xffddb0,3);sun.position.set(-25,48,25);sun.castShadow=true;sun.shadow.mapSize.set(2048,2048);Object.assign(sun.shadow.camera,{left:-25,right:25,top:35,bottom:-20,near:1,far:120});sun.shadow.bias=-.0004;sun.shadow.normalBias=.05;sun.target.position.set(0,10,0);scene.add(sun,sun.target);const rim=new T.DirectionalLight(0x86ceda,2);rim.position.set(20,19,-15);scene.add(rim);
 const city=new T.Group(),towerWorld=new T.Group(),damperWorld=new T.Group(),windWorld=new T.Group(),soilWorld=new T.Group();scene.add(city,towerWorld,damperWorld,windWorld,soilWorld);
