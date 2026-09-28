@@ -10,3 +10,59 @@ html[lang="en"] .chapter h1{font-size:clamp(21px,3vw,32px)}
 @media(max-width:360px){.question-card{padding:8px 12px}.timer-row{line-height:1.2}.time-track{margin:4px 0;height:6px}.problem-wrap{padding:0}.answer{height:52px}.feedback{min-height:30px;padding:4px 0;line-height:1.4;margin-top:4px}.keypad-panel{padding:8px;gap:8px}.key{min-height:44px}.submit,.next{min-height:44px;font-size:17px}.keypad{gap:7px}.shell{padding-bottom:10px}}
 @media(max-height:540px) and (min-width:600px){body:has(#play:not([hidden])) .chapter{display:none}body:has(#play:not([hidden])) .shell{padding-top:8px;padding-bottom:8px}.session-bar{margin-bottom:8px}.keypad-panel{padding:6px;gap:6px}.keypad{gap:6px}.submit,.next{min-height:44px}.question-card{padding:10px 16px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{transition:none!important;animation:none!important}}
+
+/* Compact setup and a complete, scroll-free keypad at normal mobile text size. */
+.setup-note{margin:18px 0 0}
+.next:disabled{opacity:1;background:#46786b;box-shadow:0 5px 0 #325d52}
+@media(max-width:700px){
+  .topbar{height:56px;padding-left:max(10px,env(safe-area-inset-left));padding-right:max(10px,env(safe-area-inset-right))}
+  .shell{padding:10px 12px max(10px,env(safe-area-inset-bottom))}
+  .eyebrow,.footnote{display:none}
+  .chapter{margin-bottom:8px;align-items:center}
+  .chapter h1,html[lang="en"] .chapter h1{font-size:23px}
+  .setup-grid{gap:10px}
+  .welcome{display:grid;grid-template-columns:minmax(0,1fr) 62px;gap:3px 8px;padding:10px 12px;min-height:0;border-radius:20px;align-items:center}
+  .welcome h2{grid-column:1;max-width:none;font-size:18px;line-height:1.3;margin:0}
+  .welcome h2 br{display:none}
+  .welcome p{grid-column:1;max-width:none;font-size:14px;line-height:1.4;margin:0}
+  .mascot{position:static;grid-column:2;grid-row:1/3;width:62px;height:62px;margin:0;border-radius:18px}
+  .setup-card{padding:14px;border-radius:22px}
+  .step-label{font-size:16px;gap:8px;margin-bottom:8px;line-height:1.4}
+  .step-number{width:24px;height:24px;flex-shrink:0}
+  .choices{gap:6px;margin-bottom:12px}
+  .choice{min-height:44px;font-size:20px;border-radius:12px}
+  .count-choices .choice{font-size:18px;padding:0 3px}
+  .count-choices .choice small{font-size:12px}
+  #start{min-height:48px;font-size:18px}
+  .setup-note{font-size:14px;line-height:1.45;margin:14px 0 0}
+  body:has(#play:not([hidden])) .chapter{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;display:block}
+  body:has(#play:not([hidden])) .shell{padding:8px 10px max(8px,env(safe-area-inset-bottom))}
+  .session-bar{gap:8px;margin-bottom:8px}
+  .session-bar .quiet-button{min-height:44px}
+  .progress-copy{font-size:14px;margin-bottom:6px}
+  .play-grid{gap:10px}
+  .question-card{padding:10px 12px;border-radius:21px}
+  .timer-row{line-height:1.2}.timer{font-size:20px}
+  .time-track{height:6px;margin:5px 0}
+  .problem-wrap{padding:4px 0;gap:10px}
+  .equation{font-size:40px;gap:8px}
+  .answer-line{gap:8px}
+  .answer{height:clamp(50px,8svh,66px);min-width:76px;font-size:36px}
+  .feedback{margin-top:4px;min-height:32px;padding:4px 2px;font-size:14px;line-height:1.4}
+  .keypad-panel{padding:10px;gap:9px;border-radius:21px}
+  .keypad-title{display:none}
+  .keypad{gap:8px}
+  .key{min-height:clamp(44px,7.5svh,60px);font-size:28px;border-radius:13px}
+  .submit,.next{min-height:46px;font-size:18px}
+}
+@media(max-width:360px){
+  .shell{padding-left:10px;padding-right:10px}
+  .welcome{padding:8px 10px;grid-template-columns:minmax(0,1fr) 52px}
+  .welcome h2{font-size:17px}.mascot{width:52px;height:52px}
+  .setup-card{padding:12px}.setup-note{font-size:13px}
+  .progress-copy{font-size:13px}
+  .question-card{padding:8px 12px}.problem-wrap{padding:0;gap:8px}
+  .equation{font-size:38px}.answer{min-width:72px;font-size:32px}
+  .keypad-panel{padding:8px;gap:8px}.keypad{gap:7px}
+  .submit,.next{min-height:44px;font-size:17px}
+}
