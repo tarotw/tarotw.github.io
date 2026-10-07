@@ -1,0 +1,1187 @@
+<!doctype html>
+<html lang="zh-Hant">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>科學好好聽五環講座</title>
+<meta name="description" content="一集《科學好好聽》是怎麼煮出來的：用五環理論拆解 AI 兒童科普 Podcast 的製作與規範。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Huninn&family=Noto+Sans+TC:wght@400;500;700;900&family=IBM+Plex+Mono:wght@400;600&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&display=swap">
+<style>
+/* Layout: fixed 1920×1080 stage scaled to the window; night-sky studio, five orbit colors mark the five rings. Single dark look by design. */
+:root{
+  color-scheme: dark;
+  --night:#17162F;      /* stage ground */
+  --night-2:#211F45;    /* raised panels */
+  --night-3:#2C2958;    /* borders, tracks */
+  --star:#F5EFE0;       /* main text */
+  --mist:#ABA7CF;       /* secondary text */
+  --r1:#FFC94A;         /* ring 1 Prompt   – sunflower */
+  --r2:#FF8A3D;         /* ring 2 Context  – tangerine */
+  --r3:#7CC4E8;         /* ring 3 Harness  – sky */
+  --r4:#B79CF0;         /* ring 4 Loop     – lilac */
+  --r5:#FF7E9D;         /* ring 5 Graph    – coral */
+  --alarm:#FF5A5F;      /* the wrong word */
+  --ok:#8FE3B0;
+  --f-display:"Huninn","Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
+  --f-body:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
+  --f-num:"Bricolage Grotesque","Noto Sans TC",system-ui,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+html,body{height:100%;margin:0;background:#0D0C1F;overflow:hidden;color:var(--star);font-family:var(--f-body)}
+#stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform-origin:center;background:var(--night);overflow:hidden;box-shadow:0 0 0 1px #000}
+.slide{position:absolute;inset:0;padding:96px 128px 150px;box-sizing:border-box;display:flex;flex-direction:column;gap:40px;opacity:0;visibility:hidden;transition:opacity .45s ease,visibility 0s linear .45s}
+.slide.active{opacity:1;visibility:visible;transition:opacity .45s ease}
+.slide>*{min-width:0}
+.bg{position:absolute;inset:0;z-index:0}
+.bg img{width:100%;height:100%;object-fit:cover;display:block}
+.bg::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(23,22,47,.96) 0%,rgba(23,22,47,.85) 38%,rgba(23,22,47,.15) 70%,rgba(23,22,47,0) 100%)}
+.bg.soft::after{background:linear-gradient(0deg,rgba(23,22,47,.97) 0%,rgba(23,22,47,.7) 40%,rgba(23,22,47,.1) 75%)}
+.z{position:relative;z-index:1}
+
+/* type scale: 132 / 76 / 52 / 34 / 26 */
+.kicker{font-family:var(--f-mono);font-size:26px;letter-spacing:.14em;text-transform:uppercase;color:var(--mist)}
+h1,h2,h3{font-family:var(--f-display);font-weight:400;margin:0;text-wrap:balance;line-height:1.15}
+h1{font-size:96px}
+h2{font-size:76px}
+h3{font-size:44px}
+p{margin:0;font-size:34px;line-height:1.55}
+.big{font-size:52px;line-height:1.35;font-family:var(--f-display)}
+.small{font-size:26px;line-height:1.5;color:var(--mist)}
+.en{font-family:var(--f-num);font-weight:600;letter-spacing:.01em}
+.mono{font-family:var(--f-mono)}
+.hl1{color:var(--r1)}.hl2{color:var(--r2)}.hl3{color:var(--r3)}.hl4{color:var(--r4)}.hl5{color:var(--r5)}.alarm{color:var(--alarm)}
+.mist{color:var(--mist)}
+code{font-family:var(--f-mono);font-size:.82em;background:var(--night-3);padding:.08em .35em;border-radius:8px;color:var(--star)}
+.row{display:flex;gap:40px}
+.col{display:flex;flex-direction:column;gap:24px}
+.grow{flex:1}
+.card{background:var(--night-2);border:2px solid var(--night-3);border-radius:28px;padding:36px 40px;display:flex;flex-direction:column;gap:16px}
+.card h3{font-size:44px}
+.tag{display:inline-flex;align-items:center;gap:12px;font-family:var(--f-mono);font-size:24px;letter-spacing:.08em;padding:8px 18px;border-radius:999px;border:2px solid currentColor;width:max-content}
+.reported{position:absolute;right:128px;bottom:96px;z-index:2;font-size:24px;color:var(--mist);font-family:var(--f-body)}
+.reported b{color:var(--r1);font-weight:500}
+
+/* step reveals */
+[data-step]{transition:opacity .4s ease,transform .4s ease}
+[data-step]:not(.on){opacity:0;transform:translateY(16px);pointer-events:none}
+
+/* HUD */
+#hud{position:absolute;left:0;right:0;bottom:0;height:110px;padding:0 128px 36px;box-sizing:border-box;display:flex;align-items:flex-end;justify-content:space-between;z-index:5;pointer-events:none}
+#hud .where{display:flex;align-items:center;gap:18px;font-size:24px;color:var(--mist)}
+#hud .right{display:flex;align-items:center;gap:28px;font-size:22px;color:var(--mist)}
+#hud .num{font-family:var(--f-num);font-size:24px;color:var(--mist);font-variant-numeric:tabular-nums}
+#minimap circle{fill:none;stroke-width:4;stroke:var(--night-3);transition:stroke .3s}
+aside.notes{display:none}
+#notes{position:fixed;left:0;right:0;bottom:0;max-height:38vh;overflow:auto;background:rgba(13,12,31,.94);border-top:2px solid var(--night-3);color:var(--star);font-size:18px;line-height:1.7;padding:16px 24px;box-sizing:border-box;z-index:20}
+#help{position:fixed;right:16px;top:16px;z-index:20;font-size:13px;color:var(--mist);background:rgba(13,12,31,.85);padding:8px 12px;border-radius:10px;border:1px solid var(--night-3);transition:opacity 1s}
+.nav{pointer-events:auto;width:60px;height:60px;border-radius:50%;border:2px solid var(--night-3);background:var(--night-2);color:var(--star);font-size:40px;line-height:1;cursor:pointer;display:grid;place-items:center;padding:0 0 6px}
+.nav:hover{border-color:var(--r1);color:var(--r1)}
+.nav:focus{outline:none}
+.nav:focus-visible{border-color:var(--r1)}
+#prevBtn{left:0}#nextBtn{right:0}
+
+
+/* audio player */
+.player{background:var(--night-2);border:2px solid var(--night-3);border-radius:32px;padding:36px 44px;display:flex;flex-direction:column;gap:28px}
+.ptop{display:flex;align-items:center;gap:32px}
+.play{width:112px;height:112px;border-radius:50%;border:0;background:var(--r1);color:var(--night);font-size:44px;cursor:pointer;flex:none;display:grid;place-items:center;box-shadow:0 0 0 0 rgba(255,201,74,.5)}
+.play:focus-visible{outline:4px solid var(--star);outline-offset:4px}
+.player.playing .play{animation:pulse 1.4s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,201,74,.55)}100%{box-shadow:0 0 0 28px rgba(255,201,74,0)}}
+.wave{position:relative;flex:1;height:150px;display:flex;align-items:center;gap:3px}
+.wave i{flex:1;background:var(--night-3);border-radius:4px;min-height:4px;transition:background .1s}
+.wave i.past{background:var(--r3)}
+.wave .mark{position:absolute;top:-14px;bottom:-14px;border-radius:12px;border:3px dashed var(--alarm);background:rgba(255,90,95,.14)}
+.wave .mark span{position:absolute;top:-46px;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:26px;color:var(--alarm);font-family:var(--f-display)}
+.time{font-family:var(--f-num);font-size:26px;color:var(--mist);width:120px;text-align:right;font-variant-numeric:tabular-nums}
+.lyrics{font-family:var(--f-display);font-size:56px;line-height:1.5;min-height:84px}
+.lyrics span{color:#5E5A8F;transition:color .12s}
+.lyrics span.past{color:var(--star)}
+.lyrics span.bad{display:inline-block;transition:transform .25s,color .12s}
+.lyrics span.bad.past{color:var(--alarm);transform:scale(1.6) rotate(-6deg);margin:0 .2em}
+.lyrics span.laugh{font-size:.7em;border:3px dashed var(--alarm);border-radius:14px;padding:0 .3em;margin:0 .2em}
+#p-bengal .lyrics{font-size:40px;line-height:1.45}
+#p-bengal{padding:28px 44px;gap:20px}
+.deep{background-color:#131833;background-image:linear-gradient(rgba(124,196,232,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(124,196,232,.07) 1px,transparent 1px);background-size:48px 48px}
+.deep{gap:26px}
+.deep table.t td{padding:14px 20px}
+.bg.right{left:36%}
+.bg.right::after{background:linear-gradient(90deg,rgba(23,22,47,1) 0%,rgba(23,22,47,.35) 22%,rgba(23,22,47,0) 45%)}
+table.tight td{padding:14px 20px;line-height:1.4}
+.ddtag{position:absolute;right:128px;top:84px;font-family:var(--f-mono);font-size:22px;letter-spacing:.12em;color:var(--r3);border:2px solid var(--r3);border-radius:999px;padding:6px 18px}
+td.dot1,td.dot2,td.dot3,td.dot4,td.dot5{text-align:center;font-size:34px}
+.dot1{color:var(--r1)}.dot2{color:var(--r2)}.dot3{color:var(--r3)}.dot4{color:var(--r4)}.dot5{color:var(--r5)}
+.sk{background:var(--night-2);border:2px solid var(--night-3);border-radius:16px;padding:12px 16px;display:flex;flex-direction:column;gap:8px}
+.sk b{font-family:var(--f-body);font-size:24px}
+.sk span{font-family:var(--f-mono);font-size:17px;color:var(--mist);line-height:1.5}
+.player{position:relative}
+.pop{position:absolute;right:56px;top:-30px;font-size:240px;line-height:1;transform:scale(0) rotate(-30deg);transition:transform .35s cubic-bezier(.2,1.7,.4,1);pointer-events:none;filter:drop-shadow(0 20px 40px rgba(0,0,0,.5))}
+.pop.show{transform:scale(1) rotate(-8deg)}
+#legend{display:flex;gap:10px;align-items:center}
+#legend span{font-family:var(--f-num);font-weight:600;font-size:22px;padding:4px 14px;border-radius:999px;border:2px solid currentColor;opacity:.55;transition:all .3s}
+#legend span.cur{opacity:1;background:currentColor}
+#legend span.cur b,#legend span.cur i{color:#17162F}
+.masked{color:var(--mist);font-size:44px;font-family:var(--f-display)}
+
+/* diagrams */
+svg text{font-family:var(--f-body)}
+.ringlbl{font-family:var(--f-display)}
+.flow-dot{offset-rotate:0deg}
+table.t{border-collapse:separate;border-spacing:0;width:100%;font-size:32px}
+table.t th{font-family:var(--f-mono);font-size:24px;letter-spacing:.08em;color:var(--mist);text-align:left;font-weight:400;padding:0 24px 16px}
+table.t td{padding:22px 24px;border-top:2px solid var(--night-3);vertical-align:top;line-height:1.45}
+.quiz{border:3px dashed var(--r1);border-radius:28px;padding:28px 36px;display:flex;gap:28px;align-items:center;background:rgba(255,201,74,.06)}
+.quiz .q{font-size:32px;line-height:1.5;flex:1}
+.quiz .lab{font-family:var(--f-mono);font-size:24px;color:var(--r1);letter-spacing:.1em;white-space:nowrap}
+.ans{font-family:var(--f-display);font-size:40px;white-space:nowrap;padding:10px 26px;border-radius:999px;color:var(--night)}
+.chip{display:inline-flex;align-items:center;font-family:var(--f-mono);font-size:24px;padding:10px 18px;border-radius:14px;background:var(--night-3);color:var(--star);white-space:nowrap}
+.bignum{font-family:var(--f-num);font-weight:800;font-size:132px;line-height:1;letter-spacing:-.02em}
+@media (prefers-reduced-motion: reduce){.slide,[data-step]{transition:none}.player.playing .play{animation:none}.anim{animation:none!important}}
+</style>
+
+<div id="stage">
+
+<section class="slide" data-ring="0" data-sec="序幕 · 一鍵生成？" style="justify-content:center">
+  <div class="bg"><img src="img/cover.jpg" alt="戴耳機的機器人實習生坐在有五道光環的小星球上"></div>
+  <div class="z col" style="max-width:900px;gap:36px">
+    <div class="kicker">KidSciCast AI · 大學部專題演講</div>
+    <h1><span class="hl1">一鍵生成？</span><br>《科學好好聽》背後的 AI 工程</h1>
+    <p class="mist" style="font-size:38px">一集兒童科普 Podcast 是怎麼煮出來的：從 <span class="en hl1">Prompt</span> 到 <span class="en hl5">Graph</span> 的五環工程</p>
+    <p style="font-size:30px">Yukai Huang<span class="mist"> · 製作人／系統設計</span></p>
+  </div>
+  <aside class="notes">開場自我介紹。先不要講技術，直接說：今天要講一個 AI 說錯話的故事，還有我們怎麼把它變成一套正規工程。鍵盤：→ 下一步、空白鍵播放音檔、N 開關講稿、F 全螢幕。</aside>
+</section>
+
+<section class="slide" data-ring="0" data-sec="序幕 · 一鍵生成？">
+  <div class="row" style="align-items:center;gap:56px">
+    <div class="col grow" style="gap:28px">
+      <div class="kicker">很多人以為</div>
+      <h1 style="font-size:88px">AI Podcast<br>＝打一句話、<span class="hl1">按一個鍵</span></h1>
+      <p class="mist">又快、又簡單、又廉價。</p>
+    </div>
+    <img src="img/magic.jpg" alt="舞台上的神奇按鈕，麥克風從魔術帽裡跳出來" style="width:720px;height:405px;object-fit:cover;border-radius:28px">
+  </div>
+  <div class="col" style="gap:18px">
+    <p style="font-size:30px">一集《科學好好聽》實際要走過的路：</p>
+    <div id="strip" style="display:grid;grid-template-columns:repeat(10,1fr);gap:10px"></div>
+    <p class="big" style="font-size:40px">按下生成鍵，<span class="hl1">只是其中一格</span>。</p>
+  </div>
+  <aside class="notes">NotebookLM 的確可以一鍵生成音檔。但一集能放心給孩子聽的節目，要走過十個步驟，其中好幾步一定要人親自做：選題、決定查核疑點怎麼改、15–20 分鐘的人耳審核、修音。</aside>
+</section>
+
+<section class="slide" data-ring="0" data-sec="序幕 · 一鍵生成？" data-player="reservoir">
+  <div class="row" style="align-items:flex-end;justify-content:space-between">
+    <div class="col" style="gap:16px">
+      <div class="kicker">先聽一段 · 6 秒</div>
+      <h2>冰河、水庫與物質的三態</h2>
+    </div>
+    <img src="img/reservoir.jpg" alt="戴耳機的小孩聽到後驚訝停下腳步，旁邊是水庫" style="width:520px;height:292px;object-fit:cover;border-radius:28px">
+  </div>
+  <div class="player grow" id="p-reservoir" style="justify-content:center">
+    <div class="ptop"><button class="play" aria-label="播放">▶</button><div class="wave" style="height:220px"></div><div class="time">0.0 s</div></div>
+    <div class="lyrics"></div>
+    <div class="pop" aria-hidden="true">💩</div>
+  </div>
+  <aside class="notes">直接按空白鍵播放。第 5.8 秒會跳出大便符號。這是 NotebookLM 生成、準備上架的節目片段。</aside>
+</section>
+
+<section class="slide" data-ring="0" data-sec="序幕 · 一鍵生成？">
+  <div class="kicker">發生了什麼事</div>
+  <h2>素材是對的，黑盒子說出來的不對</h2>
+  <div class="col" style="gap:0;margin-top:12px">
+    <div class="row" style="align-items:center;padding:28px 0;border-top:2px solid var(--night-3)">
+      <div class="small" style="width:340px">我們給 NotebookLM 的素材</div>
+      <div class="big">水庫裡儲存的是液態的<span class="hl3">水</span></div>
+    </div>
+    <div class="row" data-step="1" style="align-items:center;padding:28px 0;border-top:2px solid var(--night-3)">
+      <div class="small" style="width:340px">NotebookLM 說出來的</div>
+      <div class="big">水庫不是應該裝滿了液態的<span class="alarm">屎</span>嗎？</div>
+    </div>
+    <div class="row" data-step="2" style="align-items:center;padding:28px 0;border-top:2px solid var(--night-3);border-bottom:2px solid var(--night-3)">
+      <div class="small" style="width:340px">小朋友聽到的</div>
+      <div class="big">😳 水庫裡裝的是……？</div>
+    </div>
+  </div>
+  <p data-step="3" style="font-size:40px;margin-top:16px">NotebookLM 不是照稿念的 TTS，對話是它自己生成的，<br>我們沒辦法指定它說的每一個字。要變成能給孩子聽的節目，需要<b class="hl3">一整套工程</b>。</p>
+  <aside class="notes">重點：這不是「稿子對、念錯」。NotebookLM 是黑盒子，素材進去、整段對話出來，中間每個字都是它生成的。所以錯誤只能在出來之後抓、之後修。</aside>
+</section>
+
+<section data-sec="序幕 · 一鍵生成？" class="slide" data-ring="0" style="justify-content:center">
+  <div class="bg right"><img src="img/iceberg.jpg" alt="冰山剖面：水面上只有一個按鈕，水面下是龐大的工程工作室"></div>
+  <div class="z col" style="max-width:700px;gap:26px">
+    <div class="kicker">今天的主張</div>
+    <h1 style="font-size:68px">一鍵生成的是<span class="hl1">音檔</span>，<br>工程做出來的才是<span class="hl3">節目</span></h1>
+    <p class="mist">今天帶大家潛到水面下，一層一層看：</p>
+    <div class="col" style="gap:12px">
+      <p style="font-size:30px"><span class="hl1">▸</span> 五環理論：用來定位問題的放大鏡</p>
+      <p style="font-size:30px"><span class="hl2">▸</span> 一集節目的生產線，以及為什麼選 NotebookLM</p>
+      <p style="font-size:30px"><span class="hl3">▸</span> AI 與人耳的雙層防線、修音</p>
+      <p style="font-size:30px"><span class="hl4">▸</span> 契約、狀態機、會過期的審查、發布關卡</p>
+      <p style="font-size:30px"><span class="hl5">▸</span> 成本與聽眾回饋</p>
+    </div>
+  </div>
+  <aside class="notes">這是全場的主張，也是地圖。結尾會再回到這座冰山，把水面下的東西一項一項數出來。</aside>
+</section>
+
+<section class="slide" data-ring="0" data-sec="第一幕 · 為什麼要做" style="justify-content:center">
+  <div class="bg"><img src="img/classroom.jpg" alt="黃昏的臺灣小學教室，孩子們坐在座位上，老師的椅子空著"></div>
+  <div class="z col" style="max-width:860px;gap:32px">
+    <div class="kicker">第一幕 · 為什麼要做這件事</div>
+    <h2>教室裡，老師愈來愈難找</h2>
+    <div class="col" style="gap:18px">
+      <p>· 代理教師開學後仍一再招不滿</p>
+      <p>· 校園環境壓力影響教師的留任意願</p>
+      <p>· 電子、半導體業對理工人才的吸力</p>
+    </div>
+    <p class="big hl1" style="font-size:44px">需要<b>便宜、可審核、可重複使用</b>的科學教材</p>
+    <p class="small">AI 是幫老師，不是取代老師。</p>
+  </div>
+  <aside class="notes">動機要講，但要講得有分寸：產業吸力是可能成因，不能說「科技業吸走所有老師」。這種措辭上的節制，就是今天要示範的「正規」。</aside>
+</section>
+
+<section class="slide" data-ring="0" data-sec="第一幕 · 為什麼要做">
+  <div class="kicker">第一幕 · 為什麼要做這件事</div>
+  <h2>繁體中文不只是換一個語言標籤</h2>
+  <p class="mist" style="font-size:32px">直接套用英文或簡中的 AI 流程，會多出四種工作</p>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:28px" class="grow">
+    <div class="card"><div class="tag hl1">字形</div><div class="big">发 → 發？髮？</div><p class="small">簡轉繁是一對多，「頭发」要變「頭髮」，不是「頭發」</p></div>
+    <div class="card"><div class="tag hl2">用語</div><div class="big">激光 → 雷射<br>軟件 → 軟體</div><p class="small">科學名詞要用臺灣課本的說法</p></div>
+    <div class="card"><div class="tag hl3">讀音</div><div class="big">企業 qì<br>垃圾 lè sè</div><p class="small">臺灣華語和大陸普通話的讀音不同，合成語音常常念錯</p></div>
+    <div class="card"><div class="tag hl4">兒童理解</div><div class="big">寫的 ≠ 聽的</div><p class="small">書面說明要改成小朋友聽得懂的對話，而且只能用耳朵聽</p></div>
+  </div>
+  <aside class="notes">這是論文的核心要求之一：繁中是系統需求，不是翻譯後處理。「垃圾」在臺灣日常常念 lè sè，教育部字典兩種都收；重點是合成語音的選擇要符合我們選定的參考標準。</aside>
+</section>
+
+<section class="slide" data-ring="0" data-sec="第一幕 · 為什麼要做">
+  <div class="kicker">第一幕 · 節目規模</div>
+  <h2>2025 年 5 月上線，到 2026 年 9 月</h2>
+  <div class="row grow" style="align-items:center;gap:0">
+    <div class="col grow" style="gap:12px;padding-right:48px"><div class="bignum hl1">323</div><p>集製作完成</p></div>
+    <div class="col grow" style="gap:12px;padding:0 48px;border-left:2px solid var(--night-3)"><div class="bignum hl2">232</div><p>集上架播出</p></div>
+    <div class="col grow" style="gap:12px;padding:0 48px;border-left:2px solid var(--night-3)"><div class="bignum hl3">120萬+</div><p>次播放<br><span class="small">SoundOn ＋ Firstory 後台合計</span></p></div>
+    <div class="col grow" style="gap:12px;padding-left:48px;border-left:2px solid var(--night-3)"><div class="bignum hl4" style="font-size:96px">≤ $30</div><p>美元／月工具費<br><span class="small">審核約 15–20 分鐘／集</span></p></div>
+  </div>
+  <aside class="notes">製作 323 和上架 232 不一樣，有些做了沒上。120 萬是兩個託管平台的播放次數加總。15–20 分鐘是審核階段的時間。</aside>
+</section>
+
+<section class="slide" data-ring="0" data-sec="第二幕 · 五環理論">
+  <div class="kicker">第二幕 · 五環理論速成</div>
+  <h2>AI 是一位天才實習生，但有三個毛病</h2>
+  <img src="img/flaws.jpg" alt="機器人實習生頭戴金魚缸、坐在堆滿紙的小桌子前、在拋骰子" style="width:100%;height:420px;object-fit:cover;border-radius:28px">
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:28px">
+    <div class="col" style="gap:8px"><h3>🐟 金魚記憶 <span class="en mist" style="font-size:28px">Stateless</span></h3><p class="small">每次呼叫都忘光，要記得的東西得每次重新給它</p></div>
+    <div class="col" style="gap:8px"><h3>🗂 桌子很小 <span class="en mist" style="font-size:28px">Bounded</span></h3><p class="small">一次能看的內容有限，放什麼上桌是個選擇</p></div>
+    <div class="col" style="gap:8px"><h3>🎲 愛擲骰子 <span class="en mist" style="font-size:28px">Stochastic</span></h3><p class="small">同樣的問題，每次答案可能不一樣</p></div>
+  </div>
+  <aside class="notes">五環理論的出發點：底層模型有三個性質，沒有狀態、容量有限、輸出隨機。每一環都是為了補償這三件事。</aside>
+</section>
+
+<section class="slide" data-ring="0" data-sec="第二幕 · 五環理論">
+  <div class="kicker">第二幕 · 五環理論速成</div>
+  <div class="row grow" style="gap:64px;align-items:center">
+    <svg viewBox="0 0 700 700" width="700" height="700" aria-label="五環同心圓，每一環標示其工作單位">
+      <g fill="none" stroke-width="56">
+        <circle cx="350" cy="350" r="318" stroke="#FF7E9D" opacity=".9"/>
+        <circle cx="350" cy="350" r="256" stroke="#B79CF0" opacity=".9"/>
+        <circle cx="350" cy="350" r="194" stroke="#7CC4E8" opacity=".9"/>
+        <circle cx="350" cy="350" r="132" stroke="#FF8A3D" opacity=".9"/>
+        <circle cx="350" cy="350" r="70" stroke="#FFC94A" opacity=".9"/>
+      </g>
+      <circle cx="350" cy="350" r="40" fill="#F5EFE0"/>
+      <text x="350" y="359" text-anchor="middle" font-size="24" fill="#17162F" font-family="Bricolage Grotesque, sans-serif" font-weight="800">LLM</text>
+      <g font-size="24" text-anchor="middle" fill="#17162F" font-family="Bricolage Grotesque, sans-serif" font-weight="800">
+        <text x="350" y="289">1</text><text x="350" y="227">2</text><text x="350" y="165">3</text><text x="350" y="103">4</text><text x="350" y="41">5</text>
+      </g>
+    </svg>
+    <div class="col grow" style="gap:0">
+      <h2 style="font-size:64px;margin-bottom:28px">五環：內圈是外圈的零件</h2>
+      <table class="t">
+        <tr><th>環</th><th>白話</th><th>工作單位</th></tr>
+        <tr><td><span class="en hl1">① Prompt</span></td><td>怎麼說</td><td class="mist">一次輸入</td></tr>
+        <tr><td><span class="en hl2">② Context</span></td><td>給他看什麼</td><td class="mist">視窗裡放什麼</td></tr>
+        <tr><td><span class="en hl3">③ Harness</span></td><td>工作台＋驗收</td><td class="mist">一台機器</td></tr>
+        <tr><td><span class="en hl4">④ Loop</span></td><td>重來的規則</td><td class="mist">一次執行</td></tr>
+        <tr><td><span class="en hl5">⑤ Graph</span></td><td>團隊分工</td><td class="mist">一整個流程</td></tr>
+      </table>
+    </div>
+  </div>
+  <aside class="notes">嵌套關係：第 k 環的工程對象，是第 k+1 環裡的一個具名零件。prompt 是 context 的一個區塊；context 是 harness 每一輪要組裝的東西；harness 的一輪是 loop 的一次迭代；loop 是 graph 上的一個節點。</aside>
+</section>
+
+<section class="slide" data-ring="0" data-sec="第二幕 · 五環理論">
+  <div class="kicker">第二幕 · 五環的定義，用《科學好好聽》當例子</div>
+  <div class="col" style="gap:10px"><h2>每一環在設計什麼？</h2><p style="font-size:28px">套疊：<span class="hl1">Prompt</span> ⊂ <span class="hl2">Context</span> ⊂ <span class="hl3">Harness</span> ⊂ <span class="hl4">Loop</span> ⊂ <span class="hl5">Graph</span>，內圈是外圈的零件</p></div>
+  <table class="t tight" style="font-size:26px">
+    <tr><th style="width:230px">環</th><th style="width:600px">定義</th><th>在《科學好好聽》裡</th></tr>
+    <tr><td><span class="en hl1">① Prompt</span></td><td>設計<b>一次輸入</b>怎麼寫：角色、指示、範例、格式</td><td class="mist">請 <code>episode_md</code> 扮演科普作家，把素材寫成小學生聽得懂的文章</td></tr>
+    <tr><td><span class="en hl2">② Context</span></td><td>決定 AI 每次<b>桌上放什麼</b>：挑選、壓縮、丟掉、隔離</td><td class="mist">給 NotebookLM 的素材只放查核過的文章、主持人設定、發音標注</td></tr>
+    <tr><td><span class="en hl3">③ Harness</span></td><td>把模型包成<b>會用工具、會驗收的機器</b></td><td class="mist"><code>fact_check</code> 讓 Claude 上網查證 Gemini 寫的文章，疑點寫進 <code>suspect.md</code></td></tr>
+    <tr><td><span class="en hl4">④ Loop</span></td><td>讓機器<b>重複做到對</b>，而且知道什麼時候該停</td><td class="mist">聽到錯字 → 定位 → 替換 → 再聽；修太多處就改成整集重生</td></tr>
+    <tr><td><span class="en hl5">⑤ Graph</span></td><td>把很多機器排成<b>有分工、有關卡的流程圖</b></td><td class="mist">人耳審核通過，才平行產生測驗、詞彙、知識卡，最後檢查 17 項素材</td></tr>
+  </table>
+  <aside class="notes">先用定義建立共同語言，每一環配一個節目裡的真實例子。後面每一頁左下角的彩色標籤，就是在提醒大家現在講的是哪一環。</aside>
+</section>
+
+<section class="slide" data-ring="0" data-sec="第二幕 · 五環理論">
+  <div class="kicker">第二幕 · 套在一起之後，自然推出三件事</div>
+  <h2>五環的三條推論</h2>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:32px" class="grow">
+    <div class="card"><div class="tag hl1">C1</div><h3>外圈修不好內圈的錯</h3><p class="small" style="font-size:28px">換一個更大的鍋子，救不了壞掉的食材。往外加一環是多了控制點，不是修好了裡面。</p></div>
+    <div class="card" data-step="1"><div class="tag hl2">C2</div><h3>錯誤往外傳，而且放大</h3><p class="small" style="font-size:28px">一個念錯的字，會被抄進 30 題測驗、5 個詞彙卡、短影片字幕。外圈每多一層，就多複製一次。</p></div>
+    <div class="card" data-step="2"><div class="tag hl3">C3</div><h3>每一環要用自己的尺</h3><p class="small" style="font-size:28px">一句話寫得好，不代表整集合格；整集合格，不代表能追查是誰批准的。</p></div>
+  </div>
+  <aside class="notes">這三條是論文 §II-C 的推論，是畫成同心圓之後的幾何事實。C2 對我們特別重要：審核要放在衍生教材產生「之前」。</aside>
+</section>
+
+<section data-sec="第二幕 · 五環理論" class="slide deep" data-ring="0">
+  <div class="ddtag">🔬 DEEP DIVE</div>
+  <div class="kicker">系統全景 · 製作人提供的五層架構</div>
+  <h2>五層架構 × 五環：兩把不同的尺</h2>
+  <p class="small" style="margin-top:-12px">五層是部署上的責任分工；五環是被設計的工程對象</p>
+  <table class="t" style="font-size:28px">
+    <tr><th style="width:430px">部署層（誰負責什麼）</th><th>主要元件</th><th style="text-align:center;width:120px;line-height:1.3" class="hl1"><span style="font-size:30px">①</span><br>Prompt</th><th style="text-align:center;width:120px;line-height:1.3" class="hl2"><span style="font-size:30px">②</span><br>Context</th><th style="text-align:center;width:120px;line-height:1.3" class="hl3"><span style="font-size:30px">③</span><br>Harness</th><th style="text-align:center;width:120px;line-height:1.3" class="hl4"><span style="font-size:30px">④</span><br>Loop</th><th style="text-align:center;width:120px;line-height:1.3" class="hl5"><span style="font-size:30px">⑤</span><br>Graph</th></tr>
+    <tr><td>L5　儲存與交付</td><td class="mist">目錄、17 項素材、平台</td><td></td><td></td><td class="dot3">●</td><td></td><td class="dot5">●</td></tr>
+    <tr><td>L4　驗證與人工閘門</td><td class="mist">查核、完整性檢查、修音、人耳</td><td></td><td></td><td class="dot3">●</td><td class="dot4">●</td><td class="dot5">●</td></tr>
+    <tr><td>L3　Skill 與 DAG 編排</td><td class="mist">40+ skill、flow.md</td><td class="dot1">●</td><td class="dot2">●</td><td class="dot3">●</td><td></td><td class="dot5">●</td></tr>
+    <tr><td>L2　異質模型與處理引擎</td><td class="mist">Gemini、Claude、NotebookLM…</td><td colspan="5" class="mist" style="text-align:center">五環的中心：被包起來的模型本身</td></tr>
+    <tr><td>L1　代理執行環境</td><td class="mist">Antigravity、規則檔</td><td></td><td></td><td class="dot3">●</td><td></td><td></td></tr>
+  </table>
+  <aside class="notes">教授可能會問：你的五層和五環是什麼關係？答案是兩把不同的尺。L2 模型本身就是五環的中心；skill 內部有 prompt 和 context；DAG 是第五環；人工閘門和修音分別落在第四、第五環。</aside>
+</section>
+
+
+
+<section data-sec="第三幕 · 一集節目怎麼做" class="slide" data-ring="0">
+  <div class="kicker">第三幕 · 一集節目怎麼做</div>
+  <h2>《科學好好聽》的主線：六個步驟</h2>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px" class="grow">
+    <div class="card"><div class="row" style="justify-content:space-between;align-items:center"><span class="en hl1" style="font-size:44px">1</span><span class="tag hl1">① ②</span></div><code>/episode_md</code><p style="font-size:28px">主題＋素材 → 給孩子的原始科學文章</p></div>
+    <div class="card"><div class="row" style="justify-content:space-between;align-items:center"><span class="en hl3" style="font-size:44px">2</span><span class="tag hl3">③</span></div><code>/episode_fact_check</code><p style="font-size:28px">換另一家模型＋網路檢索檢查正確性，疑點寫進 <code>suspect.md</code></p></div>
+    <div class="card"><div class="row" style="justify-content:space-between;align-items:center"><span class="en hl2" style="font-size:44px">3</span><span class="tag hl2">②</span></div><code>/episode_pronounce</code><p style="font-size:28px">找出容易念錯的詞，把羅馬拼音<b>標回原稿</b></p></div>
+    <div class="card"><div class="row" style="justify-content:space-between;align-items:center"><span class="en hl1" style="font-size:44px">4</span><span class="tag hl1">① ②</span></div><code>/episode_preview</code><p style="font-size:28px">產生給 NotebookLM 的 prompt：主持人設定＋調整過的素材</p></div>
+    <div class="card" style="border-color:var(--mist)"><div class="row" style="justify-content:space-between;align-items:center"><span class="en" style="font-size:44px">5</span><span class="tag mist">黑盒</span></div><code>NotebookLM</code><p style="font-size:28px">生成兩位主持人的自然對話音檔</p></div>
+    <div class="card" style="border-color:var(--r5)"><div class="row" style="justify-content:space-between;align-items:center"><span class="en hl5" style="font-size:44px">6</span><span class="tag hl5">④ ⑤</span></div><code>人耳＋音訊剪接</code><p style="font-size:28px">AI 轉錄檢查＋人工聆聽，發現錯誤就修音，通過才做教材</p></div>
+  </div>
+  <aside class="notes">這是製作人描述的實際主線。右上角標的是這一步主要落在哪一環。注意第 5 步是黑盒：我們把最關鍵的聲音生成交給 NotebookLM，所以第 6 步的修音和把關特別重。</aside>
+</section>
+
+<section class="slide" data-ring="1" data-sec="第三幕 · 一集節目怎麼做" style="justify-content:center">
+  <div class="bg"><img src="img/ring1.jpg" alt="機器人實習生拿著一張講稿對著麥克風"></div>
+  <div class="z col" style="max-width:820px;gap:28px">
+    <div class="tag hl1">RING 1 · PROMPT</div>
+    <h1>怎麼說</h1>
+    <p class="big">工作單位：<span class="hl1">一次輸入</span></p>
+    <p class="mist">角色、指示、範例、格式，四個欄位決定一次呼叫的品質</p>
+  </div>
+  <aside class="notes">第一環最熟悉，大家都寫過 prompt。</aside>
+</section>
+
+<section class="slide" data-ring="1" data-sec="第三幕 · 一集節目怎麼做">
+  <div class="kicker">① Prompt · 在《科學好好聽》裡</div>
+  <h2>每一集都從幾份「說話規格」開始</h2>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:28px">
+    <div class="card"><code>episode_md</code><h3>文章規格</h3><p class="small">題目和來源 → 一篇給孩子的科學說明文</p></div>
+    <div class="card"><code>preview.txt</code><h3>主持人設定</h3><p class="small">科學隊長負責發問、比喻；浩奇博士負責解釋原理</p></div>
+    <div class="card"><code>episode_pronounce</code><h3>發音提示</h3><p class="small">標註多音字、專有名詞該怎麼念</p></div>
+  </div>
+  <div class="row" style="gap:28px;align-items:stretch">
+    <div class="card grow" style="border-color:var(--r1)"><p style="font-size:30px"><b class="hl1">規範</b>　格式要用程式強制檢查，不能只靠「拜託 AI 照做」</p></div>
+    <div class="card grow"><p style="font-size:30px"><b class="alarm">極限</b>　發音提示只是給 NotebookLM 的「建議」，有些錯念，改 prompt 也改不掉</p></div>
+  </div>
+  <aside class="notes">格式問題的修法是「機械式強制」，例如 structured output 或 schema 驗證，而不是在 prompt 裡多寫三遍拜託。</aside>
+</section>
+
+<section class="slide" data-ring="2" data-sec="第三幕 · 一集節目怎麼做" style="justify-content:center">
+  <div class="bg"><img src="img/ring2.jpg" alt="機械手臂從巨大的書牆中挑出三本書放到實習生的小桌上"></div>
+  <div class="z col" style="max-width:820px;gap:28px">
+    <div class="tag hl2">RING 2 · CONTEXT</div>
+    <h1>給他看什麼</h1>
+    <p class="big">工作單位：<span class="hl2">視窗裡放什麼</span></p>
+    <p class="mist">桌子就那麼大，選、壓縮、丟掉、隔離，都是設計</p>
+  </div>
+  <aside class="notes">Prompt 變成了 context 裡的一個區塊。</aside>
+</section>
+
+<section class="slide" data-ring="2" data-sec="第三幕 · 一集節目怎麼做">
+  <div class="kicker">② Context · <code>/episode_pronounce</code></div>
+  <h2>把「容易念錯」寫回原稿，餵給下一步</h2>
+  <div class="row" style="gap:32px;align-items:stretch">
+    <div class="card grow">
+      <div class="tag hl2">標注後的原稿（示意）</div>
+      <p class="big" style="font-size:42px;line-height:1.7">地殼<span class="hl2 mono" style="font-size:28px">(qiào)</span>底下的岩漿，會釋放甲烷<span class="hl2 mono" style="font-size:28px">(jiǎ wán)</span>嗎？</p>
+    </div>
+    <div class="card" style="width:640px">
+      <div class="tag mist">規則</div>
+      <p style="font-size:28px">· 30 多個破音字規則：差、還、長、行、重、數……</p>
+      <p style="font-size:28px">· 強制標注清單：角色 jué sè、海獺 tà、分泌 mì、魚鰾 biào</p>
+      <p style="font-size:28px">· 常見讀音<b>不標</b>，避免念得卡卡的</p>
+    </div>
+  </div>
+  <p style="font-size:30px">這是把發音知識放進 AI 的「桌上」，但它只是<b class="hl2">提示</b>，不保證 NotebookLM 一定照念。</p>
+  <aside class="notes">規則清單來自製作人的架構文件。這一步是 context engineering：決定哪些發音知識要放進生成時的素材。</aside>
+</section>
+
+<section class="slide" data-ring="3" data-sec="第三幕 · 一集節目怎麼做" style="justify-content:center">
+  <div class="bg"><img src="img/ring3.jpg" alt="實習生在工作台上用工具做事，另一台紫色機器人拿放大鏡檢查"></div>
+  <div class="z col" style="max-width:820px;gap:28px">
+    <div class="tag hl3">RING 3 · HARNESS</div>
+    <h1>工作台＋驗收</h1>
+    <p class="big">工作單位：<span class="hl3">一台機器</span></p>
+    <p class="mist">組裝輸入 → 動手（工具、子代理） → 驗收。少了驗收，只是把 AI 包一層外殼</p>
+  </div>
+  <aside class="notes">Harness 這個詞在業界用得很鬆。我們用論文的定義：一輪 = 收集 context、行動、驗證。</aside>
+</section>
+
+<section class="slide" data-ring="3" data-sec="第三幕 · 一集節目怎麼做">
+  <div class="kicker">③ Harness · 40 多個 skill 組成的工作台</div>
+  <h2>一集節目的生產線</h2>
+  <svg viewBox="0 0 1664 330" width="1664" height="330" aria-label="生產線：題目來源、寫文章、交叉查核、發音提示、對話音訊、混音與逐字稿">
+    <defs><marker id="ah" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0,0 L12,6 L0,12 z" fill="#ABA7CF"/></marker></defs>
+    <g stroke="#ABA7CF" stroke-width="3" marker-end="url(#ah)">
+      <line x1="232" y1="120" x2="270" y2="120"/><line x1="508" y1="120" x2="546" y2="120"/><line x1="784" y1="120" x2="822" y2="120"/><line x1="1060" y1="120" x2="1098" y2="120"/><line x1="1336" y1="120" x2="1374" y2="120"/>
+    </g>
+    <g font-size="30" text-anchor="middle">
+      <rect x="0" y="40" width="232" height="160" rx="24" fill="#2C2958"/><text x="116" y="112" fill="#F5EFE0">👤 選題</text><text x="116" y="152" fill="#ABA7CF" font-size="22">人選來源</text>
+      <rect x="276" y="40" width="232" height="160" rx="24" fill="#211F45" stroke="#7CC4E8" stroke-width="3"/><text x="392" y="112" fill="#F5EFE0">寫文章</text><text x="392" y="152" fill="#ABA7CF" font-size="20" font-family="IBM Plex Mono, monospace">episode_md</text>
+      <rect x="552" y="40" width="232" height="160" rx="24" fill="#211F45" stroke="#FF7E9D" stroke-width="4"/><text x="668" y="112" fill="#F5EFE0">交叉查核</text><text x="668" y="152" fill="#ABA7CF" font-size="20" font-family="IBM Plex Mono, monospace">fact_check</text>
+      <rect x="828" y="40" width="232" height="160" rx="24" fill="#211F45" stroke="#7CC4E8" stroke-width="3"/><text x="944" y="112" fill="#F5EFE0">發音提示</text><text x="944" y="152" fill="#ABA7CF" font-size="20" font-family="IBM Plex Mono, monospace">pronounce</text>
+      <rect x="1104" y="40" width="232" height="160" rx="24" fill="#211F45" stroke="#7CC4E8" stroke-width="3"/><text x="1220" y="112" fill="#F5EFE0">對話音訊</text><text x="1220" y="152" fill="#ABA7CF" font-size="20" font-family="IBM Plex Mono, monospace">NotebookLM</text>
+      <rect x="1380" y="40" width="284" height="160" rx="24" fill="#211F45" stroke="#7CC4E8" stroke-width="3"/><text x="1522" y="112" fill="#F5EFE0">混音＋逐字稿</text><text x="1522" y="152" fill="#ABA7CF" font-size="20" font-family="IBM Plex Mono, monospace">audio · transcribe</text>
+    </g>
+    <path d="M 668 200 L 668 262" stroke="#FF7E9D" stroke-width="3" stroke-dasharray="6 8"/>
+    <text x="668" y="300" text-anchor="middle" font-size="26" fill="#FF7E9D" font-family="IBM Plex Mono, monospace">suspect.md：可疑說法＋證據連結</text>
+    <text x="0" y="300" font-size="24" fill="#ABA7CF">進度寫在 flow.md，中斷可以接著跑</text>
+  </svg>
+  <div class="row" style="gap:28px">
+    <div class="card grow"><p style="font-size:30px"><b class="hl3">寫稿</b>用 Gemini，<b class="hl5">查核</b>換成 Claude ＋網路檢索：不讓寫的人自己改自己的考卷</p></div>
+    <div class="card grow"><p style="font-size:30px">查核只負責<b>標出疑點</b>，要不要改、怎麼改，<b class="hl1">由製作人決定</b></p></div>
+  </div>
+  <aside class="notes">每個 skill 有清楚的輸入輸出，產物是 Markdown 和 JSON。flow.md 記錄進度。這是製作人提供的架構文件描述，不是我們稽核過執行紀錄。</aside>
+</section>
+
+<section class="slide deep" data-ring="3" data-sec="第三幕 · 一集節目怎麼做">
+  <div class="ddtag">🔬 DEEP DIVE</div>
+  <div class="kicker">③ Harness · Skill 元素週期表</div>
+  <h2>每個 skill 只做一件事，有清楚的輸入與輸出</h2>
+  <div class="row" style="gap:36px;align-items:stretch" >
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:18px;width:1060px" id="skilltable"></div>
+    <div class="card grow" style="gap:12px;border-color:var(--r3)">
+      <div class="tag hl3">一個 skill 的契約（示意）</div>
+      <pre class="mono" style="margin:0;font-size:22px;line-height:1.55;color:var(--star);white-space:pre-wrap">---
+name: episode_glossary
+input:  transcript.json, {id}.md
+output: glossary.json   # 5 個詞
+rules:
+  - 用孩子聽得懂的比喻
+  - 已存在且完整 → 跳過
+  - 格式損毀 → 增量修補
+---</pre>
+      <p class="small" style="font-size:24px"><code>skill-rule.md</code>：只准呼叫原子 skill，禁止未驗證的批次黑盒腳本<br><code>episode-rule.md</code>：找不到正式目錄就退回草稿目錄</p>
+    </div>
+  </div>
+  <p class="small">列出 32 個代表性 skill，全部共 40 多個</p>
+  <aside class="notes">單一職責、冪等、可追溯，是 harness 工程的基本功。冪等的例子：family_discussion 若已存在且格式完整就跳過，題數不足就補。</aside>
+</section>
+
+<section class="slide" data-ring="3" data-sec="第三幕 · 一集節目怎麼做">
+  <div class="kicker">③ Harness · 驗收的規範</div>
+  <h2>球員不能兼裁判</h2>
+  <div class="row grow" style="gap:40px;align-items:stretch">
+    <div class="card grow"><div class="tag mist">自己檢查自己</div><p class="big" style="font-size:44px">「我查過了，沒問題。」</p><p class="small" style="font-size:28px">同一個模型、同一份資料，盲點也一樣。自我評估很容易高估自己。</p></div>
+    <div class="card grow" style="border-color:var(--r3)"><div class="tag hl3">外部驗收</div><p class="big" style="font-size:44px">換模型、換證據、換人</p><p class="small" style="font-size:28px">驗收要有<b>獨立於生成</b>的依據：網路來源、另一個模型、人耳。重試時要重新收集資訊，不是原地再擲一次骰子。</p></div>
+  </div>
+  <aside class="notes">論文第 V 章：verify 是 harness 和普通 wrapper 的分界；retry 是一次 re-gather，不是重抽。</aside>
+</section>
+
+<section class="slide" data-ring="0" data-sec="第三幕 · 一集節目怎麼做">
+  <div class="kicker">第三幕 · 一個關鍵的設計決策</div>
+  <h2>為什麼不自己寫逐字稿再 TTS？</h2>
+  <div class="row grow" style="gap:48px;align-items:center">
+    <img src="img/twopaths.jpg" alt="左邊是打字機加生硬的合成語音，右邊是兩位主持人自然對話，上方懸著剪刀" style="width:700px;height:394px;object-fit:cover;border-radius:28px">
+    <table class="t grow" style="font-size:28px">
+      <tr><th></th><th>A　逐字稿＋TTS</th><th class="hl1">B　NotebookLM</th></tr>
+      <tr><td class="mist">自然度</td><td>念稿感</td><td>附和、搶話、停頓，<b>孩子聽了停不下來</b></td></tr>
+      <tr><td class="mist">控制</td><td>每個字都可控</td><td>黑盒，每次結果不同</td></tr>
+      <tr><td class="mist">出錯時</td><td>改字、重念一句</td><td><b class="alarm">只能事後剪音訊</b></td></tr>
+    </table>
+  </div>
+  <p style="font-size:34px">我們用<b class="hl1">控制權</b>換到了<b class="hl3">自然度</b>，所以要在外圈補上修音和把關。</p>
+  <aside class="notes">這是整個系統最重要的取捨。A 路線的控制在第一環；B 路線的聲音生成是黑盒，控制點被迫往外移到第四環修音、第五環人工閘門。這也是 C1：外圈不修內圈，只是加控制點。</aside>
+</section>
+
+<section class="slide deep" data-ring="0" data-sec="第三幕 · 一集節目怎麼做">
+  <div class="ddtag">🔬 DEEP DIVE</div>
+  <div class="kicker">NotebookLM 的自然感從哪裡來 · 依 Google DeepMind 公開說明</div>
+  <h2>對話的「人味」是語音模型自己長出來的</h2>
+  <div class="row" style="gap:18px;align-items:stretch">
+    <div class="card grow"><div class="tag hl3">SoundStream</div><p style="font-size:26px">神經音訊編解碼器：把聲音壓成 token</p></div>
+    <div class="card grow"><div class="tag hl3">AudioLM</div><p style="font-size:26px">像語言模型一樣，逐個預測聲音 token</p></div>
+    <div class="card grow"><div class="tag hl4">SoundStorm</div><p style="font-size:26px">生成 30 秒多人對話</p></div>
+    <div class="card grow" style="border-color:var(--r1)"><div class="tag hl1">新對話模型</div><p style="font-size:26px">2 分鐘雙人對話，驅動 Audio Overviews</p></div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:28px">
+    <div class="col" style="gap:4px"><div class="bignum hl1" style="font-size:80px">&lt;3 s</div><p class="small">單顆 TPU v5e 生成 2 分鐘對話（快 40 倍以上）</p></div>
+    <div class="col" style="gap:4px"><div class="bignum hl2" style="font-size:80px">600</div><p class="small">bps，新語音編解碼器的最低位元率</p></div>
+    <div class="col" style="gap:4px"><div class="bignum hl3" style="font-size:80px">數十萬</div><p class="small">小時語音預訓練</p></div>
+    <div class="col" style="gap:4px"><div class="bignum hl4" style="font-size:80px">嗯、啊</div><p class="small">用含口語瑕疵的真實對話資料微調</p></div>
+  </div>
+  <p style="font-size:30px">「嗯」「真的嗎」、停頓、換氣，都不在腳本文字裡，是語音模型自己產生的。</p>
+  <p class="small">來源：DeepMind〈Pushing the frontiers of audio generation〉(2024/10)、NotebookLM 團隊訪談。Audio Overviews 自 2025/4/29 支援繁體中文。</p>
+  <aside class="notes">這頁回答「黑科技是什麼」。重點不是數字，而是最後一句：口語瑕疵和笑聲是語音模型的特性，不在文字腳本裡，所以 prompt 管不到。這也是為什麼孟加拉灣那段會笑出來的合理推測，但 Google 沒有證實這個因果。</aside>
+</section>
+
+<section class="slide" data-ring="0" data-sec="第三幕 · 一集節目怎麼做">
+  <div class="kicker">選擇的代價</div>
+  <div class="row grow" style="gap:72px;align-items:center">
+    <svg viewBox="0 0 600 600" width="600" height="600" aria-label="控制點從第一環往外移到第四、第五環">
+      <g fill="none" stroke-width="22">
+        <circle cx="300" cy="300" r="270" stroke="#FF7E9D"/><circle cx="300" cy="300" r="216" stroke="#B79CF0"/>
+        <circle cx="300" cy="300" r="162" stroke="#2C2958"/><circle cx="300" cy="300" r="108" stroke="#2C2958"/><circle cx="300" cy="300" r="54" stroke="#FFC94A" stroke-dasharray="6 10"/>
+      </g>
+      <circle cx="300" cy="300" r="26" fill="#F5EFE0"/>
+      <path d="M 340 268 Q 440 160 498 112" stroke="#F5EFE0" stroke-width="6" fill="none" marker-end="url(#ahp)"/>
+      <defs><marker id="ahp" markerWidth="14" markerHeight="14" refX="11" refY="7" orient="auto"><path d="M0,0 L14,7 L0,14 z" fill="#F5EFE0"/></marker></defs>
+      <text x="300" y="590" text-anchor="middle" font-size="26" fill="#ABA7CF">控制點往外移</text>
+    </svg>
+    <div class="col grow" style="gap:32px">
+      <h2>自然感來自語音模型，<br>錯誤也來自語音模型</h2>
+      <p>素材準備得再好，NotebookLM 還是可能：</p>
+      <div class="col" style="gap:14px">
+        <p>· 把<span class="hl3">水</span>念成<span class="alarm">屎</span>　<span class="small">字詞錯</span></p>
+                <p>· 說出稿子裡沒有的內容　<span class="small">自由發揮</span></p>
+      </div>
+      <p class="big" style="font-size:40px">第一環管不到 → 控制只能放在 <span class="hl4">④ 修音</span> 和 <span class="hl5">⑤ 人工閘門</span></p>
+    </div>
+  </div>
+  <aside class="notes">這頁把前面的選擇和接下來的抓錯、修音接起來。難度比較高，正是因為要做音訊剪接，而不是改一行文字。</aside>
+</section>
+
+<section class="slide" data-ring="0" data-sec="第四幕 · 抓錯與修音" data-player="bengal">
+  <div class="col" style="gap:16px">
+    <div class="kicker">再聽一段 · 15 秒</div>
+    <h2>孟加拉灣的風暴潮</h2>
+  </div>
+  <div class="player grow" id="p-bengal" style="justify-content:center">
+    <div class="ptop"><button class="play" aria-label="播放">▶</button><div class="wave"></div><div class="time">0.0 s</div></div>
+    <div class="lyrics"></div>
+    <div class="pop" aria-hidden="true">😂</div>
+  </div>
+  <aside class="notes">直接播放。約 12 秒處，主持人在講完很多人失去生命之後笑了出來，畫面會跳出笑臉。製作人的修法：把笑聲剪掉。</aside>
+</section>
+
+<section class="slide" data-ring="5" data-sec="第四幕 · 抓錯與修音">
+  <div class="kicker">兩種錯，兩種抓法</div>
+  <h2>字都對，語氣錯了，只有人耳抓得到</h2>
+  <table class="t">
+    <tr><th></th><th>〈水庫〉</th><th>〈孟加拉灣〉</th></tr>
+    <tr><td class="mist">錯誤類型</td><td><b class="hl3">字詞錯</b>：一個字改掉了意思</td><td><b class="hl5">語氣錯</b>：每個字都對，情緒不對</td></tr>
+    <tr><td class="mist">逐字稿查得到嗎</td><td>看 context 怎麼給，可能被「修」掉</td><td>查不到，笑聲根本不會進逐字稿</td></tr>
+    <tr><td class="mist">怎麼修</td><td>定位那個字，替換音訊</td><td>把笑聲<b>剪掉</b></td></tr>
+    <tr><td class="mist">屬於哪一環</td><td><span class="ans" style="background:var(--r4);font-size:30px">④ Loop</span></td><td><span class="ans" style="background:var(--r5);font-size:30px">⑤ 人工核准節點</span></td></tr>
+  </table>
+  <p style="font-size:32px">兒童節目的驗收，必須包含<b class="hl5">實際播出的聲音</b>，不能只看文字。</p>
+  <aside class="notes">這頁是第四環和第五環的橋。語氣、情緒、是否適合兒童，目前只能靠人聽。這也是為什麼人工審核在我們的流程裡是一個「必經節點」，不是可有可無的抽查。</aside>
+</section>
+
+<section class="slide" data-ring="5" data-sec="第四幕 · 抓錯與修音">
+  <div class="kicker">第四幕 · 抓錯是 hybrid 的</div>
+  <h2>雙層防線：AI 和人耳，互相補對方的洞</h2>
+  <svg viewBox="0 0 1664 420" width="1664" height="420" aria-label="瑞士起司模型：數字與名詞錯誤被 AI 轉錄檢查擋下；弭平、腦補、笑聲穿過 AI 的漏洞，被人耳攔下">
+    <rect x="470" y="30" width="70" height="350" rx="18" fill="#7CC4E8"/>
+    <rect x="960" y="30" width="70" height="350" rx="18" fill="#FF7E9D"/>
+    <rect x="1420" y="30" width="70" height="350" rx="18" fill="#FFC94A"/>
+    <g fill="#17162F">
+      <ellipse cx="505" cy="140" rx="24" ry="22"/><ellipse cx="505" cy="260" rx="24" ry="22"/><ellipse cx="505" cy="320" rx="24" ry="22"/>
+      <ellipse cx="995" cy="80" rx="22" ry="20"/><ellipse cx="995" cy="200" rx="22" ry="20"/>
+      <ellipse cx="1455" cy="360" rx="18" ry="14"/>
+    </g>
+    <g font-size="25" text-anchor="middle" fill="#F5EFE0"><text x="505" y="412">AI 轉錄檢查</text><text x="995" y="412">人耳審核</text><text x="1455" y="412">發布前檢查</text></g>
+    <g font-size="25">
+      <text x="0" y="88" fill="#8FE3B0">數字說錯</text>
+      <text x="0" y="148" fill="#FF5A5F">屎→水（弭平）</text>
+      <text x="0" y="208" fill="#8FE3B0">專有名詞說錯</text>
+      <text x="0" y="268" fill="#FF5A5F">腦補的字</text>
+      <text x="0" y="328" fill="#FF5A5F">😂 笑聲（聽不見）</text>
+    </g>
+    <g stroke-width="5" fill="none" stroke-linecap="round">
+      <path d="M 130 80 L 462 80" stroke="#8FE3B0"/><path d="M 200 200 L 462 200" stroke="#8FE3B0"/>
+      <path d="M 240 140 L 950 140" stroke="#FF5A5F"/><path d="M 140 260 L 950 260" stroke="#FF5A5F"/><path d="M 260 320 L 950 320" stroke="#FF5A5F"/>
+    </g>
+    <g font-size="38"><text x="424" y="94">✋</text><text x="424" y="214">✋</text><text x="912" y="154">✋</text><text x="912" y="274">✋</text><text x="912" y="334">✋</text></g>
+    <text x="560" y="60" font-size="22" fill="#8FE3B0">AI 擋下：人可能聽漏的</text>
+    <text x="1050" y="240" font-size="22" fill="#FF7E9D">人耳攔下：AI 漏掉的</text>
+  </svg>
+  <div style="display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;gap:22px">
+    <div class="card" style="border-color:var(--ok)"><h3 style="font-size:34px;color:var(--ok)">AI 擋得住</h3><p class="small">對照文章找出說錯的數字、名詞、漏掉的關鍵句，人用耳朵聽很容易滑過去</p></div>
+    <div class="card"><h3 style="font-size:34px">弭平</h3><p class="small">拿文章當參考，把錯字寫回正確的字</p></div>
+    <div class="card"><h3 style="font-size:34px">腦補</h3><p class="small">寫出它「預期」聽到、但實際沒說的內容</p></div>
+    <div class="card"><h3 style="font-size:34px">聽不見</h3><p class="small">笑聲、語氣、情緒不會進逐字稿</p></div>
+  </div>
+  <aside class="notes">瑞士起司模型：每一層防線都有洞，錯誤要剛好穿過每一層的洞才會發布出去。AI 轉錄後對照文章，很擅長抓數字和名詞說錯，例如「一億年」說成「一千萬年」，人快速聆聽時容易漏掉；但 AI 的洞剛好是弭平、腦補、聽不見這三種。所以兩層互補，人的審核時間省不掉。</aside>
+</section>
+
+<section class="slide" data-ring="2" data-sec="第四幕 · 抓錯與修音">
+  <div class="kicker">小實驗 · AI 那一層防線的洞</div>
+  <h2>AI 會聽見它<span class="hl2">預期</span>聽到的東西</h2>
+  <div class="row grow" style="gap:32px">
+    <div class="card grow">
+      <div class="tag mist">提示 A · 只說「這是兒童科普節目」</div>
+      <p class="big" style="margin-top:12px">……裝滿了液態的<span class="alarm" style="font-size:1.4em">屎</span>嗎？</p>
+      <p class="small">錯誤被抓到了 ✅</p>
+    </div>
+    <div class="card grow" data-step="1" style="border-color:var(--r2)">
+      <div class="tag hl2">提示 B · 給它「預期」的那句話當參考</div>
+      <p class="big" style="margin-top:12px">……裝滿了液態的<span class="hl3" style="font-size:1.4em">水</span>嗎？</p>
+      <p class="small">錯誤被「修」掉了，逐字稿看起來完美無缺 ❌</p>
+    </div>
+  </div>
+  <p class="small">同一段音檔、同一個 Whisper large-v3，只差在提示</p>
+  <aside class="notes">這個實驗是準備這場演講時做的。只給相關但不同的句子（「水庫裡面裝的是液態的水」）時，Whisper 還是寫出「屎」；給一模一樣的原句，它就寫成「水」。所以只靠逐字稿比對抓發音錯誤，要非常小心 context 怎麼給。這就是論文 §5.5 說的「音訊層級的詞彙驗證」。</aside>
+</section>
+
+<section class="slide" data-ring="4" data-sec="第四幕 · 抓錯與修音" style="justify-content:center">
+  <div class="bg"><img src="img/ring4.jpg" alt="實習生拿著剪刀繞著音波跑道跑，跑道旁有紅綠燈、沙漏、錢包和終點旗"></div>
+  <div class="z col" style="max-width:820px;gap:28px">
+    <div class="tag hl4">RING 4 · LOOP</div>
+    <h1>重來的規則</h1>
+    <p class="big">工作單位：<span class="hl4">一次執行</span></p>
+    <p class="mist">什麼時候再試一次？什麼時候必須停？</p>
+  </div>
+  <aside class="notes">回到「水」與「屎」。修音就是一個迴圈。</aside>
+</section>
+
+<section class="slide" data-ring="4" data-sec="第四幕 · 抓錯與修音">
+  <div class="kicker">④ Loop · 修音迴圈</div>
+  <div class="row grow" style="gap:56px;align-items:center">
+    <svg viewBox="0 0 680 680" width="680" height="680" aria-label="修音迴圈：人耳聽、定位、剪下、重新合成、插回、再聽">
+      <circle cx="340" cy="340" r="250" fill="none" stroke="#2C2958" stroke-width="10"/>
+      <circle cx="340" cy="340" r="250" fill="none" stroke="#B79CF0" stroke-width="10" stroke-dasharray="60 1511" class="anim"><animate attributeName="stroke-dashoffset" from="1571" to="0" dur="6s" repeatCount="indefinite"/></circle>
+      <g font-size="30" text-anchor="middle">
+        <circle cx="340" cy="90" r="76" fill="#211F45" stroke="#FF7E9D" stroke-width="4"/><text x="340" y="88" fill="#F5EFE0">👂 人耳聽</text><text x="340" y="122" font-size="20" fill="#ABA7CF">發現錯字</text>
+        <circle cx="557" cy="215" r="76" fill="#211F45" stroke="#B79CF0" stroke-width="4"/><text x="557" y="213" fill="#F5EFE0">定位</text><text x="557" y="245" font-size="18" fill="#ABA7CF" font-family="IBM Plex Mono, monospace">cut_audio_pro</text>
+        <circle cx="557" cy="465" r="76" fill="#211F45" stroke="#B79CF0" stroke-width="4"/><text x="557" y="463" fill="#F5EFE0">重新合成</text><text x="557" y="495" font-size="18" fill="#ABA7CF" font-family="IBM Plex Mono, monospace">episode_tts</text>
+        <circle cx="340" cy="590" r="76" fill="#211F45" stroke="#B79CF0" stroke-width="4"/><text x="340" y="588" fill="#F5EFE0">插回去</text><text x="340" y="620" font-size="18" fill="#ABA7CF" font-family="IBM Plex Mono, monospace">audio_fix_to_mp3</text>
+        <circle cx="123" cy="465" r="76" fill="#211F45" stroke="#FF7E9D" stroke-width="4"/><text x="123" y="463" fill="#F5EFE0">👂 再聽</text><text x="123" y="495" font-size="20" fill="#ABA7CF">對了嗎？</text>
+        <circle cx="123" cy="215" r="76" fill="#211F45" stroke="#2C2958" stroke-width="4"/><text x="123" y="213" fill="#F5EFE0">還錯</text><text x="123" y="245" font-size="20" fill="#ABA7CF">回到定位</text>
+      </g>
+      <text x="340" y="330" text-anchor="middle" font-size="64" fill="#3A3670">水</text><text x="340" y="400" text-anchor="middle" font-size="26" fill="#ABA7CF">↻</text>
+    </svg>
+    <div class="col grow" style="gap:28px">
+      <h2 style="font-size:64px">從手工剪接，到 harness 定位替換</h2>
+      <div class="card"><div class="tag mist">以前</div><p style="font-size:30px">人工在剪輯軟體裡找到那一個字、剪掉、重錄、對齊，<b>很慢</b></p></div>
+      <div class="card" style="border-color:var(--r4)"><div class="tag hl4">現在</div><p style="font-size:30px">harness 定位特定詞語，生成替換音、插回原檔，<b>最後仍由人聽過才算數</b></p></div>
+      <p class="small">不能全域把「屎」換掉：講消化系統那一集本來就會用到這個字。修的單位是「這句話裡、這個位置的這段聲音」。</p>
+    </div>
+  </div>
+  <aside class="notes">三個工具名稱來自架構文件。要誠實講：我們沒有測過切點準不準、音色接不接得上，也沒有量測省了多少時間。這是論文待補的證據第一名。</aside>
+</section>
+
+<section class="slide" data-ring="4" data-sec="第四幕 · 抓錯與修音">
+  <div class="kicker">④ Loop · 規範</div>
+  <h2>四個煞車，<span class="hl4">任何一個踩下去就停</span></h2>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:28px">
+    <div class="card"><div style="font-size:72px">🚦</div><h3>次數上限</h3><p class="small">最多修 N 次</p></div>
+    <div class="card"><div style="font-size:72px">⏳</div><h3>時間／預算</h3><p class="small">超過就交給人處理</p></div>
+    <div class="card"><div style="font-size:72px">🔁</div><h3>沒有進步</h3><p class="small">連續兩次結果一樣</p></div>
+    <div class="card"><div style="font-size:72px">🏁</div><h3>完成條件</h3><p class="small">事先定好的驗收通過</p></div>
+  </div>
+  <p style="font-size:32px">迴圈有幫助的前提：<b>每一輪都拿到新的、可靠的回饋</b>。沒有新資訊，重來只是在燒錢。</p>
+  <aside class="notes">論文第 VI 章：四個終止條件是「或」的關係。迭代有效的條件是有外部、可靠的回饋訊號。</aside>
+</section>
+
+<section class="slide" data-ring="4" data-sec="第四幕 · 抓錯與修音">
+  <div class="kicker">④ Loop · 修音分級</div>
+  <h2>依嚴重度決定怎麼修</h2>
+  <table class="t" style="font-size:28px">
+    <tr><th style="width:120px">等級</th><th style="width:420px">例子</th><th>處理</th><th style="width:160px">狀態</th></tr>
+    <tr><td class="en hl1">S1</td><td>讀音錯、意思沒變<br><span class="small">地殼念成 ké</span></td><td>替換那個詞；音色接不上就剪整句</td><td><span class="tag" style="color:var(--ok)">現行</span></td></tr>
+    <tr><td class="en hl2">S2</td><td>意思改變或不雅<br><span class="small">水 → 屎</span></td><td><b>修好才能發布</b>。剪整句 → 替換詞 → 重念整句 → 重生該段</td><td><span class="tag" style="color:var(--ok)">現行</span><br><span class="small">順序為建議</span></td></tr>
+    <tr><td class="en hl5">S3</td><td>語氣不當<br><span class="small">悲劇段落裡笑出來</span></td><td>剪掉笑聲；和說話重疊就剪整句</td><td><span class="tag" style="color:var(--ok)">現行</span></td></tr>
+    <tr><td class="en hl4">S4</td><td>聲音裡說錯科學<br><span class="small">素材對，主持人自由發揮說錯</span></td><td>剪掉或替換；錯誤遍布就修正 prompt 後整集重生</td><td><span class="tag hl3">建議</span></td></tr>
+  </table>
+  <aside class="notes">分級的目的不是官僚，而是讓修音的決策可以被重複、被檢查。S2 一定要修，因為對兒童節目來說，那不是瑕疵而是錯誤內容。</aside>
+</section>
+
+<section class="slide deep" data-ring="4" data-sec="第四幕 · 抓錯與修音">
+  <div class="ddtag">🔬 DEEP DIVE</div>
+  <div class="kicker">④ Loop · 停止條件的實務版</div>
+  <h2>修補，還是整集重新生成？</h2>
+  <div class="row" style="gap:32px;align-items:stretch">
+    <div class="card grow"><div class="tag hl4">修補的成本</div><p style="font-size:30px">Σ 每處修音分鐘 ＋ 修改處前後重聽</p></div>
+    <div class="card grow"><div class="tag hl2">重生的成本</div><p style="font-size:30px">重新生成 ＋ <b>整集重審 15–20 分鐘</b> ＋ 重新擲骰子：可能冒出新的錯</p></div>
+  </div>
+  <p class="big" style="font-size:40px">建議規則：同一集修補超過 <span class="hl4">N</span> 處，或累計超過 <span class="hl4">X</span> 分鐘 → 改為整集重生</p>
+  <div class="card" style="gap:14px">
+    <p style="font-size:28px"><b>修改之後，這些東西會「過期」，要重新檢查：</b></p>
+    <div class="row" style="gap:14px;flex-wrap:wrap"><span class="chip">逐字稿時間戳</span><span class="chip">說話者標籤</span><span class="chip">測驗題的根據</span><span class="chip">詞彙解釋</span><span class="chip">短影片字幕</span><span class="chip">重點時間點</span></div>
+  </div>
+  <p class="small">重生不保證比較好：同樣的 prompt，每次結果不同。</p>
+  <aside class="notes">這就是第四環的四個煞車在修音上的具體版本。N 和 X 要等完整工時資料出來才能訂。</aside>
+</section>
+
+<section class="slide" data-ring="5" data-sec="第五幕 · 工程規範" style="justify-content:center">
+  <div class="bg"><img src="img/ring5.jpg" alt="多台機器人在各自的工作站，中間是一位戴耳機、拿著核准印章的人類編輯"></div>
+  <div class="z col" style="max-width:820px;gap:28px">
+    <div class="tag hl5">RING 5 · GRAPH</div>
+    <h1>團隊分工</h1>
+    <p class="big">工作單位：<span class="hl5">一整個流程</span></p>
+    <p class="mist">節點、路線、共享狀態。人類核准也是圖上的一個節點</p>
+  </div>
+  <aside class="notes">最外圈：把每個迴圈放進一張流程圖。這種想法不新，工作流程系統早就有，我們只是重新發現。</aside>
+</section>
+
+<section class="slide" data-ring="5" data-sec="第五幕 · 工程規範">
+  <div class="kicker">⑤ Graph · 一集節目的流程圖</div>
+  <h2>先過人耳，才開始做教材</h2>
+  <svg viewBox="0 0 1664 560" width="1664" height="560" aria-label="流程圖：主線經過人工審核後，平行產生六種教材，最後完整性檢查與發布">
+    <defs><marker id="ah2" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0,0 L12,6 L0,12 z" fill="#ABA7CF"/></marker></defs>
+    <g stroke="#ABA7CF" stroke-width="3" fill="none" marker-end="url(#ah2)">
+      <line x1="200" y1="280" x2="236" y2="280"/>
+      <line x1="440" y1="280" x2="476" y2="280"/>
+      <path d="M 720 280 C 780 280 780 50 840 50"/><path d="M 720 280 C 780 280 780 140 840 140"/><path d="M 720 280 C 780 280 780 230 840 230"/><path d="M 720 280 C 780 280 780 320 840 320"/><path d="M 720 280 C 780 280 780 410 840 410"/><path d="M 720 280 C 780 280 780 500 840 500"/>
+      <path d="M 1150 50 C 1210 50 1210 280 1262 280"/><path d="M 1150 140 C 1210 140 1210 280 1262 280"/><path d="M 1150 230 C 1210 230 1210 280 1262 280"/><path d="M 1150 320 C 1210 320 1210 280 1262 280"/><path d="M 1150 410 C 1210 410 1210 280 1262 280"/><path d="M 1150 500 C 1210 500 1210 280 1262 280"/>
+      <line x1="1450" y1="280" x2="1486" y2="280"/>
+    </g>
+    <path d="M 600 210 C 600 140 340 140 340 210" stroke="#B79CF0" stroke-width="4" fill="none" stroke-dasharray="8 8" marker-end="url(#ah2)"/>
+    <text x="470" y="136" text-anchor="middle" font-size="24" fill="#B79CF0">修音迴圈</text>
+    <g font-size="28" text-anchor="middle">
+      <rect x="0" y="210" width="200" height="140" rx="24" fill="#211F45" stroke="#7CC4E8" stroke-width="3"/><text x="100" y="272" fill="#F5EFE0">文章＋查核</text><text x="100" y="308" font-size="22" fill="#ABA7CF">③ 生產線</text>
+      <rect x="240" y="210" width="200" height="140" rx="24" fill="#211F45" stroke="#7CC4E8" stroke-width="3"/><text x="340" y="272" fill="#F5EFE0">音訊＋逐字稿</text><text x="340" y="308" font-size="22" fill="#ABA7CF">③ 生產線</text>
+      <rect x="480" y="190" width="240" height="180" rx="28" fill="#FF7E9D"/><text x="600" y="268" fill="#17162F" font-size="32">👂 人工審核</text><text x="600" y="310" font-size="22" fill="#17162F">聽、比對、判斷</text>
+    </g>
+    <g font-size="26">
+      <rect x="840" y="16" width="310" height="68" rx="18" fill="#2C2958"/><text x="864" y="60" fill="#F5EFE0">重點 ×3</text>
+      <rect x="840" y="106" width="310" height="68" rx="18" fill="#2C2958"/><text x="864" y="150" fill="#F5EFE0">詞彙 ×5</text>
+      <rect x="840" y="196" width="310" height="68" rx="18" fill="#2C2958"/><text x="864" y="240" fill="#F5EFE0">測驗題 ×30</text>
+      <rect x="840" y="286" width="310" height="68" rx="18" fill="#2C2958"/><text x="864" y="330" fill="#F5EFE0">討論題、活動</text>
+      <rect x="840" y="376" width="310" height="68" rx="18" fill="#2C2958"/><text x="864" y="420" fill="#F5EFE0">知識卡、全景圖</text>
+      <rect x="840" y="466" width="310" height="68" rx="18" fill="#2C2958"/><text x="864" y="510" fill="#F5EFE0">宣傳短影片</text>
+    </g>
+    <g font-size="28" text-anchor="middle">
+      <rect x="1266" y="210" width="184" height="140" rx="24" fill="#211F45" stroke="#FFC94A" stroke-width="3"/><text x="1358" y="272" fill="#F5EFE0">完整性檢查</text><text x="1358" y="308" font-size="22" fill="#ABA7CF">17 項素材</text>
+      <rect x="1490" y="210" width="174" height="140" rx="24" fill="#211F45" stroke="#8FE3B0" stroke-width="3"/><text x="1577" y="272" fill="#F5EFE0">👤 發布</text><text x="1577" y="308" font-size="22" fill="#ABA7CF">製作人授權</text>
+    </g>
+  </svg>
+  <aside class="notes">C2 的實際應用：審核放在衍生教材之前，錯字就不會被抄 30 次。但修音之後，下游的東西會「過期」，這就是第四幕要講的。完整性檢查 episode_check_all 只檢查 17 項是否存在且非空，不代表內容正確。</aside>
+</section>
+
+<section class="slide deep" data-ring="5" data-sec="第五幕 · 工程規範">
+  <div class="ddtag">🔬 DEEP DIVE</div>
+  <div class="kicker">⑤ Graph · 依架構文件重繪的完整 DAG</div>
+  <h2>關鍵路徑、扇出、扇入、故障隔離</h2>
+  <svg viewBox="0 0 1664 660" width="1664" height="660" aria-label="完整 DAG：上排關鍵路徑十個節點，人工閘門後扇出教育、視覺、影片三組分支，最後扇入彙整與完整性檢查">
+    <defs><marker id="ah3" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#ABA7CF"/></marker></defs>
+    <g id="cp" font-size="20" text-anchor="middle"></g>
+    <text x="0" y="22" font-size="22" fill="#FFC94A" font-family="IBM Plex Mono, monospace">CRITICAL PATH</text>
+    <path d="M 1590 158 L 1590 196 L 60 196 L 60 226" stroke="#FF7E9D" stroke-width="4" fill="none" marker-end="url(#ah3)"/>
+    <text x="830" y="188" text-anchor="middle" font-size="20" fill="#FF7E9D">通過人耳 → FAN-OUT</text>
+    <g font-size="20">
+      <rect x="0" y="236" width="520" height="250" rx="22" fill="none" stroke="#7CC4E8" stroke-width="2" stroke-dasharray="6 6"/>
+      <text x="20" y="268" fill="#7CC4E8" font-family="IBM Plex Mono, monospace">EDU · 6 平行</text>
+      <rect x="560" y="236" width="560" height="250" rx="22" fill="none" stroke="#B79CF0" stroke-width="2" stroke-dasharray="6 6"/>
+      <text x="580" y="268" fill="#B79CF0" font-family="IBM Plex Mono, monospace">VISUAL · 2 條鏈</text>
+      <rect x="1160" y="236" width="504" height="250" rx="22" fill="none" stroke="#FF8A3D" stroke-width="2" stroke-dasharray="6 6"/>
+      <text x="1180" y="268" fill="#FF8A3D" font-family="IBM Plex Mono, monospace">VIDEO · 1 條鏈</text>
+    </g>
+    <g id="branches" font-size="18" font-family="IBM Plex Mono, monospace"></g>
+    <path d="M 60 486 L 60 520 L 1600 520" stroke="#ABA7CF" stroke-width="3" fill="none"/>
+    <path d="M 830 520 L 830 548" stroke="#ABA7CF" stroke-width="3" marker-end="url(#ah3)"/>
+    <text x="1600" y="510" text-anchor="end" font-size="20" fill="#ABA7CF">FAN-IN</text>
+    <g font-size="20" text-anchor="middle">
+      <rect x="430" y="556" width="250" height="84" rx="18" fill="#2C2958"/><text x="555" y="592" fill="#F5EFE0">tags＋summary</text><text x="555" y="622" font-size="16" fill="#ABA7CF">標籤、家長小抄</text>
+      <rect x="720" y="556" width="220" height="84" rx="18" fill="#2C2958"/><text x="830" y="592" fill="#F5EFE0">promotion</text><text x="830" y="622" font-size="16" fill="#ABA7CF">推廣文案</text>
+      <rect x="980" y="556" width="250" height="84" rx="18" fill="#211F45" stroke="#FFC94A" stroke-width="3"/><text x="1105" y="592" fill="#F5EFE0">check_all</text><text x="1105" y="622" font-size="16" fill="#ABA7CF">17 項存在且非空</text>
+      <rect x="1270" y="556" width="220" height="84" rx="18" fill="#211F45" stroke="#8FE3B0" stroke-width="3"/><text x="1380" y="592" fill="#F5EFE0">COMPLETED</text><text x="1380" y="622" font-size="16" fill="#ABA7CF">flow.md</text>
+    </g>
+    <g stroke="#ABA7CF" stroke-width="3" marker-end="url(#ah3)"><line x1="680" y1="598" x2="716" y2="598"/><line x1="940" y1="598" x2="976" y2="598"/><line x1="1230" y1="598" x2="1266" y2="598"/></g>
+  </svg>
+  <p class="small">故障隔離：視覺分支因配額失敗，不阻擋音訊與題庫。注意 <code>check_all</code> 只檢查「存在且非空」，不代表內容正確。</p>
+  <aside class="notes">這是架構文件的 Phase 1 到 8。上排是讓節目「能被聽見」的關鍵路徑；人工閘門通過後才扇出 11 個以上的衍生 skill。哪些分支可以省略，應該由發布政策事先宣告，而不是看檔案有沒有生出來。</aside>
+</section>
+
+<section class="slide deep" data-ring="5" data-sec="第五幕 · 工程規範">
+  <div class="ddtag">🔬 DEEP DIVE</div>
+  <div class="kicker">契約 · 每個產物都是一個有狀態的物件</div>
+  <h2>程式跑完 ≠ 內容被接受</h2>
+  <div class="row" style="gap:48px;align-items:center">
+    <svg viewBox="0 0 980 470" width="980" height="470" aria-label="狀態機：pending、running、needs_review、accepted，另有 failed 與 stale">
+      <defs><marker id="ah4" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#ABA7CF"/></marker></defs>
+      <g font-size="24" text-anchor="middle" font-family="IBM Plex Mono, monospace">
+        <rect x="0" y="60" width="190" height="80" rx="40" fill="#2C2958"/><text x="95" y="108" fill="#F5EFE0">pending</text>
+        <rect x="250" y="60" width="190" height="80" rx="40" fill="#2C2958"/><text x="345" y="108" fill="#F5EFE0">running</text>
+        <rect x="500" y="60" width="230" height="80" rx="40" fill="#211F45" stroke="#FF7E9D" stroke-width="3"/><text x="615" y="108" fill="#F5EFE0">needs_review</text>
+        <rect x="790" y="60" width="190" height="80" rx="40" fill="#211F45" stroke="#8FE3B0" stroke-width="3"/><text x="885" y="108" fill="#F5EFE0">accepted</text>
+        <rect x="250" y="300" width="190" height="80" rx="40" fill="#211F45" stroke="#FF5A5F" stroke-width="3"/><text x="345" y="348" fill="#F5EFE0">failed</text>
+        <rect x="790" y="300" width="190" height="80" rx="40" fill="#211F45" stroke="#FF8A3D" stroke-width="3"/><text x="885" y="348" fill="#F5EFE0">stale</text>
+      </g>
+      <g stroke="#ABA7CF" stroke-width="3" fill="none" marker-end="url(#ah4)">
+        <line x1="190" y1="100" x2="246" y2="100"/><line x1="440" y1="100" x2="496" y2="100"/><line x1="730" y1="100" x2="786" y2="100"/>
+        <line x1="345" y1="140" x2="345" y2="296"/>
+        <line x1="885" y1="140" x2="885" y2="296"/>
+        <path d="M 790 360 C 500 460 120 440 95 144"/>
+        <path d="M 615 60 C 600 0 120 0 95 56"/>
+      </g>
+      <g font-size="20" fill="#ABA7CF">
+        <text x="360" y="230">技術失敗</text><text x="900" y="230">上游改了</text>
+        <text x="360" y="18">審查退回</text><text x="420" y="452">重跑</text>
+      </g>
+    </svg>
+    <div class="col grow" style="gap:20px">
+      <div class="card"><div class="tag hl3">驗證結果另外記</div><p style="font-size:28px"><code>pass</code>　<code>fail</code>　<code>indeterminate</code><br><span class="small">附證據與範圍；「不確定」不能被當成通過</span></p></div>
+      <table class="t" style="font-size:24px">
+        <tr><th>產物</th><th>機械檢查</th><th>語意驗收</th></tr>
+        <tr><td>逐字稿</td><td class="mist">格式、時間戳範圍</td><td>和聲音一致</td></tr>
+        <tr><td>測驗題</td><td class="mist">題數、答案鍵</td><td>有根據、不模稜兩可</td></tr>
+        <tr><td>音檔</td><td class="mist">可解碼、長度</td><td>讀音、語氣、聽得懂</td></tr>
+      </table>
+    </div>
+  </div>
+  <aside class="notes">論文 §7.1 的提案。重點：程序結束不能被翻譯成「接受」；編輯退回和技術失敗要分開記。逐字稿可以通過時間戳檢查，同時把屎寫成水。</aside>
+</section>
+
+<section class="slide" data-ring="5" data-sec="第五幕 · 工程規範">
+  <div class="kicker">第四幕 · 這是正規工程，不是玩具</div>
+  <div class="row grow" style="gap:64px;align-items:center">
+    <img src="img/expiry.jpg" alt="形狀像音檔的便當盒，上面的有效期限貼紙被打叉" style="width:760px;height:560px;object-fit:cover;border-radius:28px">
+    <div class="col grow" style="gap:28px">
+      <h2>審查是會過期的</h2>
+      <p>就像便當上的有效期限貼紙：<b class="hl5">內容一改，舊的「已審核」就失效</b>。</p>
+      <div class="card"><p class="small" style="font-size:28px;color:var(--star)">每一筆審查紀錄都綁定：</p>
+        <div class="row" style="flex-wrap:wrap;gap:14px"><span class="chip">內容雜湊</span><span class="chip">哪一集</span><span class="chip">哪一版政策</span><span class="chip">上游所有版本</span></div>
+      </div>
+      <p class="small">v10 修正前，原型曾讓過期的審查繼續生效；這個漏洞已修補。</p>
+    </div>
+  </div>
+  <aside class="notes">這是離線研究原型的設計，不是目前線上流程已經部署的東西。改了音檔，逐字稿的時間戳會位移，測驗題的根據可能消失；所以依賴它的下游全部標為過期，要重審。</aside>
+</section>
+
+<section class="slide deep" data-ring="5" data-sec="第五幕 · 工程規範">
+  <div class="ddtag">🔬 DEEP DIVE</div>
+  <div class="kicker">離線原型 schema-v2 · 審查綁定的對象</div>
+  <h2>每筆審查都簽在一個遞迴雜湊上</h2>
+  <div class="row" style="gap:48px;align-items:center">
+    <svg viewBox="0 0 900 500" width="900" height="500" aria-label="雜湊樹：測驗題依賴逐字稿，逐字稿依賴音檔，音檔依賴文章，每一層的 digest 都包含上游 digest">
+      <defs><marker id="ah5" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#7CC4E8"/></marker></defs>
+      <g font-family="IBM Plex Mono, monospace" font-size="22">
+        <rect x="0" y="10" width="400" height="90" rx="18" fill="#211F45" stroke="#FFC94A" stroke-width="3"/><text x="24" y="50" fill="#F5EFE0">article.md</text><text x="24" y="82" fill="#ABA7CF" font-size="18">H(payload, policy, locale…)</text>
+        <rect x="120" y="140" width="400" height="90" rx="18" fill="#211F45" stroke="#FF8A3D" stroke-width="3"/><text x="144" y="180" fill="#F5EFE0">audio.mp3</text><text x="144" y="212" fill="#ABA7CF" font-size="18">H(payload, …, H(article))</text>
+        <rect x="240" y="270" width="420" height="90" rx="18" fill="#211F45" stroke="#7CC4E8" stroke-width="3"/><text x="264" y="310" fill="#F5EFE0">transcript.json</text><text x="264" y="342" fill="#ABA7CF" font-size="18">H(payload, …, H(audio))</text>
+        <rect x="360" y="400" width="420" height="90" rx="18" fill="#211F45" stroke="#B79CF0" stroke-width="3"/><text x="384" y="440" fill="#F5EFE0">quiz.json</text><text x="384" y="472" fill="#ABA7CF" font-size="18">H(payload, …, H(transcript))</text>
+      </g>
+      <g stroke="#7CC4E8" stroke-width="3" fill="none" marker-end="url(#ah5)"><path d="M 60 100 L 60 185 L 116 185"/><path d="M 180 230 L 180 315 L 236 315"/><path d="M 300 360 L 300 445 L 356 445"/></g>
+      <text x="560" y="190" font-size="22" fill="#FF5A5F">改這裡 ✂</text>
+      <text x="690" y="320" font-size="22" fill="#FF8A3D">→ 失效</text><text x="810" y="450" font-size="22" fill="#FF8A3D">→ 失效</text>
+    </svg>
+    <div class="col grow" style="gap:22px">
+      <div class="card"><p class="mono" style="font-size:28px">Ready(e) = ⋀ Accepted(a)<br>　　　　 ∧ Consistent(e)<br>　　　　 ∧ Approved(e)</p></div>
+      <p style="font-size:26px"><code>validate(m, require_approval=False)</code><br><span class="small">預檢：不能當發布授權</span></p>
+      <p style="font-size:26px"><code>validate(m)</code><br><span class="small">正式：核准必須對上整份目前的清單</span></p>
+      <p class="small" style="color:var(--alarm)">威脅模型：digest 不是簽章。能改寫所有紀錄的人，就能偽造「新鮮的」審查。</p>
+    </div>
+  </div>
+  <aside class="notes">target digest 包含 schema、集數、發布設定、政策、類型、版本、payload 雜湊、語系、宣告的上游，以及遞迴計算的上游 digest。改了音檔，下游所有審查的對象都變了，舊的審查自然失效。這是 v10 修補的漏洞。</aside>
+</section>
+
+<section class="slide" data-ring="5" data-sec="第五幕 · 工程規範">
+  <div class="kicker">第四幕 · 發布規範</div>
+  <h2>發布前要過三道關</h2>
+  <img src="img/gates.jpg" alt="一枚 Podcast 火箭依序通過掃描門、人類核准印章、最終雷射檢查門" style="width:100%;height:380px;object-fit:cover;border-radius:28px">
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:28px">
+    <div class="card"><div class="tag hl3">1 · Preflight</div><p style="font-size:30px">機器先檢查：素材齊不齊、審查有沒有過期、依賴對不對</p></div>
+    <div class="card" style="border-color:var(--r5)"><div class="tag hl5">2 · 人工批准</div><p style="font-size:30px">人批准的是<b>這一份確切的清單</b>，不是「大概這樣」</p></div>
+    <div class="card"><div class="tag hl1">3 · 最終驗證</div><p style="font-size:30px">批准之後再檢查一次，確認期間沒有東西被改過</p></div>
+  </div>
+  <aside class="notes">Preflight 通過不等於可以發布。Ready(e) = 必要素材都已接受 ∧ 一致 ∧ 已批准。這是參考政策，還不是原子化的發布實作。</aside>
+</section>
+
+
+
+<section class="slide" data-ring="0" data-sec="第五幕 · 工程規範">
+  <div class="kicker">第四幕 · 一集要花多少錢</div>
+  <h2>「便宜」是錯覺：<span class="hl2">人的時間</span>才是大頭</h2>
+  <p class="mono" style="font-size:34px;color:var(--star)">C = S/N + w·(h + b + p·r)/60 + U</p>
+  <svg viewBox="0 0 1664 420" width="1664" height="420" aria-label="四種情境的每集成本堆疊長條圖：只審核 8.17、偶爾修音 9.17、常常修音 13.17、嚴重修音 28.17 美元">
+    <g font-size="28" fill="#F5EFE0">
+      <text x="0" y="62">只審核</text><text x="0" y="162">偶爾修音</text><text x="0" y="262">常常修音</text><text x="0" y="362">嚴重修音</text>
+    </g>
+    <g font-size="22" fill="#ABA7CF">
+      <text x="0" y="92">p=0%</text><text x="0" y="192">p=10%, r=30 分</text><text x="0" y="292">p=25%, r=60 分</text><text x="0" y="392">p=50%, r=120 分</text>
+    </g>
+    <!-- scale: 1 USD = 44 px, origin x=240 -->
+    <g>
+      <rect x="240" y="36" width="66" height="56" fill="#7CC4E8"/><rect x="306" y="36" width="293" height="56" fill="#B79CF0"/>
+      <rect x="240" y="136" width="66" height="56" fill="#7CC4E8"/><rect x="306" y="136" width="293" height="56" fill="#B79CF0"/><rect x="599" y="136" width="44" height="56" fill="#FF8A3D"/>
+      <rect x="240" y="236" width="66" height="56" fill="#7CC4E8"/><rect x="306" y="236" width="293" height="56" fill="#B79CF0"/><rect x="599" y="236" width="220" height="56" fill="#FF8A3D"/>
+      <rect x="240" y="336" width="66" height="56" fill="#7CC4E8"/><rect x="306" y="336" width="293" height="56" fill="#B79CF0"/><rect x="599" y="336" width="880" height="56" fill="#FF8A3D"/>
+    </g>
+    <g font-size="32" fill="#F5EFE0" font-family="Bricolage Grotesque, sans-serif" font-weight="600">
+      <text x="616" y="75">$8.17</text><text x="660" y="175">$9.17</text><text x="836" y="275">$13.17</text><text x="1496" y="375">$28.17</text>
+    </g>
+  </svg>
+  <div class="row" style="gap:40px;align-items:center;font-size:26px">
+    <span class="row" style="gap:12px;align-items:center"><i style="width:26px;height:26px;background:var(--r3);border-radius:6px"></i>工具費 $1.50</span>
+    <span class="row" style="gap:12px;align-items:center"><i style="width:26px;height:26px;background:var(--r4);border-radius:6px"></i>審核 20 分鐘</span>
+    <span class="row" style="gap:12px;align-items:center"><i style="width:26px;height:26px;background:var(--r2);border-radius:6px"></i>修音工時</span>
+    <span class="small" style="margin-left:auto">假設：S=$30/月、N=20 集、w=$20/時、b=U=0</span>
+  </div>
+  <aside class="notes">S 工具費、N 每月集數、w 時薪、h 審核分鐘、b 其他人工、p 需要修音的比例、r 每次修音多花的分鐘、U 其他費用。重點：月費 30 美元不代表整集很便宜；嚴重修音情境下，成本是只審核的 3.4 倍。也能反過來算：每集多花 2 分鐘做檢查，若能讓 30 分鐘的修音少發生 6.7 個百分點以上，就划算。</aside>
+</section>
+
+<section class="slide" data-ring="0" data-sec="第六幕 · 聽眾與證據">
+  <div class="kicker">第五幕 · 聽眾怎麼說</div>
+  <div class="row grow" style="gap:56px;align-items:center">
+    <div class="col" style="width:760px;gap:28px">
+      <img src="img/family.jpg" alt="早晨上學途中，家長開車，兩個孩子在後座聽 Podcast" style="width:760px;height:428px;object-fit:cover;border-radius:28px">
+      <div class="row" style="gap:48px">
+        <div class="col" style="gap:4px"><div class="bignum hl1" style="font-size:96px">4.3<span style="font-size:48px">／5</span></div><p class="small">Apple Podcasts 臺灣，538 則評分</p></div>
+        <div class="col" style="gap:4px"><div class="bignum hl3" style="font-size:96px">#1–2</div><p class="small">科學類排行榜（2026/9/25 觀察）</p></div>
+      </div>
+    </div>
+    <div class="col grow" style="gap:24px">
+      <h2 style="font-size:60px">最近 50 則評論在說什麼</h2>
+      <div class="col" style="gap:18px" id="themesPos"></div>
+      <p class="small">例：家長說兩個孩子每天上學路上聽；孩子在課堂上答出節目裡聽過的知識；聽了兩個月的家庭來點題「細胞」。</p>
+    </div>
+  </div>
+  <aside class="notes">50 則是 Apple 臺灣評論 feed 依最新排序的第一頁，全部讀過，由 AI 協助編碼，屬探索性描述，不是代表性調查。課堂答題那則是軼事，不是學習成效評量。排行榜兩次觀察，直接下載第 2、索引快照第 1，不能說「長期霸榜」。</aside>
+</section>
+
+
+
+
+
+
+
+<section class="slide" data-ring="0" data-sec="收尾" style="justify-content:center">
+  <div class="bg right"><img src="img/iceberg.jpg" alt="冰山剖面"></div>
+  <div class="z col" style="max-width:700px;gap:26px">
+    <div class="kicker">回到這座冰山</div>
+    <h2>水面下，我們今天看到了：</h2>
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:14px 32px">
+      <p style="font-size:32px"><b class="en hl1">40+</b>　個 skill</p>
+      <p style="font-size:32px"><b class="en hl2">30+</b>　條破音字規則</p>
+      <p style="font-size:32px"><b class="en hl3">2</b>　家模型交叉查核</p>
+      <p style="font-size:32px"><b class="en hl4">1</b>　個修音迴圈</p>
+      <p style="font-size:32px"><b class="en hl5">1</b>　道人耳閘門</p>
+      <p style="font-size:32px"><b class="en hl1">17</b>　項素材檢查</p>
+      <p style="font-size:32px"><b class="en hl3">3</b>　道發布關卡</p>
+      <p style="font-size:32px"><b class="en hl2">15–20</b>　分鐘人工審核</p>
+    </div>
+    <p class="big hl1" style="font-size:46px">一鍵生成的是音檔，<br>工程做出來的才是節目。</p>
+  </div>
+  <aside class="notes">把開場的迷思收回來。數字都是今天講過的；發布三道關屬於離線原型的參考設計。</aside>
+</section>
+
+<section class="slide" data-ring="0" data-sec="收尾" style="justify-content:center">
+  <div class="bg"><img src="img/ending.jpg" alt="機器人實習生和人類編輯在五環星球上擊掌"></div>
+  <div class="z col" style="max-width:940px;gap:40px">
+    <div class="kicker">帶走三句話</div>
+    <div class="col" style="gap:28px">
+      <p class="big"><span class="hl1">1.</span> AI 沒有讓人消失，人負責最貴的那個判斷</p>
+      <p class="big" data-step="1"><span class="hl3">2.</span> 先找出錯在哪一環，再決定要不要往外加一層</p>
+      <p class="big" data-step="2"><span class="hl5">3.</span> 整個系統的品質上限，取決於驗收做得多好</p>
+    </div>
+  </div>
+  <aside class="notes">第一句：避免 ring inflation，不要一出問題就加 agent。第二句：外圈越多，越需要說清楚誰批准、誰負責。第三句：論文第 IX 章的主線。</aside>
+</section>
+
+<section class="slide" data-ring="0" data-sec="收尾" style="justify-content:center;align-items:center;text-align:center">
+  <div class="kicker">Q &amp; A</div>
+  <h1 style="font-size:120px">下一集，<span class="hl1">你想聽什麼？</span></h1>
+  <p class="mist">也歡迎問：五環、修音、繁中語音、或是怎麼把 AI 專案做得「正規」</p>
+  <p style="font-size:30px">《科學好好聽》· Apple Podcasts / Spotify</p>
+  <aside class="notes">把聽眾點題的評論變成互動：請大家喊出想聽的主題。</aside>
+</section>
+
+<div id="hud">
+  <div class="where">
+    <svg id="minimap" viewBox="0 0 64 64" width="64" height="64" aria-hidden="true">
+      <circle cx="32" cy="32" r="29"/><circle cx="32" cy="32" r="23"/><circle cx="32" cy="32" r="17"/><circle cx="32" cy="32" r="11"/><circle cx="32" cy="32" r="5"/>
+    </svg>
+    <div id="legend"></div>
+  </div>
+  <div class="right"><span id="secname"></span><button class="nav" id="prevBtn" aria-label="上一頁">‹</button><span class="num" id="pnum"></span><button class="nav" id="nextBtn" aria-label="下一頁">›</button></div>
+</div>
+</div>
+
+<div id="notes" hidden></div>
+<div id="help">→ 或右下按鈕 換頁　點播放鍵或空白鍵 播放音檔　N 講稿　F 全螢幕</div>
+
+<script>
+(function(){
+const AUDIO = {
+  reservoir:{src:"audio/reservoir.mp3",dur:6.58,reveal:0,pop:5.8,noLyrics:true,
+    peaks:[0.0,0.0,0.0,0.0,0.0,0.2,0.53,0.51,0.18,0.1,0.4,0.42,0.31,0.18,0.01,0.01,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.46,0.77,0.54,0.56,0.17,0.33,0.77,0.74,0.43,0.08,0.1,0.41,0.1,0.0,0.32,0.42,0.44,0.41,0.14,0.23,0.78,0.49,0.09,0.5,0.36,0.02,0.0,0.0,0.63,0.57,0.54,0.47,0.42,0.15,0.05,0.27,0.85,1.0,0.88,0.42,0.24,0.21,0.24,0.25,0.19,0.07,0.01,0.02,0.02,0.02,0.02,0.01,0.0,0.09,0.11,0.1,0.1,0.09,0.69,0.73,0.48,0.06,0.14,0.07,0.58,0.53,0.07,0.01,0.33,0.37,0.18,0.13,0.08,0.41,0.41,0.38,0.16,0.01,0.0,0.0,0.0,0.0,0.31,0.42,0.42,0.39,0.56,0.62,0.61,0.31,0.05,0.1,0.9,0.76,0.55,0.54,0.55,0.69,0.72,0.58,0.31,0.4,0.38,0.34,0.0,0.01,0.19,0.32,0.31,0.26,0.07,0.1,0.17,0.56,0.41,0.12,0.4,0.33,0.12,0.16,0.17,0.16,0.16,0.24,0.23,0.27,0.2,0.25,0.36,0.37,0.33,0.31,0.19,0.01,0.01,0.01],
+    words:[["不是，",0.0],["冰",0.5],["河",1.12],["是",1.3],["固",1.42],["態",1.68],["的",1.82],["冰",1.96],["塊",2.26],["耶，",2.52],["水",2.82],["庫",3.34],["不是",3.66],["應該",3.82],["裝",4.44],["滿",4.78],["了",5.0],["液",5.2],["態",5.46],["的",5.66],["屎",5.8,"bad"],["嗎？",6.1]]},
+  bengal:{src:"audio/bengal.mp3",dur:14.52,reveal:0,pop:12.0,
+    peaks:[0.3,0.46,0.46,0.28,0.12,0.13,0.56,0.36,0.1,0.34,0.24,0.37,0.45,0.49,0.3,0.35,0.31,0.08,0.28,0.23,0.54,0.55,0.29,0.23,0.28,0.18,0.41,0.41,0.14,0.14,0.58,0.31,0.27,0.55,0.52,0.12,0.06,0.14,0.23,0.09,0.01,0.01,0.01,0.15,0.38,0.11,0.16,0.29,0.43,0.39,0.53,0.48,0.08,0.22,0.1,0.2,0.3,0.08,0.22,0.29,0.52,0.49,0.27,0.18,0.35,0.24,0.48,0.44,0.08,0.01,0.01,0.01,0.22,0.3,0.14,0.43,0.44,0.21,0.15,0.13,0.28,0.64,0.28,0.1,0.12,0.09,0.23,0.21,0.25,0.25,0.17,0.29,0.27,0.23,0.11,0.01,0.01,0.01,0.01,0.09,0.06,0.72,0.78,0.67,0.62,0.49,0.33,0.02,0.01,0.01,0.01,0.83,0.62,0.58,0.58,0.66,0.66,0.83,0.86,0.41,0.39,0.71,0.54,0.4,0.21,0.06,0.47,0.45,0.11,0.47,0.65,0.44,0.45,0.39,0.05,0.03,0.94,0.03,1.0,0.69,0.74,0.27,0.8,0.1,0.66,0.58,0.29,0.23,0.53,0.66,0.52,0.32,0.33,0.41,0.33,0.42,0.43,0.12,0.0,0.0],
+    words:[["歷",0.0],["史",0.22],["上",0.4],["曾",0.6],["經",0.8],["被",1.04],["這種",1.18],["風",1.4],["暴",1.7],["潮",1.96],["攻",2.2],["擊",2.34],["過",2.6],["好",2.74],["幾",2.94],["次，",3.18],["每",3.54],["次",3.98],["都",4.22],["造",4.4],["成",4.56],["很",4.8],["嚴",5.06],["重",5.46],["的",5.56],["災",5.66],["害，",5.9],["很多",6.2],["人",6.7],["因",7.08],["此",7.32],["失",7.58],["去",7.84],["生",8.06],["命。",8.22],["\n",8.6],["天",9.2],["啊，",9.45],["孟",10.1],["加",10.3],["拉",10.45],["灣",10.6],["的人",10.8],["好",11.1],["可",11.45],["憐。",11.7],["對，",12.6],["真的很",12.8],["令",13.2],["人",13.5],["難",13.7],["過。",13.9]]}
+};
+
+const stage=document.getElementById('stage');
+const slides=[...stage.querySelectorAll('.slide')];
+const notesEl=document.getElementById('notes');
+const ringColors=['#FFC94A','#FF8A3D','#7CC4E8','#B79CF0','#FF7E9D'];
+let idx=0, step=0;
+
+function fit(){
+  const s=Math.min(innerWidth/1920, innerHeight/1080);
+  stage.style.transform=`translate(-50%,-50%) scale(${s})`;
+}
+addEventListener('resize',fit); fit();
+
+function maxStep(sl){let m=0;sl.querySelectorAll('[data-step]').forEach(e=>m=Math.max(m,+e.dataset.step));return m;}
+
+/* players */
+const players={};
+document.querySelectorAll('.player').forEach(el=>{
+  const key=el.id.replace('p-',''), cfg=AUDIO[key];
+  const audio=new Audio(cfg.src); audio.preload='auto';
+  const wave=el.querySelector('.wave'), lyr=el.querySelector('.lyrics'), tm=el.querySelector('.time'), btn=el.querySelector('.play'), pop=el.querySelector('.pop');
+  cfg.peaks.forEach(p=>{const i=document.createElement('i');i.style.height=Math.max(4,p*140)+'px';wave.appendChild(i);});
+  const bars=[...wave.children];
+  let mark=null;
+  if(cfg.mark){mark=document.createElement('div');mark.className='mark';mark.style.left=(cfg.mark[0]/cfg.dur*100)+'%';mark.style.width=((cfg.mark[1]-cfg.mark[0])/cfg.dur*100)+'%';mark.innerHTML='<span>'+cfg.mark[2]+'</span>';wave.appendChild(mark);}
+  const spans=[];
+  cfg.words.forEach(w=>{
+    if(w[0]==='\n'){lyr.appendChild(document.createElement('br'));return;}
+    const s=document.createElement('span');s.textContent=w[0];s.dataset.t=w[1];if(w[2])s.className=w[2];lyr.appendChild(s);spans.push(s);
+  });
+  const mask=document.createElement('div');mask.className='masked';mask.textContent='？？？　先用耳朵聽，字幕等一下再揭曉';
+  el.appendChild(mask);
+  let raf=0;
+  function paint(){
+    const t=audio.currentTime;
+    tm.textContent=t.toFixed(1)+' s';
+    const k=Math.floor(t/cfg.dur*bars.length);
+    bars.forEach((b,i)=>b.classList.toggle('past',i<=k && t>0));
+    spans.forEach(s=>s.classList.toggle('past',t>=+s.dataset.t && t>0));
+    if(pop&&cfg.pop!==undefined) pop.classList.toggle('show',t>=cfg.pop);
+    if(!audio.paused) raf=requestAnimationFrame(paint);
+  }
+  function setStep(st){
+    const revealed=st>=cfg.reveal;
+    lyr.hidden=!!cfg.noLyrics||!revealed; mask.hidden=!!cfg.noLyrics||revealed;
+    spans.filter(s=>s.classList.contains('laugh')).forEach(s=>s.hidden=!(cfg.markStep!==undefined && st>=cfg.markStep));
+    if(mark) mark.hidden=!(st>=(cfg.markStep??0));
+  }
+  function toggle(){
+    if(audio.paused){ if(audio.ended||audio.currentTime>=cfg.dur-0.05) audio.currentTime=0; audio.play().catch(()=>{}); }
+    else audio.pause();
+  }
+  audio.addEventListener('play',()=>{el.classList.add('playing');btn.textContent='❚❚';cancelAnimationFrame(raf);raf=requestAnimationFrame(paint);});
+  audio.addEventListener('pause',()=>{el.classList.remove('playing');btn.textContent='▶';paint();});
+  audio.addEventListener('ended',()=>{el.classList.remove('playing');btn.textContent='↻';});
+  btn.addEventListener('click',e=>{e.stopPropagation();toggle();btn.blur();});
+  el.style.cursor='pointer';el.addEventListener('click',()=>toggle());
+  players[key]={toggle,setStep,stop(){audio.pause();audio.currentTime=0;paint();btn.textContent='▶';}};
+  setStep(0);
+});
+
+
+/* skill periodic table */
+const SK=[["內容生成","var(--r1)",["episode_md","episode_fact_check","episode_pronounce","episode_preview"]],
+["音訊與修音","var(--r2)",["episode_audio","episode_audio_balance","episode_transcribe","episode_cut_audio_pro","episode_tts","audio_fix_to_mp3"]],
+["教育教材","var(--r3)",["episode_key_takeaway","episode_glossary","episode_quiz","episode_audio_question","episode_family_discussion","episode_brainstorm"]],
+["視覺與影片","var(--r4)",["episode_3d_prompt","episode_gen3d","episode_convert3d","episode_3d_caption","episode_card_description","episode_card_figure","episode_video_prompt","episode_video_tts","episode_video_merge"]],
+["彙整與發布","var(--r5)",["episode_tags","episode_summary","episode_promotion","episode_check_all"]],
+["復原","var(--ok)",["episode_recover_md","episode_fix_quiz","cleanup_question"]]];
+const st=document.getElementById('skilltable');
+if(st) SK.forEach(([n,c,list])=>{const d=document.createElement('div');d.className='sk';d.style.borderColor=c;d.innerHTML='<b style="color:'+c+'">'+n+' · '+list.length+'</b><span>'+list.map(x=>x.replace('episode_','')).join('<br>')+'</span>';st.appendChild(d);});
+/* full DAG */
+const NS='http://www.w3.org/2000/svg';
+function el(tag,attrs,txt){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(txt!==undefined)e.textContent=txt;return e;}
+const cp=document.getElementById('cp');
+if(cp){const nodes=[["主題","👤"],["md","Gemini"],["fact_check","Claude"],["pronounce","拼音"],["preview","prompt"],["NotebookLM","對話"],["audio","片頭尾"],["balance","−16 LUFS"],["transcribe","逐字稿"],["人耳閘門","👂"]];
+ nodes.forEach((n,i)=>{const x=i*166;const gate=i===9;cp.appendChild(el('rect',{x,y:40,width:140,height:118,rx:18,fill:gate?'#FF7E9D':'#211F45',stroke:gate?'#FF7E9D':'#FFC94A','stroke-width':gate?0:2}));
+  cp.appendChild(el('text',{x:x+70,y:92,fill:gate?'#17162F':'#F5EFE0','font-family':'IBM Plex Mono, monospace'},n[0]));cp.appendChild(el('text',{x:x+70,y:126,fill:gate?'#17162F':'#ABA7CF','font-size':17},n[1]));
+  if(i<9) cp.appendChild(el('line',{x1:x+140,y1:99,x2:x+164,y2:99,stroke:'#FFC94A','stroke-width':4,'marker-end':'url(#ah3)'}));});
+ cp.appendChild(el('path',{d:'M 1504 40 C 1504 6 1180 6 1180 36',stroke:'#B79CF0','stroke-width':3,fill:'none','stroke-dasharray':'6 6','marker-end':'url(#ah3)'}));
+ cp.appendChild(el('text',{x:1342,y:20,fill:'#B79CF0','font-size':18},'修音迴圈'));}
+const br=document.getElementById('branches');
+if(br){const chip=(x,y,w,t,c)=>{br.appendChild(el('rect',{x,y,width:w,height:40,rx:10,fill:'#2C2958'}));br.appendChild(el('text',{x:x+12,y:y+27,fill:c||'#F5EFE0'},t));};
+ ["key_takeaway ×3","glossary ×5","quiz ×30","audio_question","family_discussion","brainstorm"].forEach((t,i)=>chip(20+(i%2)*250,290+Math.floor(i/2)*62,236,t));
+ const chain=(x,y,list)=>list.forEach((t,i)=>{chip(x,y+i*48,0,'');});
+ ["3d_prompt","gen3d","convert3d","3d_caption"].forEach((t,i)=>{chip(580,290+i*48,250,(i?'→ ':'')+t);});
+ ["card_description","card_figure"].forEach((t,i)=>{chip(850,290+i*48,250,(i?'→ ':'')+t);});
+ ["video_prompt","video_tts","video_merge"].forEach((t,i)=>{chip(1180,290+i*48,260,(i?'→ ':'')+t);});
+ br.appendChild(el('text',{x:1180,y:460,fill:'#ABA7CF','font-size':16},'失敗只影響本分支'));}
+
+
+/* step strip on the myth slide */
+const strip=document.getElementById('strip');
+if(strip){[["選題、素材","👤 人"],["生成文章","episode_md"],["跨模型查核","fact_check"],["決定怎麼改","👤 人"],["發音標注","pronounce"],["按下生成","NotebookLM"],["人耳審核","👤 15–20 分"],["修音","👤＋工具"],["教材與檢查","17 項"],["發布","👤 人"]].forEach(([a,b],i)=>{
+  const d=document.createElement('div');const key=i===5;
+  d.style.cssText='border-radius:16px;padding:16px 10px;text-align:center;display:flex;flex-direction:column;gap:6px;'+(key?'background:var(--r1);color:var(--night)':'background:var(--night-2);border:2px solid var(--night-3)');
+  d.innerHTML='<b style="font-size:24px;font-weight:700">'+a+'</b><span style="font-size:18px;font-family:var(--f-mono);'+(key?'':'color:var(--mist)')+'">'+b+'</span>';strip.appendChild(d);});}
+/* ring legend */
+const RN=['Prompt','Context','Harness','Loop','Graph'];
+const lg=document.getElementById('legend');
+RN.forEach((n,i)=>{const sp=document.createElement('span');sp.style.color=['#FFC94A','#FF8A3D','#7CC4E8','#B79CF0','#FF7E9D'][i];sp.innerHTML='<b>'+'①②③④⑤'[i]+'</b> <i style="font-style:normal">'+n+'</i>';lg.appendChild(sp);});
+
+/* review themes (50 recent Apple TW reviews, exploratory coding) */
+function bars(id,rows,color){
+  const host=document.getElementById(id);
+  if(!host) return;
+  rows.forEach(([label,n])=>{
+    const r=document.createElement('div');r.style.cssText='display:flex;align-items:center;gap:20px';
+    r.innerHTML=`<span style="width:300px;font-size:28px;flex:none">${label}</span><span style="flex:1;height:40px;background:var(--night-2);border-radius:10px;position:relative;overflow:hidden"><span style="position:absolute;left:0;top:0;bottom:0;width:${n/50*100}%;background:${color};border-radius:10px"></span></span><span style="width:110px;font-family:var(--f-num);font-size:30px;text-align:right;font-variant-numeric:tabular-nums">${n} / 50</span>`;
+    host.appendChild(r);
+  });
+}
+bars('themesPos',[['重複收聽、固定習慣',7],['主動點題',7],['描述孩子或家庭使用',6]],'var(--r3)');
+bars('themesNeg',[['目錄、付費上的不便',6],['語氣批評、偏好真人',3],['發音錯誤',2],['主持人音量不平衡',2]],'var(--r2)');
+
+/* waffle: 220 rejected, 4 valid accepted, 8 semantic-boundary accepted */
+const wf=document.getElementById('waffle');
+if(wf) for(let i=0;i<232;i++){const c=document.createElement('i');c.style.cssText='aspect-ratio:1;border-radius:4px;background:'+(i<220?'var(--r3)':i<224?'var(--ok)':'var(--r2)');wf.appendChild(c);}
+
+/* minimap */
+const mm=[...document.querySelectorAll('#minimap circle')].reverse(); // inner→outer: ring1..ring5
+
+function render(){
+  slides.forEach((s,i)=>s.classList.toggle('active',i===idx));
+  const sl=slides[idx];
+  sl.querySelectorAll('[data-step]').forEach(e=>e.classList.toggle('on',+e.dataset.step<=step));
+  const ring=+sl.dataset.ring||0;
+  mm.forEach((c,i)=>c.style.stroke=(i<ring)?ringColors[i]:'');
+  if(ring) mm[ring-1].style.stroke=ringColors[ring-1];
+  mm.forEach((c,i)=>c.style.strokeWidth=(i===ring-1)?7:4);
+  document.getElementById('secname').textContent=sl.dataset.sec||'';
+  [...lg.children].forEach((c,i)=>c.classList.toggle('cur',i===ring-1));
+  document.getElementById('legend').style.visibility=idx===0?'hidden':'visible';document.getElementById('minimap').style.visibility=idx===0?'hidden':'visible';
+  document.getElementById('pnum').textContent=(idx+1)+' / '+slides.length;
+  const key=sl.dataset.player; if(key&&players[key]) players[key].setStep(step);
+  const n=sl.querySelector('aside.notes'); notesEl.textContent=n?n.textContent:'';
+  try{history.replaceState(null,'','#'+(idx+1));}catch(e){}
+}
+function stopAll(){Object.values(players).forEach(p=>p.stop());}
+function next(){const m=maxStep(slides[idx]); if(step<m){step++;} else if(idx<slides.length-1){stopAll();idx++;step=0;} render();}
+function prev(){if(step>0){step--;} else if(idx>0){stopAll();idx--;step=maxStep(slides[idx]);} render();}
+function go(i){stopAll();idx=Math.max(0,Math.min(slides.length-1,i));step=0;render();}
+
+addEventListener('keydown',e=>{
+  if(e.target.closest&&e.target.closest('button.play'))return;
+  const k=e.key;
+  if(k==='ArrowRight'||k==='PageDown'||k==='Enter'){e.preventDefault();next();}
+  else if(k==='ArrowLeft'||k==='PageUp'||k==='Backspace'){e.preventDefault();prev();}
+  else if(k===' '){e.preventDefault();const key=slides[idx].dataset.player; if(key) players[key].toggle(); else next();}
+  else if(k==='n'||k==='N'){notesEl.hidden=!notesEl.hidden;}
+  else if(k==='f'||k==='F'){try{document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen().catch(()=>{});}catch(err){}}
+  else if(k==='Home'){go(0);} else if(k==='End'){go(slides.length-1);}
+});
+document.getElementById('nextBtn').addEventListener('click',e=>{e.stopPropagation();next();e.currentTarget.blur();});
+document.getElementById('prevBtn').addEventListener('click',e=>{e.stopPropagation();prev();e.currentTarget.blur();});
+let tx=null;
+addEventListener('touchstart',e=>{tx=e.touches[0].clientX;},{passive:true});
+addEventListener('touchend',e=>{if(tx===null)return;const dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>50){dx<0?next():prev();}tx=null;});
+setTimeout(()=>{const h=document.getElementById('help');if(h)h.style.opacity='0';},6000);
+
+addEventListener('hashchange',()=>{const v=parseInt(location.hash.slice(1),10);if(v>0&&v-1!==idx)go(v-1);});
+const h=parseInt((location.hash||'').slice(1),10);
+if(h>0) idx=Math.min(slides.length-1,h-1);
+render();
+})();
+</script>
+</html>
