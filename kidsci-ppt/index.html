@@ -143,7 +143,7 @@ table.t td{padding:22px 24px;border-top:2px solid var(--night-3);vertical-align:
 .quiz .lab{font-family:var(--f-mono);font-size:24px;color:var(--r1);letter-spacing:.1em;white-space:nowrap}
 .ans{font-family:var(--f-display);font-size:40px;white-space:nowrap;padding:10px 26px;border-radius:999px;color:var(--night)}
 .chip{display:inline-flex;align-items:center;font-family:var(--f-mono);font-size:24px;padding:10px 18px;border-radius:14px;background:var(--night-3);color:var(--star);white-space:nowrap}
-.bignum{font-family:var(--f-num);font-weight:800;font-size:132px;line-height:1;letter-spacing:-.02em}
+.bignum{font-family:var(--f-num);font-weight:800;font-size:132px;line-height:1;letter-spacing:-.02em;white-space:nowrap}
 @media (prefers-reduced-motion: reduce){.slide,[data-step]{transition:none}.player.playing .play{animation:none}.anim{animation:none!important}}
 </style>
 
@@ -154,7 +154,7 @@ table.t td{padding:22px 24px;border-top:2px solid var(--night-3);vertical-align:
   <div class="z col" style="max-width:900px;gap:36px">
     <div class="kicker">KidSciCast AI</div>
     <h1 style="font-size:92px"><span class="hl1">一鍵生成？</span><br>《科學好好聽》<br>背後的 AI 工程</h1>
-    <p class="mist" style="font-size:38px">一集兒童科普 Podcast 是怎麼煮出來的：從 <span class="en hl1">Prompt</span> 到 <span class="en hl5">Graph</span> 的五環工程</p>
+    <p class="mist" style="font-size:36px">一集兒童科普 Podcast 是怎麼煮出來的<br>從 <span class="en hl1">Prompt</span> 到 <span class="en hl5">Graph</span> 的五環工程</p>
     <div class="row" style="gap:28px;align-items:stretch;margin-top:12px">
       <span style="width:6px;border-radius:3px;background:linear-gradient(var(--r1),var(--r2),var(--r3),var(--r4),var(--r5));flex:none"></span>
       <div class="col" style="gap:10px">
@@ -238,16 +238,16 @@ table.t td{padding:22px 24px;border-top:2px solid var(--night-3);vertical-align:
 </section>
 
 <section class="slide" data-ring="0" data-sec="第一幕 · 為什麼要做" style="justify-content:center">
-  <div class="bg"><img src="img/classroom.jpg" alt="黃昏的臺灣小學教室，孩子們坐在座位上，老師的椅子空著"></div>
-  <div class="z col" style="max-width:860px;gap:32px">
+  <div class="bg right"><img src="img/classroom.jpg" alt="黃昏的臺灣小學教室，孩子們坐在座位上，老師的椅子空著"></div>
+  <div class="z col" style="max-width:720px;gap:32px">
     <div class="kicker">第一幕 · 為什麼要做這件事</div>
-    <h2>教室裡，老師愈來愈難找</h2>
+    <h2>教室裡，<br>老師愈來愈難找</h2>
     <div class="col" style="gap:18px">
       <p>· 代理教師開學後仍一再招不滿</p>
       <p>· 校園環境壓力影響教師的留任意願</p>
       <p>· 電子、半導體業對理工人才的吸力</p>
     </div>
-    <p class="big hl1" style="font-size:44px">需要<b>便宜、可審核、可重複使用</b>的科學教材</p>
+    <p class="big hl1" style="font-size:40px">需要<b>便宜、可審核、可重複使用</b><br>的科學教材</p>
     <p class="small">AI 是幫老師，不是取代老師。</p>
   </div>
   <aside class="notes">動機要講，但要講得有分寸：產業吸力是可能成因，不能說「科技業吸走所有老師」。這種措辭上的節制，就是今天要示範的「正規」。</aside>
@@ -258,7 +258,7 @@ table.t td{padding:22px 24px;border-top:2px solid var(--night-3);vertical-align:
   <h2>繁體中文不只是換一個語言標籤</h2>
   <p class="mist" style="font-size:32px">直接套用英文或簡中的 AI 流程，會多出四種工作</p>
   <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:28px" class="grow">
-    <div class="card"><div class="tag hl1">字形</div><div class="big">发 → 發？髮？</div><p class="small">簡轉繁是一對多，「頭发」要變「頭髮」，不是「頭發」</p></div>
+    <div class="card"><div class="tag hl1">字形</div><div class="big" style="white-space:nowrap">发 → 發／髮</div><p class="small">簡轉繁是一對多，「頭发」要變「頭髮」，不是「頭發」</p></div>
     <div class="card"><div class="tag hl2">用語</div><div class="big">激光 → 雷射<br>軟件 → 軟體</div><p class="small">科學名詞要用臺灣課本的說法</p></div>
     <div class="card"><div class="tag hl3">讀音</div><div class="big">企業 qì<br>垃圾 lè sè</div><p class="small">臺灣華語和大陸普通話的讀音不同，合成語音常常念錯</p></div>
     <div class="card"><div class="tag hl4">兒童理解</div><div class="big">寫的 ≠ 聽的</div><p class="small">書面說明要改成小朋友聽得懂的對話，而且只能用耳朵聽</p></div>
@@ -269,11 +269,11 @@ table.t td{padding:22px 24px;border-top:2px solid var(--night-3);vertical-align:
 <section class="slide" data-ring="0" data-sec="第一幕 · 為什麼要做">
   <div class="kicker">第一幕 · 節目規模</div>
   <h2>2025 年 5 月上線，到 2026 年 9 月</h2>
-  <div class="row grow" style="align-items:center;gap:0">
-    <div class="col grow" style="gap:12px;padding-right:48px"><div class="bignum hl1">323</div><p>集製作完成</p></div>
-    <div class="col grow" style="gap:12px;padding:0 48px;border-left:2px solid var(--night-3)"><div class="bignum hl2">232</div><p>集上架播出</p></div>
-    <div class="col grow" style="gap:12px;padding:0 48px;border-left:2px solid var(--night-3)"><div class="bignum hl3">120萬+</div><p>次播放<br><span class="small">SoundOn ＋ Firstory 後台合計</span></p></div>
-    <div class="col grow" style="gap:12px;padding-left:48px;border-left:2px solid var(--night-3)"><div class="bignum hl4" style="font-size:96px">≤ $30</div><p>美元／月工具費<br><span class="small">審核約 15–20 分鐘／集</span></p></div>
+  <div class="grow" style="display:grid;grid-template-columns:repeat(4,1fr);align-items:center">
+    <div class="col" style="gap:14px;padding-right:40px"><div class="bignum hl1" style="font-size:112px">323</div><p>集製作完成</p></div>
+    <div class="col" style="gap:14px;padding:0 40px;border-left:2px solid var(--night-3)"><div class="bignum hl2" style="font-size:112px">232</div><p>集上架播出</p></div>
+    <div class="col" style="gap:14px;padding:0 40px;border-left:2px solid var(--night-3)"><div class="bignum hl3" style="font-size:112px">120<span style="font-size:.8em">萬</span>+</div><p>次播放<br><span class="small">SoundOn＋Firstory 後台合計</span></p></div>
+    <div class="col" style="gap:14px;padding-left:40px;border-left:2px solid var(--night-3)"><div class="bignum hl4" style="font-size:112px">$30</div><p>每月工具費（美元以內）<br><span class="small">審核約 15–20 分鐘／集</span></p></div>
   </div>
   <aside class="notes">製作 323 和上架 232 不一樣，有些做了沒上。120 萬是兩個託管平台的播放次數加總。15–20 分鐘是審核階段的時間。</aside>
 </section>
@@ -339,7 +339,7 @@ table.t td{padding:22px 24px;border-top:2px solid var(--night-3);vertical-align:
 <section class="slide" data-ring="0" data-sec="第二幕 · 五環理論">
   <div class="kicker">第二幕 · 套在一起之後，自然推出三件事</div>
   <h2>五環的三條推論</h2>
-  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:32px" class="grow">
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:32px;align-items:start">
     <div class="card"><div class="tag hl1">C1</div><h3>外圈修不好內圈的錯</h3><p class="small" style="font-size:28px">換一個更大的鍋子，救不了壞掉的食材。往外加一環是多了控制點，不是修好了裡面。</p></div>
     <div class="card" data-step="1"><div class="tag hl2">C2</div><h3>錯誤往外傳，而且放大</h3><p class="small" style="font-size:28px">一個念錯的字，會被抄進 30 題測驗、5 個詞彙卡、短影片字幕。外圈每多一層，就多複製一次。</p></div>
     <div class="card" data-step="2"><div class="tag hl3">C3</div><h3>每一環要用自己的尺</h3><p class="small" style="font-size:28px">一句話寫得好，不代表整集合格；整集合格，不代表能追查是誰批准的。</p></div>
@@ -347,21 +347,7 @@ table.t td{padding:22px 24px;border-top:2px solid var(--night-3);vertical-align:
   <aside class="notes">這三條是論文 §II-C 的推論，是畫成同心圓之後的幾何事實。C2 對我們特別重要：審核要放在衍生教材產生「之前」。</aside>
 </section>
 
-<section data-sec="第二幕 · 五環理論" class="slide deep" data-ring="0">
-  <div class="ddtag">🔬 DEEP DIVE</div>
-  <div class="kicker">系統全景 · 製作人提供的五層架構</div>
-  <h2>五層架構 × 五環：兩把不同的尺</h2>
-  <p class="small" style="margin-top:-12px">五層是部署上的責任分工；五環是被設計的工程對象</p>
-  <table class="t" style="font-size:28px">
-    <tr><th style="width:430px">部署層（誰負責什麼）</th><th>主要元件</th><th style="text-align:center;width:120px;line-height:1.3" class="hl1"><span style="font-size:30px">①</span><br>Prompt</th><th style="text-align:center;width:120px;line-height:1.3" class="hl2"><span style="font-size:30px">②</span><br>Context</th><th style="text-align:center;width:120px;line-height:1.3" class="hl3"><span style="font-size:30px">③</span><br>Harness</th><th style="text-align:center;width:120px;line-height:1.3" class="hl4"><span style="font-size:30px">④</span><br>Loop</th><th style="text-align:center;width:120px;line-height:1.3" class="hl5"><span style="font-size:30px">⑤</span><br>Graph</th></tr>
-    <tr><td>L5　儲存與交付</td><td class="mist">目錄、17 項素材、平台</td><td></td><td></td><td class="dot3">●</td><td></td><td class="dot5">●</td></tr>
-    <tr><td>L4　驗證與人工閘門</td><td class="mist">查核、完整性檢查、修音、人耳</td><td></td><td></td><td class="dot3">●</td><td class="dot4">●</td><td class="dot5">●</td></tr>
-    <tr><td>L3　Skill 與 DAG 編排</td><td class="mist">40+ skill、flow.md</td><td class="dot1">●</td><td class="dot2">●</td><td class="dot3">●</td><td></td><td class="dot5">●</td></tr>
-    <tr><td>L2　異質模型與處理引擎</td><td class="mist">Gemini、Claude、NotebookLM…</td><td colspan="5" class="mist" style="text-align:center">五環的中心：被包起來的模型本身</td></tr>
-    <tr><td>L1　代理執行環境</td><td class="mist">Antigravity、規則檔</td><td></td><td></td><td class="dot3">●</td><td></td><td></td></tr>
-  </table>
-  <aside class="notes">教授可能會問：你的五層和五環是什麼關係？答案是兩把不同的尺。L2 模型本身就是五環的中心；skill 內部有 prompt 和 context；DAG 是第五環；人工閘門和修音分別落在第四、第五環。</aside>
-</section>
+
 
 
 
@@ -379,13 +365,29 @@ table.t td{padding:22px 24px;border-top:2px solid var(--night-3);vertical-align:
   <aside class="notes">這是製作人描述的實際主線。右上角標的是這一步主要落在哪一環。注意第 5 步是黑盒：我們把最關鍵的聲音生成交給 NotebookLM，所以第 6 步的修音和把關特別重。</aside>
 </section>
 
+<section data-sec="第三幕 · 一集節目怎麼做" class="slide deep" data-ring="0">
+  <div class="ddtag">🔬 DEEP DIVE</div>
+  <div class="kicker">系統全景 · 製作人提供的五層架構</div>
+  <h2>五層架構 × 五環：兩把不同的尺</h2>
+  <p class="small" style="margin-top:-12px">五層是部署上的責任分工；五環是被設計的工程對象</p>
+  <table class="t" style="font-size:28px">
+    <tr><th style="width:430px">部署層（誰負責什麼）</th><th>主要元件</th><th style="text-align:center;width:120px;line-height:1.3" class="hl1"><span style="font-size:30px">①</span><br>Prompt</th><th style="text-align:center;width:120px;line-height:1.3" class="hl2"><span style="font-size:30px">②</span><br>Context</th><th style="text-align:center;width:120px;line-height:1.3" class="hl3"><span style="font-size:30px">③</span><br>Harness</th><th style="text-align:center;width:120px;line-height:1.3" class="hl4"><span style="font-size:30px">④</span><br>Loop</th><th style="text-align:center;width:120px;line-height:1.3" class="hl5"><span style="font-size:30px">⑤</span><br>Graph</th></tr>
+    <tr><td>L5　儲存與交付</td><td class="mist">目錄、17 項素材、平台</td><td></td><td></td><td class="dot3">●</td><td></td><td class="dot5">●</td></tr>
+    <tr><td>L4　驗證與人工閘門</td><td class="mist">查核、完整性檢查、修音、人耳</td><td></td><td></td><td class="dot3">●</td><td class="dot4">●</td><td class="dot5">●</td></tr>
+    <tr><td>L3　Skill 與 DAG 編排</td><td class="mist">40+ skill、flow.md</td><td class="dot1">●</td><td class="dot2">●</td><td class="dot3">●</td><td></td><td class="dot5">●</td></tr>
+    <tr><td>L2　異質模型與處理引擎</td><td class="mist">Gemini、Claude、NotebookLM…</td><td colspan="5" class="mist" style="text-align:center">五環的中心：被包起來的模型本身</td></tr>
+    <tr><td>L1　代理執行環境</td><td class="mist">Antigravity、規則檔</td><td></td><td></td><td class="dot3">●</td><td></td><td></td></tr>
+  </table>
+  <aside class="notes">教授可能會問：你的五層和五環是什麼關係？答案是兩把不同的尺。L2 模型本身就是五環的中心；skill 內部有 prompt 和 context；DAG 是第五環；人工閘門和修音分別落在第四、第五環。</aside>
+</section>
+
 <section class="slide" data-ring="1" data-sec="第三幕 · 一集節目怎麼做" style="justify-content:center">
-  <div class="bg"><img src="img/ring1.jpg" alt="機器人實習生拿著一張講稿對著麥克風"></div>
-  <div class="z col" style="max-width:820px;gap:28px">
+  <div class="bg right"><img src="img/ring1.jpg" alt="機器人實習生拿著一張講稿對著麥克風"></div>
+  <div class="z col" style="max-width:720px;gap:28px">
     <div class="tag hl1">RING 1 · PROMPT</div>
     <h1>怎麼說</h1>
     <p class="big">工作單位：<span class="hl1">一次輸入</span></p>
-    <p class="mist">角色、指示、範例、格式，四個欄位決定一次呼叫的品質</p>
+    <p class="mist">角色、指示、範例、格式<br>四個欄位決定一次呼叫的品質</p>
   </div>
   <aside class="notes">第一環最熟悉，大家都寫過 prompt。</aside>
 </section>
@@ -406,12 +408,12 @@ table.t td{padding:22px 24px;border-top:2px solid var(--night-3);vertical-align:
 </section>
 
 <section class="slide" data-ring="2" data-sec="第三幕 · 一集節目怎麼做" style="justify-content:center">
-  <div class="bg"><img src="img/ring2.jpg" alt="機械手臂從巨大的書牆中挑出三本書放到實習生的小桌上"></div>
-  <div class="z col" style="max-width:820px;gap:28px">
+  <div class="bg right"><img src="img/ring2.jpg" alt="機械手臂從巨大的書牆中挑出三本書放到實習生的小桌上"></div>
+  <div class="z col" style="max-width:720px;gap:28px">
     <div class="tag hl2">RING 2 · CONTEXT</div>
     <h1>給他看什麼</h1>
     <p class="big">工作單位：<span class="hl2">視窗裡放什麼</span></p>
-    <p class="mist">桌子就那麼大，選、壓縮、丟掉、隔離，都是設計</p>
+    <p class="mist">桌子就那麼大<br>選、壓縮、丟掉、隔離，都是設計</p>
   </div>
   <aside class="notes">Prompt 變成了 context 裡的一個區塊。</aside>
 </section>
@@ -436,19 +438,19 @@ table.t td{padding:22px 24px;border-top:2px solid var(--night-3);vertical-align:
 </section>
 
 <section class="slide" data-ring="3" data-sec="第三幕 · 一集節目怎麼做" style="justify-content:center">
-  <div class="bg"><img src="img/ring3.jpg" alt="實習生在工作台上用工具做事，另一台紫色機器人拿放大鏡檢查"></div>
-  <div class="z col" style="max-width:820px;gap:28px">
+  <div class="bg right"><img src="img/ring3.jpg" alt="實習生在工作台上用工具做事，另一台紫色機器人拿放大鏡檢查"></div>
+  <div class="z col" style="max-width:720px;gap:28px">
     <div class="tag hl3">RING 3 · HARNESS</div>
     <h1>工作台＋驗收</h1>
     <p class="big">工作單位：<span class="hl3">一台機器</span></p>
-    <p class="mist">組裝輸入 → 動手（工具、子代理） → 驗收。少了驗收，只是把 AI 包一層外殼</p>
+    <p class="mist">組裝輸入 → 動手 → 驗收<br>少了驗收，只是把 AI 包一層外殼</p>
   </div>
   <aside class="notes">Harness 這個詞在業界用得很鬆。我們用論文的定義：一輪 = 收集 context、行動、驗證。</aside>
 </section>
 
 <section class="slide" data-ring="3" data-sec="第三幕 · 一集節目怎麼做">
   <div class="kicker">③ Harness · 40 多個 skill 組成的工作台</div>
-  <h2>一集節目的生產線</h2>
+  <h2>交叉查核：寫考卷的和改考卷的分開</h2>
   <svg viewBox="0 0 1664 330" width="1664" height="330" aria-label="生產線：題目來源、寫文章、交叉查核、發音提示、對話音訊、混音與逐字稿">
     <defs><marker id="ah" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0,0 L12,6 L0,12 z" fill="#ABA7CF"/></marker></defs>
     <g stroke="#ABA7CF" stroke-width="3" marker-end="url(#ah)">
@@ -500,7 +502,7 @@ rules:
 <section class="slide" data-ring="3" data-sec="第三幕 · 一集節目怎麼做">
   <div class="kicker">③ Harness · 驗收的規範</div>
   <h2>球員不能兼裁判</h2>
-  <div class="row grow" style="gap:40px;align-items:stretch">
+  <div class="row" style="gap:40px;align-items:stretch">
     <div class="card grow"><div class="tag mist">自己檢查自己</div><p class="big" style="font-size:44px">「我查過了，沒問題。」</p><p class="small" style="font-size:28px">同一個模型、同一份資料，盲點也一樣。自我評估很容易高估自己。</p></div>
     <div class="card grow" style="border-color:var(--r3)"><div class="tag hl3">外部驗收</div><p class="big" style="font-size:44px">換模型、換證據、換人</p><p class="small" style="font-size:28px">驗收要有<b>獨立於生成</b>的依據：網路來源、另一個模型、人耳。重試時要重新收集資訊，不是原地再擲一次骰子。</p></div>
   </div>
@@ -585,7 +587,18 @@ rules:
   <aside class="notes">這頁把前面的選擇和接下來的抓錯、修音接起來。難度比較高，正是因為要做音訊剪接，而不是改一行文字。</aside>
 </section>
 
-<section class="slide" data-ring="0" data-sec="第四幕 · 抓錯與修音" data-player="bengal">
+<section class="slide" data-ring="4" data-sec="第四幕 · 抓錯與修音" style="justify-content:center">
+  <div class="bg right"><img src="img/ring4.jpg" alt="實習生拿著剪刀繞著音波跑道跑，跑道旁有紅綠燈、沙漏、錢包和終點旗"></div>
+  <div class="z col" style="max-width:720px;gap:28px">
+    <div class="tag hl4">RING 4 · LOOP</div>
+    <h1>抓錯與修音</h1>
+    <p class="big">工作單位：<span class="hl4">一次執行</span></p>
+    <p class="mist">怎麼找到錯？怎麼修？什麼時候必須停？</p>
+  </div>
+  <aside class="notes">回到「水」與「屎」。修音就是一個迴圈。</aside>
+</section>
+
+<section class="slide" data-ring="4" data-sec="第四幕 · 抓錯與修音" data-player="bengal">
   <div class="col" style="gap:16px">
     <div class="kicker">再聽一段 · 15 秒</div>
     <h2>孟加拉灣的風暴潮</h2>
@@ -598,7 +611,7 @@ rules:
   <aside class="notes">直接播放。約 12 秒處，主持人在講完很多人失去生命之後笑了出來，畫面會跳出笑臉。製作人的修法：把笑聲剪掉。</aside>
 </section>
 
-<section class="slide" data-ring="5" data-sec="第四幕 · 抓錯與修音">
+<section class="slide" data-ring="4" data-sec="第四幕 · 抓錯與修音">
   <div class="kicker">兩種錯，兩種抓法</div>
   <h2>字都對，語氣錯了，只有人耳抓得到</h2>
   <table class="t">
@@ -612,7 +625,7 @@ rules:
   <aside class="notes">這頁是第四環和第五環的橋。語氣、情緒、是否適合兒童，目前只能靠人聽。這也是為什麼人工審核在我們的流程裡是一個「必經節點」，不是可有可無的抽查。</aside>
 </section>
 
-<section class="slide" data-ring="5" data-sec="第四幕 · 抓錯與修音">
+<section class="slide" data-ring="4" data-sec="第四幕 · 抓錯與修音">
   <div class="kicker">第四幕 · 抓錯是 hybrid 的</div>
   <h2>雙層防線：AI 和人耳，互相補對方的洞</h2>
   <svg viewBox="0 0 1664 420" width="1664" height="420" aria-label="瑞士起司模型：數字與名詞錯誤被 AI 轉錄檢查擋下；弭平、腦補、笑聲穿過 AI 的漏洞，被人耳攔下">
@@ -652,7 +665,7 @@ rules:
 <section class="slide" data-ring="2" data-sec="第四幕 · 抓錯與修音">
   <div class="kicker">小實驗 · AI 那一層防線的洞</div>
   <h2>AI 會聽見它<span class="hl2">預期</span>聽到的東西</h2>
-  <div class="row grow" style="gap:32px">
+  <div class="row" style="gap:32px">
     <div class="card grow">
       <div class="tag mist">提示 A · 只說「這是兒童科普節目」</div>
       <p class="big" style="margin-top:12px">……裝滿了液態的<span class="alarm" style="font-size:1.4em">屎</span>嗎？</p>
@@ -668,16 +681,7 @@ rules:
   <aside class="notes">這個實驗是準備這場演講時做的。只給相關但不同的句子（「水庫裡面裝的是液態的水」）時，Whisper 還是寫出「屎」；給一模一樣的原句，它就寫成「水」。所以只靠逐字稿比對抓發音錯誤，要非常小心 context 怎麼給。這就是論文 §5.5 說的「音訊層級的詞彙驗證」。</aside>
 </section>
 
-<section class="slide" data-ring="4" data-sec="第四幕 · 抓錯與修音" style="justify-content:center">
-  <div class="bg"><img src="img/ring4.jpg" alt="實習生拿著剪刀繞著音波跑道跑，跑道旁有紅綠燈、沙漏、錢包和終點旗"></div>
-  <div class="z col" style="max-width:820px;gap:28px">
-    <div class="tag hl4">RING 4 · LOOP</div>
-    <h1>重來的規則</h1>
-    <p class="big">工作單位：<span class="hl4">一次執行</span></p>
-    <p class="mist">什麼時候再試一次？什麼時候必須停？</p>
-  </div>
-  <aside class="notes">回到「水」與「屎」。修音就是一個迴圈。</aside>
-</section>
+
 
 <section class="slide" data-ring="4" data-sec="第四幕 · 抓錯與修音">
   <div class="kicker">④ Loop · 修音迴圈</div>
@@ -749,12 +753,12 @@ rules:
 </section>
 
 <section class="slide" data-ring="5" data-sec="第五幕 · 工程規範" style="justify-content:center">
-  <div class="bg"><img src="img/ring5.jpg" alt="多台機器人在各自的工作站，中間是一位戴耳機、拿著核准印章的人類編輯"></div>
-  <div class="z col" style="max-width:820px;gap:28px">
+  <div class="bg right"><img src="img/ring5.jpg" alt="多台機器人在各自的工作站，中間是一位戴耳機、拿著核准印章的人類編輯"></div>
+  <div class="z col" style="max-width:720px;gap:28px">
     <div class="tag hl5">RING 5 · GRAPH</div>
     <h1>團隊分工</h1>
     <p class="big">工作單位：<span class="hl5">一整個流程</span></p>
-    <p class="mist">節點、路線、共享狀態。人類核准也是圖上的一個節點</p>
+    <p class="mist">節點、路線、共享狀態<br>人類核准也是圖上的一個節點</p>
   </div>
   <aside class="notes">最外圈：把每個迴圈放進一張流程圖。這種想法不新，工作流程系統早就有，我們只是重新發現。</aside>
 </section>
@@ -878,7 +882,6 @@ rules:
       <div class="card"><p class="small" style="font-size:28px;color:var(--star)">每一筆審查紀錄都綁定：</p>
         <div class="row" style="flex-wrap:wrap;gap:14px"><span class="chip">內容雜湊</span><span class="chip">哪一集</span><span class="chip">哪一版政策</span><span class="chip">上游所有版本</span></div>
       </div>
-      <p class="small">v10 修正前，原型曾讓過期的審查繼續生效；這個漏洞已修補。</p>
     </div>
   </div>
   <aside class="notes">這是離線研究原型的設計，不是目前線上流程已經部署的東西。改了音檔，逐字稿的時間戳會位移，測驗題的根據可能消失；所以依賴它的下游全部標為過期，要重審。</aside>
@@ -1002,13 +1005,13 @@ rules:
 </section>
 
 <section class="slide" data-ring="0" data-sec="收尾" style="justify-content:center">
-  <div class="bg"><img src="img/ending.jpg" alt="機器人實習生和人類編輯在五環星球上擊掌"></div>
+  <div class="bg right"><img src="img/ending.jpg" alt="機器人實習生和人類編輯在五環星球上擊掌"></div>
   <div class="z col" style="max-width:940px;gap:40px">
     <div class="kicker">帶走三句話</div>
     <div class="col" style="gap:28px">
-      <p class="big"><span class="hl1">1.</span> AI 沒有讓人消失，人負責最貴的那個判斷</p>
-      <p class="big" data-step="1"><span class="hl3">2.</span> 先找出錯在哪一環，再決定要不要往外加一層</p>
-      <p class="big" data-step="2"><span class="hl5">3.</span> 整個系統的品質上限，取決於驗收做得多好</p>
+      <p class="big" style="font-size:42px"><span class="hl1">1.</span> AI 沒有讓人消失，人負責最貴的判斷</p>
+      <p class="big" style="font-size:42px" data-step="1"><span class="hl3">2.</span> 先找出錯在哪一環，再決定要不要加一層</p>
+      <p class="big" style="font-size:42px" data-step="2"><span class="hl5">3.</span> 品質的上限，取決於驗收做得多好</p>
     </div>
   </div>
   <aside class="notes">第一句：避免 ring inflation，不要一出問題就加 agent。第二句：外圈越多，越需要說清楚誰批准、誰負責。第三句：論文第 IX 章的主線。</aside>
