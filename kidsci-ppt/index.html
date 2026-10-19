@@ -29,8 +29,9 @@
   --f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
 }
 html,body{height:100%;margin:0;background:#0D0C1F;overflow:hidden;color:var(--star);font-family:var(--f-body)}
-#stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform-origin:center;background:var(--night);overflow:hidden;box-shadow:0 0 0 1px #000}
-.slide{position:absolute;inset:0;padding:96px 128px 150px;box-sizing:border-box;display:flex;flex-direction:column;gap:40px;opacity:0;visibility:hidden;transition:opacity .45s ease,visibility 0s linear .45s}
+/* RWD: the stage always fills the screen; a 1920×1080 safe area stays centred (offsets --ox/--oy), backgrounds bleed to any aspect ratio */
+#stage{--ox:0px;--oy:0px;position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform-origin:center;background:var(--night);overflow:hidden}
+.slide{position:absolute;inset:0;padding:calc(96px + var(--oy)) calc(128px + var(--ox)) calc(150px + var(--oy));box-sizing:border-box;display:flex;flex-direction:column;gap:40px;opacity:0;visibility:hidden;transition:opacity .45s ease,visibility 0s linear .45s}
 .slide.active{opacity:1;visibility:visible;transition:opacity .45s ease}
 .slide>*{min-width:0}
 .bg{position:absolute;inset:0;z-index:0}
@@ -67,13 +68,14 @@ code{font-family:var(--f-mono);font-size:.82em;background:var(--night-3);padding
 [data-step]:not(.on){opacity:0;transform:translateY(16px);pointer-events:none}
 
 /* HUD */
-#hud{position:absolute;left:0;right:0;bottom:0;height:110px;padding:0 128px 36px;box-sizing:border-box;display:flex;align-items:flex-end;justify-content:space-between;z-index:5;pointer-events:none}
+#hud{position:absolute;left:0;right:0;bottom:0;height:110px;padding:0 calc(128px + var(--ox)) 36px;box-sizing:border-box;display:flex;align-items:flex-end;justify-content:space-between;z-index:5;pointer-events:none}
 #hud .where{display:flex;align-items:center;gap:18px;font-size:24px;color:var(--mist)}
 #hud .right{display:flex;align-items:center;gap:28px;font-size:22px;color:var(--mist)}
 #hud .num{font-family:var(--f-num);font-size:24px;color:var(--mist);font-variant-numeric:tabular-nums}
 #minimap circle{fill:none;stroke-width:4;stroke:var(--night-3);transition:stroke .3s}
 aside.notes{display:none}
 #notes{position:fixed;left:0;right:0;bottom:0;max-height:38vh;overflow:auto;background:rgba(13,12,31,.94);border-top:2px solid var(--night-3);color:var(--star);font-size:18px;line-height:1.7;padding:16px 24px;box-sizing:border-box;z-index:20}
+#rotate{position:fixed;left:50%;top:16px;transform:translateX(-50%);z-index:20;font-size:15px;color:var(--star);background:rgba(13,12,31,.92);padding:10px 16px;border-radius:999px;border:1px solid var(--night-3);white-space:nowrap}
 #help{position:fixed;right:16px;top:16px;z-index:20;font-size:13px;color:var(--mist);background:rgba(13,12,31,.85);padding:8px 12px;border-radius:10px;border:1px solid var(--night-3);transition:opacity 1s}
 .nav{pointer-events:auto;width:60px;height:60px;border-radius:50%;border:2px solid var(--night-3);background:var(--night-2);color:var(--star);font-size:40px;line-height:1;cursor:pointer;display:grid;place-items:center;padding:0 0 6px}
 .nav:hover{border-color:var(--r1);color:var(--r1)}
@@ -106,10 +108,10 @@ aside.notes{display:none}
 .deep{background-color:#131833;background-image:linear-gradient(rgba(124,196,232,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(124,196,232,.07) 1px,transparent 1px);background-size:48px 48px}
 .deep{gap:26px}
 .deep table.t td{padding:14px 20px}
-.bg.right{left:36%}
+.bg.right{left:calc(var(--ox) + 691px)}
 .bg.right::after{background:linear-gradient(90deg,rgba(23,22,47,1) 0%,rgba(23,22,47,.35) 22%,rgba(23,22,47,0) 45%)}
 table.tight td{padding:14px 20px;line-height:1.4}
-.ddtag{position:absolute;right:128px;top:84px;font-family:var(--f-mono);font-size:22px;letter-spacing:.12em;color:var(--r3);border:2px solid var(--r3);border-radius:999px;padding:6px 18px}
+.ddtag{position:absolute;right:calc(128px + var(--ox));top:calc(84px + var(--oy));font-family:var(--f-mono);font-size:22px;letter-spacing:.12em;color:var(--r3);border:2px solid var(--r3);border-radius:999px;padding:6px 18px}
 td.dot1,td.dot2,td.dot3,td.dot4,td.dot5{text-align:center;font-size:34px}
 .dot1{color:var(--r1)}.dot2{color:var(--r2)}.dot3{color:var(--r3)}.dot4{color:var(--r4)}.dot5{color:var(--r5)}
 .sk{background:var(--night-2);border:2px solid var(--night-3);border-radius:16px;padding:12px 16px;display:flex;flex-direction:column;gap:8px}
@@ -1032,6 +1034,7 @@ rules:
 </div>
 
 <div id="notes" hidden></div>
+<div id="rotate" hidden>📱 橫放手機看效果最好</div>
 <div id="help">→ 或右下按鈕 換頁　點播放鍵或空白鍵 播放音檔　N 講稿　F 全螢幕</div>
 
 <script>
@@ -1055,10 +1058,18 @@ const ringColors=['#FFC94A','#FF8A3D','#7CC4E8','#B79CF0','#FF7E9D'];
 let idx=0, step=0;
 
 function fit(){
-  const s=Math.min(innerWidth/1920, innerHeight/1080);
+  const vw=document.documentElement.clientWidth||innerWidth, vh=document.documentElement.clientHeight||innerHeight;
+  const s=Math.min(vw/1920, vh/1080), sw=vw/s, sh=vh/s;
+  stage.style.width=sw+'px'; stage.style.height=sh+'px';
+  stage.style.setProperty('--ox',((sw-1920)/2)+'px'); stage.style.setProperty('--oy',((sh-1080)/2)+'px');
   stage.style.transform=`translate(-50%,-50%) scale(${s})`;
+  const rh=document.getElementById('rotate'); if(rh) rh.hidden=!(vh>vw && vw<820);
+  const hp=document.getElementById('help'); if(hp && vw<820) hp.hidden=true;
 }
-addEventListener('resize',fit); fit();
+addEventListener('resize',fit); addEventListener('orientationchange',()=>setTimeout(fit,200));
+if(window.visualViewport) visualViewport.addEventListener('resize',fit);
+document.addEventListener('fullscreenchange',()=>setTimeout(fit,50));
+fit();
 
 function maxStep(sl){let m=0;sl.querySelectorAll('[data-step]').forEach(e=>m=Math.max(m,+e.dataset.step));return m;}
 
