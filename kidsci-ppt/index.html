@@ -1,12 +1,10 @@
-<!doctype html>
-<html lang="zh-Hant">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>科學好好聽五環講座</title>
 <meta name="description" content="一集《科學好好聽》是怎麼煮出來的：用五環理論拆解 AI 兒童科普 Podcast 的製作與規範。">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Huninn&family=Noto+Sans+TC:wght@400;500;700;900&family=IBM+Plex+Mono:wght@400;600&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Huninn&family=Noto+Sans+TC:wght@400;500;700;900&family=IBM+Plex+Mono:wght@400;600&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&display=swap">
 <style>
 /* Layout: fixed 1920×1080 stage scaled to the window; night-sky studio, five orbit colors mark the five rings. Single dark look by design. */
 :root{
@@ -129,6 +127,17 @@ td.dot1,td.dot2,td.dot3,td.dot4,td.dot5{text-align:center;font-size:34px}
 .lyrics span.fun{display:inline-block;opacity:0;transition:transform .25s,color .12s,opacity .15s}
 .lyrics span.fun.past{opacity:1}
 .lyrics span.fun.past{color:var(--r1);transform:translateY(-4px)}
+#p-dive .lyrics{font-size:34px;line-height:1.55}
+.lyrics span.sfx{display:inline-block;font-size:.85em;padding:0 .45em;border-radius:12px;border:2px solid var(--r5);margin:4px .25em 4px 0}
+.lyrics span.sfx.past{background:var(--r5);color:var(--night)}
+.wave .mark.sfxmark{border-style:solid;border-width:3px}
+.refp{font-family:"Bricolage Grotesque","Noto Sans TC",sans-serif;font-weight:400;font-size:30px;line-height:1.55;margin:0}
+.reffoot{position:absolute;left:calc(128px + var(--ox));right:calc(128px + var(--ox));bottom:calc(104px + var(--oy));z-index:4;display:flex;gap:18px;align-items:flex-start;font-family:"Bricolage Grotesque","Noto Sans TC",sans-serif;font-weight:400;font-size:22px;line-height:1.45;color:var(--star);background:rgba(255,201,74,.07);border:2px solid rgba(255,201,74,.35);border-radius:16px;padding:12px 20px}
+.reffoot .rb{flex:none;font-family:var(--f-body);font-weight:700;font-size:20px;color:var(--night);background:var(--r1);border-radius:999px;padding:3px 14px;margin-top:1px}
+.slide.has-ref{padding-bottom:calc(232px + var(--oy))}
+.reffoot a.doi{font-size:inherit}
+.cite{font-family:var(--f-num);font-weight:600;color:var(--r1);letter-spacing:0;margin-left:6px}
+a.doi{color:var(--r3);text-decoration:underline;text-underline-offset:4px;pointer-events:auto}
 .masked{color:var(--mist);font-size:44px;font-family:var(--f-display)}
 
 /* diagrams */
@@ -228,10 +237,10 @@ table.t td{padding:22px 24px;border-top:2px solid var(--night-3);vertical-align:
     <p class="mist">今天帶大家潛到水面下，一層一層看：</p>
     <div class="col" style="gap:12px">
       <p style="font-size:30px"><span class="hl1">▸</span> 五環理論：用來定位問題的放大鏡</p>
-      <p style="font-size:30px"><span class="hl2">▸</span> 一集節目的生產線，以及為什麼選 NotebookLM</p>
-      <p style="font-size:30px"><span class="hl3">▸</span> AI 與人耳的雙層防線、修音</p>
-      <p style="font-size:30px"><span class="hl4">▸</span> 契約、狀態機、會過期的審查、發布關卡</p>
-      <p style="font-size:30px"><span class="hl5">▸</span> 成本與聽眾回饋</p>
+      <p style="font-size:30px"><span class="hl2">▸</span> Auto 模式：NotebookLM 的生產線與它的自主性</p>
+      <p style="font-size:30px"><span class="hl3">▸</span> 抓錯、修音與把關：AI 和人耳的雙層防線</p>
+      <p style="font-size:30px"><span class="hl4">▸</span> Pro 模式：Gemini 3.8 TTS 和故事音效</p>
+      <p style="font-size:30px"><span class="hl5">▸</span> 兩種模式的成本，以及聽眾回饋</p>
     </div>
   </div>
   <aside class="notes">這是全場的主張，也是地圖。結尾會再回到這座冰山，把水面下的東西一項一項數出來。</aside>
@@ -266,8 +275,8 @@ table.t td{padding:22px 24px;border-top:2px solid var(--night-3);vertical-align:
   <aside class="notes">這是論文的核心要求之一：繁中是系統需求，不是翻譯後處理。「垃圾」在臺灣日常常念 lè sè，教育部字典兩種都收；重點是合成語音的選擇要符合我們選定的參考標準。</aside>
 </section>
 
-<section class="slide" data-ring="0" data-sec="第一幕 · 為什麼要做">
-  <div class="kicker">第一幕 · 節目規模</div>
+<section class="slide has-ref" data-ring="0" data-sec="第一幕 · 為什麼要做">
+  <div class="kicker">第一幕 · 節目規模 <span class="cite">[2]</span></div>
   <h2>2025 年 5 月上線，到 2026 年 9 月</h2>
   <div class="grow" style="display:grid;grid-template-columns:repeat(4,1fr);align-items:center">
     <div class="col" style="gap:14px;padding-right:40px"><div class="bignum hl1" style="font-size:112px">323</div><p>集製作完成</p></div>
@@ -275,23 +284,25 @@ table.t td{padding:22px 24px;border-top:2px solid var(--night-3);vertical-align:
     <div class="col" style="gap:14px;padding:0 40px;border-left:2px solid var(--night-3)"><div class="bignum hl3" style="font-size:112px">120<span style="font-size:.8em">萬</span>+</div><p>次播放<br><span class="small">SoundOn＋Firstory 後台合計</span></p></div>
     <div class="col" style="gap:14px;padding-left:40px;border-left:2px solid var(--night-3)"><div class="bignum hl4" style="font-size:112px">$30</div><p>每月工具費（美元以內）<br><span class="small">審核約 15–20 分鐘／集</span></p></div>
   </div>
+  <div class="reffoot"><span class="rb">📄 發表的論文 [2]</span><span>Y.-K. Huang, “Engineering a children’s science podcast with large language models: A five-ring technical report on KidSciCast AI,” <i>ResearchGate preprint</i>, 2026, doi: <a class="doi" href="https://doi.org/10.13140/RG.2.2.23325.88807" target="_blank" rel="noopener">10.13140/RG.2.2.23325.88807</a>.</span></div>
   <aside class="notes">製作 323 和上架 232 不一樣，有些做了沒上。120 萬是兩個託管平台的播放次數加總。15–20 分鐘是審核階段的時間。</aside>
 </section>
 
-<section class="slide" data-ring="0" data-sec="第二幕 · 五環理論">
-  <div class="kicker">第二幕 · 五環理論速成</div>
+<section class="slide has-ref" data-ring="0" data-sec="第二幕 · 五環理論">
+  <div class="kicker">第二幕 · 五環理論速成 <span class="cite">[1]</span></div>
   <h2>AI 是一位天才實習生，但有三個毛病</h2>
-  <img src="img/flaws.jpg" alt="機器人實習生頭戴金魚缸、坐在堆滿紙的小桌子前、在拋骰子" style="width:100%;height:420px;object-fit:cover;border-radius:28px">
+  <img src="img/flaws.jpg" alt="機器人實習生頭戴金魚缸、坐在堆滿紙的小桌子前、在拋骰子" style="width:100%;height:330px;object-fit:cover;border-radius:28px">
   <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:28px">
     <div class="col" style="gap:8px"><h3>🐟 金魚記憶 <span class="en mist" style="font-size:28px">Stateless</span></h3><p class="small">每次呼叫都忘光，要記得的東西得每次重新給它</p></div>
     <div class="col" style="gap:8px"><h3>🗂 桌子很小 <span class="en mist" style="font-size:28px">Bounded</span></h3><p class="small">一次能看的內容有限，放什麼上桌是個選擇</p></div>
     <div class="col" style="gap:8px"><h3>🎲 愛擲骰子 <span class="en mist" style="font-size:28px">Stochastic</span></h3><p class="small">同樣的問題，每次答案可能不一樣</p></div>
   </div>
+  <div class="reffoot"><span class="rb">📄 發表的論文 [1]</span><span>Y.-K. Huang, “The five concentric rings of large-language-model systems engineering: A harness-centered tutorial from prompts to topologies,” <i>ResearchGate preprint</i>, 2026, doi: <a class="doi" href="https://doi.org/10.13140/RG.2.2.35069.93920" target="_blank" rel="noopener">10.13140/RG.2.2.35069.93920</a>.</span></div>
   <aside class="notes">五環理論的出發點：底層模型有三個性質，沒有狀態、容量有限、輸出隨機。每一環都是為了補償這三件事。</aside>
 </section>
 
-<section class="slide" data-ring="0" data-sec="第二幕 · 五環理論">
-  <div class="kicker">第二幕 · 五環理論速成</div>
+<section class="slide has-ref" data-ring="0" data-sec="第二幕 · 五環理論">
+  <div class="kicker">第二幕 · 五環理論速成 <span class="cite">[1]</span></div>
   <div class="row grow" style="gap:64px;align-items:center">
     <svg viewBox="0 0 700 700" width="700" height="700" aria-label="五環同心圓，每一環標示其工作單位">
       <g fill="none" stroke-width="56">
@@ -319,13 +330,14 @@ table.t td{padding:22px 24px;border-top:2px solid var(--night-3);vertical-align:
       </table>
     </div>
   </div>
+  <div class="reffoot"><span class="rb">📄 發表的論文 [1]</span><span>Y.-K. Huang, “The five concentric rings of large-language-model systems engineering: A harness-centered tutorial from prompts to topologies,” <i>ResearchGate preprint</i>, 2026, doi: <a class="doi" href="https://doi.org/10.13140/RG.2.2.35069.93920" target="_blank" rel="noopener">10.13140/RG.2.2.35069.93920</a>.</span></div>
   <aside class="notes">嵌套關係：第 k 環的工程對象，是第 k+1 環裡的一個具名零件。prompt 是 context 的一個區塊；context 是 harness 每一輪要組裝的東西；harness 的一輪是 loop 的一次迭代；loop 是 graph 上的一個節點。</aside>
 </section>
 
-<section class="slide" data-ring="0" data-sec="第二幕 · 五環理論">
-  <div class="kicker">第二幕 · 五環的定義，用《科學好好聽》當例子</div>
-  <div class="col" style="gap:10px"><h2>每一環在設計什麼？</h2><p style="font-size:28px">套疊：<span class="hl1">Prompt</span> ⊂ <span class="hl2">Context</span> ⊂ <span class="hl3">Harness</span> ⊂ <span class="hl4">Loop</span> ⊂ <span class="hl5">Graph</span>，內圈是外圈的零件</p></div>
-  <table class="t tight" style="font-size:26px">
+<section class="slide has-ref" data-ring="0" data-sec="第二幕 · 五環理論">
+  <div class="kicker">第二幕 · 五環的定義，用《科學好好聽》當例子 <span class="cite">[1]</span></div>
+  <h2 style="font-size:60px">每一環在設計什麼？</h2>
+  <table class="t tight" style="font-size:24px;margin-top:-8px">
     <tr><th style="width:230px">環</th><th style="width:600px">定義</th><th>在《科學好好聽》裡</th></tr>
     <tr><td><span class="en hl1">① Prompt</span></td><td>設計<b>一次輸入</b>怎麼寫：角色、指示、範例、格式</td><td class="mist">請 <code>episode_md</code> 扮演科普作家，把素材寫成小學生聽得懂的文章</td></tr>
     <tr><td><span class="en hl2">② Context</span></td><td>決定 AI 每次<b>桌上放什麼</b>：挑選、壓縮、丟掉、隔離</td><td class="mist">給 NotebookLM 的素材只放查核過的文章、主持人設定、發音標注</td></tr>
@@ -333,17 +345,19 @@ table.t td{padding:22px 24px;border-top:2px solid var(--night-3);vertical-align:
     <tr><td><span class="en hl4">④ Loop</span></td><td>讓機器<b>重複做到對</b>，而且知道什麼時候該停</td><td class="mist">聽到錯字 → 定位 → 替換 → 再聽；修太多處就改成整集重生</td></tr>
     <tr><td><span class="en hl5">⑤ Graph</span></td><td>把很多機器排成<b>有分工、有關卡的流程圖</b></td><td class="mist">人耳審核通過，才平行產生測驗、詞彙、知識卡，最後檢查 17 項素材</td></tr>
   </table>
+  <div class="reffoot"><span class="rb">📄 發表的論文 [1]</span><span>Y.-K. Huang, “The five concentric rings of large-language-model systems engineering: A harness-centered tutorial from prompts to topologies,” <i>ResearchGate preprint</i>, 2026, doi: <a class="doi" href="https://doi.org/10.13140/RG.2.2.35069.93920" target="_blank" rel="noopener">10.13140/RG.2.2.35069.93920</a>.</span></div>
   <aside class="notes">先用定義建立共同語言，每一環配一個節目裡的真實例子。後面每一頁左下角的彩色標籤，就是在提醒大家現在講的是哪一環。</aside>
 </section>
 
-<section class="slide" data-ring="0" data-sec="第二幕 · 五環理論">
-  <div class="kicker">第二幕 · 套在一起之後，自然推出三件事</div>
+<section class="slide has-ref" data-ring="0" data-sec="第二幕 · 五環理論">
+  <div class="kicker">第二幕 · 套在一起之後，自然推出三件事 <span class="cite">[1]</span></div>
   <h2>五環的三條推論</h2>
   <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:32px;align-items:start">
     <div class="card"><div class="tag hl1">C1</div><h3>外圈修不好內圈的錯</h3><p class="small" style="font-size:28px">換一個更大的鍋子，救不了壞掉的食材。往外加一環是多了控制點，不是修好了裡面。</p></div>
     <div class="card" data-step="1"><div class="tag hl2">C2</div><h3>錯誤往外傳，而且放大</h3><p class="small" style="font-size:28px">一個念錯的字，會被抄進 30 題測驗、5 個詞彙卡、短影片字幕。外圈每多一層，就多複製一次。</p></div>
     <div class="card" data-step="2"><div class="tag hl3">C3</div><h3>每一環要用自己的尺</h3><p class="small" style="font-size:28px">一句話寫得好，不代表整集合格；整集合格，不代表能追查是誰批准的。</p></div>
   </div>
+  <div class="reffoot"><span class="rb">📄 發表的論文 [1]</span><span>Y.-K. Huang, “The five concentric rings of large-language-model systems engineering: A harness-centered tutorial from prompts to topologies,” <i>ResearchGate preprint</i>, 2026, doi: <a class="doi" href="https://doi.org/10.13140/RG.2.2.35069.93920" target="_blank" rel="noopener">10.13140/RG.2.2.35069.93920</a>.</span></div>
   <aside class="notes">這三條是論文 §II-C 的推論，是畫成同心圓之後的幾何事實。C2 對我們特別重要：審核要放在衍生教材產生「之前」。</aside>
 </section>
 
@@ -351,9 +365,9 @@ table.t td{padding:22px 24px;border-top:2px solid var(--night-3);vertical-align:
 
 
 
-<section data-sec="第三幕 · 一集節目怎麼做" class="slide" data-ring="0">
-  <div class="kicker">第三幕 · 一集節目怎麼做</div>
-  <h2>《科學好好聽》的主線：六個步驟</h2>
+<section class="slide has-ref" data-sec="第三幕 · Auto 模式：NotebookLM" data-ring="0">
+  <div class="kicker">第三幕 · 一集節目怎麼做 <span class="cite">[2]</span></div>
+  <h2>Auto 模式的主線：六個步驟</h2>
   <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px" class="grow">
     <div class="card"><div class="row" style="justify-content:space-between;align-items:center"><span class="en hl1" style="font-size:44px">1</span><span class="tag hl1">① ②</span></div><code>/episode_md</code><p style="font-size:28px">主題＋素材 → 給孩子的原始科學文章</p></div>
     <div class="card"><div class="row" style="justify-content:space-between;align-items:center"><span class="en hl3" style="font-size:44px">2</span><span class="tag hl3">③</span></div><code>/episode_fact_check</code><p style="font-size:28px">換另一家模型＋網路檢索檢查正確性，疑點寫進 <code>suspect.md</code></p></div>
@@ -362,26 +376,13 @@ table.t td{padding:22px 24px;border-top:2px solid var(--night-3);vertical-align:
     <div class="card" style="border-color:var(--mist)"><div class="row" style="justify-content:space-between;align-items:center"><span class="en" style="font-size:44px">5</span><span class="tag mist">黑盒</span></div><code>NotebookLM</code><p style="font-size:28px">生成兩位主持人的自然對話音檔</p></div>
     <div class="card" style="border-color:var(--r5)"><div class="row" style="justify-content:space-between;align-items:center"><span class="en hl5" style="font-size:44px">6</span><span class="tag hl5">④ ⑤</span></div><code>人耳＋音訊剪接</code><p style="font-size:28px">AI 轉錄檢查＋人工聆聽，發現錯誤就修音，通過才做教材</p></div>
   </div>
+  <div class="reffoot"><span class="rb">📄 發表的論文 [2]</span><span>Y.-K. Huang, “Engineering a children’s science podcast with large language models: A five-ring technical report on KidSciCast AI,” <i>ResearchGate preprint</i>, 2026, doi: <a class="doi" href="https://doi.org/10.13140/RG.2.2.23325.88807" target="_blank" rel="noopener">10.13140/RG.2.2.23325.88807</a>.</span></div>
   <aside class="notes">這是製作人描述的實際主線。右上角標的是這一步主要落在哪一環。注意第 5 步是黑盒：我們把最關鍵的聲音生成交給 NotebookLM，所以第 6 步的修音和把關特別重。</aside>
 </section>
 
-<section data-sec="第三幕 · 一集節目怎麼做" class="slide deep" data-ring="0">
-  <div class="ddtag">🔬 DEEP DIVE</div>
-  <div class="kicker">系統全景 · 製作人提供的五層架構</div>
-  <h2>五層架構 × 五環：兩把不同的尺</h2>
-  <p class="small" style="margin-top:-12px">五層是部署上的責任分工；五環是被設計的工程對象</p>
-  <table class="t" style="font-size:28px">
-    <tr><th style="width:430px">部署層（誰負責什麼）</th><th>主要元件</th><th style="text-align:center;width:120px;line-height:1.3" class="hl1"><span style="font-size:30px">①</span><br>Prompt</th><th style="text-align:center;width:120px;line-height:1.3" class="hl2"><span style="font-size:30px">②</span><br>Context</th><th style="text-align:center;width:120px;line-height:1.3" class="hl3"><span style="font-size:30px">③</span><br>Harness</th><th style="text-align:center;width:120px;line-height:1.3" class="hl4"><span style="font-size:30px">④</span><br>Loop</th><th style="text-align:center;width:120px;line-height:1.3" class="hl5"><span style="font-size:30px">⑤</span><br>Graph</th></tr>
-    <tr><td>L5　儲存與交付</td><td class="mist">目錄、17 項素材、平台</td><td></td><td></td><td class="dot3">●</td><td></td><td class="dot5">●</td></tr>
-    <tr><td>L4　驗證與人工閘門</td><td class="mist">查核、完整性檢查、修音、人耳</td><td></td><td></td><td class="dot3">●</td><td class="dot4">●</td><td class="dot5">●</td></tr>
-    <tr><td>L3　Skill 與 DAG 編排</td><td class="mist">40+ skill、flow.md</td><td class="dot1">●</td><td class="dot2">●</td><td class="dot3">●</td><td></td><td class="dot5">●</td></tr>
-    <tr><td>L2　異質模型與處理引擎</td><td class="mist">Gemini、Claude、NotebookLM…</td><td colspan="5" class="mist" style="text-align:center">五環的中心：被包起來的模型本身</td></tr>
-    <tr><td>L1　代理執行環境</td><td class="mist">Antigravity、規則檔</td><td></td><td></td><td class="dot3">●</td><td></td><td></td></tr>
-  </table>
-  <aside class="notes">教授可能會問：你的五層和五環是什麼關係？答案是兩把不同的尺。L2 模型本身就是五環的中心；skill 內部有 prompt 和 context；DAG 是第五環；人工閘門和修音分別落在第四、第五環。</aside>
-</section>
 
-<section class="slide" data-ring="1" data-sec="第三幕 · 一集節目怎麼做" style="justify-content:center">
+
+<section class="slide" data-ring="1" data-sec="第三幕 · Auto 模式：NotebookLM" style="justify-content:center">
   <div class="bg right"><img src="img/ring1.jpg" alt="機器人實習生拿著一張講稿對著麥克風"></div>
   <div class="z col" style="max-width:720px;gap:28px">
     <div class="tag hl1">RING 1 · PROMPT</div>
@@ -392,7 +393,7 @@ table.t td{padding:22px 24px;border-top:2px solid var(--night-3);vertical-align:
   <aside class="notes">第一環最熟悉，大家都寫過 prompt。</aside>
 </section>
 
-<section class="slide" data-ring="1" data-sec="第三幕 · 一集節目怎麼做">
+<section class="slide" data-ring="1" data-sec="第三幕 · Auto 模式：NotebookLM">
   <div class="kicker">① Prompt · 在《科學好好聽》裡</div>
   <h2>每一集都從幾份「說話規格」開始</h2>
   <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:28px">
@@ -407,7 +408,7 @@ table.t td{padding:22px 24px;border-top:2px solid var(--night-3);vertical-align:
   <aside class="notes">格式問題的修法是「機械式強制」，例如 structured output 或 schema 驗證，而不是在 prompt 裡多寫三遍拜託。</aside>
 </section>
 
-<section class="slide" data-ring="2" data-sec="第三幕 · 一集節目怎麼做" style="justify-content:center">
+<section class="slide" data-ring="2" data-sec="第三幕 · Auto 模式：NotebookLM" style="justify-content:center">
   <div class="bg right"><img src="img/ring2.jpg" alt="機械手臂從巨大的書牆中挑出三本書放到實習生的小桌上"></div>
   <div class="z col" style="max-width:720px;gap:28px">
     <div class="tag hl2">RING 2 · CONTEXT</div>
@@ -418,7 +419,7 @@ table.t td{padding:22px 24px;border-top:2px solid var(--night-3);vertical-align:
   <aside class="notes">Prompt 變成了 context 裡的一個區塊。</aside>
 </section>
 
-<section class="slide" data-ring="2" data-sec="第三幕 · 一集節目怎麼做">
+<section class="slide" data-ring="2" data-sec="第三幕 · Auto 模式：NotebookLM">
   <div class="kicker">② Context · <code>/episode_pronounce</code></div>
   <h2>把「容易念錯」寫回原稿，餵給下一步</h2>
   <div class="row" style="gap:32px;align-items:stretch">
@@ -437,7 +438,7 @@ table.t td{padding:22px 24px;border-top:2px solid var(--night-3);vertical-align:
   <aside class="notes">規則清單來自製作人的架構文件。這一步是 context engineering：決定哪些發音知識要放進生成時的素材。</aside>
 </section>
 
-<section class="slide" data-ring="3" data-sec="第三幕 · 一集節目怎麼做" style="justify-content:center">
+<section class="slide" data-ring="3" data-sec="第三幕 · Auto 模式：NotebookLM" style="justify-content:center">
   <div class="bg right"><img src="img/ring3.jpg" alt="實習生在工作台上用工具做事，另一台紫色機器人拿放大鏡檢查"></div>
   <div class="z col" style="max-width:720px;gap:28px">
     <div class="tag hl3">RING 3 · HARNESS</div>
@@ -448,7 +449,7 @@ table.t td{padding:22px 24px;border-top:2px solid var(--night-3);vertical-align:
   <aside class="notes">Harness 這個詞在業界用得很鬆。我們用論文的定義：一輪 = 收集 context、行動、驗證。</aside>
 </section>
 
-<section class="slide" data-ring="3" data-sec="第三幕 · 一集節目怎麼做">
+<section class="slide" data-ring="3" data-sec="第三幕 · Auto 模式：NotebookLM">
   <div class="kicker">③ Harness · 40 多個 skill 組成的工作台</div>
   <h2>交叉查核：寫考卷的和改考卷的分開</h2>
   <svg viewBox="0 0 1664 330" width="1664" height="330" aria-label="生產線：題目來源、寫文章、交叉查核、發音提示、對話音訊、混音與逐字稿">
@@ -475,42 +476,12 @@ table.t td{padding:22px 24px;border-top:2px solid var(--night-3);vertical-align:
   <aside class="notes">每個 skill 有清楚的輸入輸出，產物是 Markdown 和 JSON。flow.md 記錄進度。這是製作人提供的架構文件描述，不是我們稽核過執行紀錄。</aside>
 </section>
 
-<section class="slide deep" data-ring="3" data-sec="第三幕 · 一集節目怎麼做">
-  <div class="ddtag">🔬 DEEP DIVE</div>
-  <div class="kicker">③ Harness · Skill 元素週期表</div>
-  <h2>每個 skill 只做一件事，有清楚的輸入與輸出</h2>
-  <div class="row" style="gap:36px;align-items:stretch" >
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:18px;width:1060px" id="skilltable"></div>
-    <div class="card grow" style="gap:12px;border-color:var(--r3)">
-      <div class="tag hl3">一個 skill 的契約（示意）</div>
-      <pre class="mono" style="margin:0;font-size:22px;line-height:1.55;color:var(--star);white-space:pre-wrap">---
-name: episode_glossary
-input:  transcript.json, {id}.md
-output: glossary.json   # 5 個詞
-rules:
-  - 用孩子聽得懂的比喻
-  - 已存在且完整 → 跳過
-  - 格式損毀 → 增量修補
----</pre>
-      <p class="small" style="font-size:24px"><code>skill-rule.md</code>：只准呼叫原子 skill，禁止未驗證的批次黑盒腳本<br><code>episode-rule.md</code>：找不到正式目錄就退回草稿目錄</p>
-    </div>
-  </div>
-  <p class="small">列出 32 個代表性 skill，全部共 40 多個</p>
-  <aside class="notes">單一職責、冪等、可追溯，是 harness 工程的基本功。冪等的例子：family_discussion 若已存在且格式完整就跳過，題數不足就補。</aside>
-</section>
 
-<section class="slide" data-ring="3" data-sec="第三幕 · 一集節目怎麼做">
-  <div class="kicker">③ Harness · 驗收的規範</div>
-  <h2>球員不能兼裁判</h2>
-  <div class="row" style="gap:40px;align-items:stretch">
-    <div class="card grow"><div class="tag mist">自己檢查自己</div><p class="big" style="font-size:44px">「我查過了，沒問題。」</p><p class="small" style="font-size:28px">同一個模型、同一份資料，盲點也一樣。自我評估很容易高估自己。</p></div>
-    <div class="card grow" style="border-color:var(--r3)"><div class="tag hl3">外部驗收</div><p class="big" style="font-size:44px">換模型、換證據、換人</p><p class="small" style="font-size:28px">驗收要有<b>獨立於生成</b>的依據：網路來源、另一個模型、人耳。重試時要重新收集資訊，不是原地再擲一次骰子。</p></div>
-  </div>
-  <aside class="notes">論文第 V 章：verify 是 harness 和普通 wrapper 的分界；retry 是一次 re-gather，不是重抽。</aside>
-</section>
 
-<section class="slide" data-ring="0" data-sec="第三幕 · 一集節目怎麼做">
-  <div class="kicker">第三幕 · 一個關鍵的設計決策</div>
+
+
+<section class="slide" data-ring="0" data-sec="第三幕 · Auto 模式：NotebookLM">
+  <div class="kicker">Auto 模式 · 一個關鍵的設計決策</div>
   <h2>為什麼不自己寫逐字稿再 TTS？</h2>
   <div class="row grow" style="gap:48px;align-items:center">
     <img src="img/twopaths.jpg" alt="左邊是打字機加生硬的合成語音，右邊是兩位主持人自然對話，上方懸著剪刀" style="width:700px;height:394px;object-fit:cover;border-radius:28px">
@@ -526,7 +497,7 @@ rules:
   <aside class="notes">這是整個系統最重要的取捨。A 路線的控制在第一環；B 路線的聲音生成是黑盒，控制點被迫往外移到第四環修音、第五環人工閘門。這也是 C1：外圈不修內圈，只是加控制點。</aside>
 </section>
 
-<section class="slide" data-ring="0" data-sec="第三幕 · 一集節目怎麼做" data-player="cantonese">
+<section class="slide" data-ring="0" data-sec="第三幕 · Auto 模式：NotebookLM" data-player="cantonese">
   <div class="col" style="gap:16px">
     <div class="kicker">再聽一段 · 13 秒 · 善用它的自主性</div>
     <h2>這句素材裡沒有，是 NotebookLM 自己加的戲</h2>
@@ -540,7 +511,7 @@ rules:
   <aside class="notes">直接播放，最後兩秒是重點。「你瞅啥？瞅你咋地！」是中國東北的方言梗，模仿兩人在路上瞪眼挑釁準備吵架。主持人把動物大聲吼叫，比喻成人類互相嗆聲。這就是選 NotebookLM 的理由：它的自主性會創造出人類編劇想不到的效果。但同一份自主性，也會產生前面的「屎」。所以要靠人耳決定：哪些驚喜留下，哪些事故剪掉。</aside>
 </section>
 
-<section class="slide deep" data-ring="0" data-sec="第三幕 · 一集節目怎麼做">
+<section class="slide deep" data-ring="0" data-sec="第三幕 · Auto 模式：NotebookLM">
   <div class="ddtag">🔬 DEEP DIVE</div>
   <div class="kicker">NotebookLM 的自然感從哪裡來 · 依 Google DeepMind 公開說明</div>
   <h2>對話的「人味」是語音模型自己長出來的</h2>
@@ -561,7 +532,7 @@ rules:
   <aside class="notes">這頁回答「黑科技是什麼」。重點不是數字，而是最後一句：口語瑕疵和笑聲是語音模型的特性，不在文字腳本裡，所以 prompt 管不到。這也是為什麼孟加拉灣那段會笑出來的合理推測，但 Google 沒有證實這個因果。</aside>
 </section>
 
-<section class="slide" data-ring="0" data-sec="第三幕 · 一集節目怎麼做">
+<section class="slide" data-ring="0" data-sec="第三幕 · Auto 模式：NotebookLM">
   <div class="kicker">選擇的代價</div>
   <div class="row grow" style="gap:72px;align-items:center">
     <svg viewBox="0 0 600 600" width="600" height="600" aria-label="控制點從第一環往外移到第四、第五環">
@@ -587,7 +558,7 @@ rules:
   <aside class="notes">這頁把前面的選擇和接下來的抓錯、修音接起來。難度比較高，正是因為要做音訊剪接，而不是改一行文字。</aside>
 </section>
 
-<section class="slide" data-ring="4" data-sec="第四幕 · 抓錯與修音" style="justify-content:center">
+<section class="slide" data-ring="4" data-sec="第四幕 · 抓錯、修音與把關" style="justify-content:center">
   <div class="bg right"><img src="img/ring4.jpg" alt="實習生拿著剪刀繞著音波跑道跑，跑道旁有紅綠燈、沙漏、錢包和終點旗"></div>
   <div class="z col" style="max-width:720px;gap:28px">
     <div class="tag hl4">RING 4 · LOOP</div>
@@ -598,7 +569,7 @@ rules:
   <aside class="notes">回到「水」與「屎」。修音就是一個迴圈。</aside>
 </section>
 
-<section class="slide" data-ring="4" data-sec="第四幕 · 抓錯與修音" data-player="bengal">
+<section class="slide" data-ring="4" data-sec="第四幕 · 抓錯、修音與把關" data-player="bengal">
   <div class="col" style="gap:16px">
     <div class="kicker">再聽一段 · 15 秒</div>
     <h2>孟加拉灣的風暴潮</h2>
@@ -611,7 +582,7 @@ rules:
   <aside class="notes">直接播放。約 12 秒處，主持人在講完很多人失去生命之後笑了出來，畫面會跳出笑臉。製作人的修法：把笑聲剪掉。</aside>
 </section>
 
-<section class="slide" data-ring="4" data-sec="第四幕 · 抓錯與修音">
+<section class="slide" data-ring="4" data-sec="第四幕 · 抓錯、修音與把關">
   <div class="kicker">兩種錯，兩種抓法</div>
   <h2>字都對，語氣錯了，只有人耳抓得到</h2>
   <table class="t">
@@ -625,8 +596,8 @@ rules:
   <aside class="notes">這頁是第四環和第五環的橋。語氣、情緒、是否適合兒童，目前只能靠人聽。這也是為什麼人工審核在我們的流程裡是一個「必經節點」，不是可有可無的抽查。</aside>
 </section>
 
-<section class="slide" data-ring="4" data-sec="第四幕 · 抓錯與修音">
-  <div class="kicker">第四幕 · 抓錯是 hybrid 的</div>
+<section class="slide has-ref" data-ring="4" data-sec="第四幕 · 抓錯、修音與把關">
+  <div class="kicker">第四幕 · 抓錯是 hybrid 的 <span class="cite">[2]</span></div>
   <h2>雙層防線：AI 和人耳，互相補對方的洞</h2>
   <svg viewBox="0 0 1664 420" width="1664" height="420" aria-label="瑞士起司模型：數字與名詞錯誤被 AI 轉錄檢查擋下；弭平、腦補、笑聲穿過 AI 的漏洞，被人耳攔下">
     <rect x="470" y="30" width="70" height="350" rx="18" fill="#7CC4E8"/>
@@ -659,11 +630,12 @@ rules:
     <div class="card"><h3 style="font-size:34px">腦補</h3><p class="small">寫出它「預期」聽到、但實際沒說的內容</p></div>
     <div class="card"><h3 style="font-size:34px">聽不見</h3><p class="small">笑聲、語氣、情緒不會進逐字稿</p></div>
   </div>
-  <aside class="notes">瑞士起司模型：每一層防線都有洞，錯誤要剛好穿過每一層的洞才會發布出去。AI 轉錄後對照文章，很擅長抓數字和名詞說錯，例如「一億年」說成「一千萬年」，人快速聆聽時容易漏掉；但 AI 的洞剛好是弭平、腦補、聽不見這三種。所以兩層互補，人的審核時間省不掉。</aside>
+  <div class="reffoot"><span class="rb">📄 發表的論文 [2]</span><span>Y.-K. Huang, “Engineering a children’s science podcast with large language models: A five-ring technical report on KidSciCast AI,” <i>ResearchGate preprint</i>, 2026, doi: <a class="doi" href="https://doi.org/10.13140/RG.2.2.23325.88807" target="_blank" rel="noopener">10.13140/RG.2.2.23325.88807</a>.</span></div>
+  <aside class="notes">瑞士起司模型：每一層防線都有洞，錯誤要剛好穿過每一層的洞才會發布出去。AI 轉錄後對照文章，適合抓數字和名詞說錯這類錯誤，人快速聆聽時容易漏掉（這是錯誤類型的說明，不是節目裡記錄到的具體事件）；但 AI 的洞剛好是弭平、腦補、聽不見這三種。所以兩層互補，人的審核時間省不掉。</aside>
 </section>
 
-<section class="slide" data-ring="2" data-sec="第四幕 · 抓錯與修音">
-  <div class="kicker">小實驗 · AI 那一層防線的洞</div>
+<section class="slide has-ref" data-ring="2" data-sec="第四幕 · 抓錯、修音與把關">
+  <div class="kicker">小實驗 · AI 那一層防線的洞 <span class="cite">[2]</span></div>
   <h2>AI 會聽見它<span class="hl2">預期</span>聽到的東西</h2>
   <div class="row" style="gap:32px">
     <div class="card grow">
@@ -678,12 +650,13 @@ rules:
     </div>
   </div>
   <p class="small">同一段音檔、同一個 Whisper large-v3，只差在提示</p>
+  <div class="reffoot"><span class="rb">📄 發表的論文 [2]</span><span>Y.-K. Huang, “Engineering a children’s science podcast with large language models: A five-ring technical report on KidSciCast AI,” <i>ResearchGate preprint</i>, 2026, doi: <a class="doi" href="https://doi.org/10.13140/RG.2.2.23325.88807" target="_blank" rel="noopener">10.13140/RG.2.2.23325.88807</a>.</span></div>
   <aside class="notes">這個實驗是準備這場演講時做的。只給相關但不同的句子（「水庫裡面裝的是液態的水」）時，Whisper 還是寫出「屎」；給一模一樣的原句，它就寫成「水」。所以只靠逐字稿比對抓發音錯誤，要非常小心 context 怎麼給。這就是論文 §5.5 說的「音訊層級的詞彙驗證」。</aside>
 </section>
 
 
 
-<section class="slide" data-ring="4" data-sec="第四幕 · 抓錯與修音">
+<section class="slide" data-ring="4" data-sec="第四幕 · 抓錯、修音與把關">
   <div class="kicker">④ Loop · 修音迴圈</div>
   <div class="row grow" style="gap:56px;align-items:center">
     <svg viewBox="0 0 680 680" width="680" height="680" aria-label="修音迴圈：人耳聽、定位、剪下、重新合成、插回、再聽">
@@ -709,7 +682,7 @@ rules:
   <aside class="notes">三個工具名稱來自架構文件。要誠實講：我們沒有測過切點準不準、音色接不接得上，也沒有量測省了多少時間。這是論文待補的證據第一名。</aside>
 </section>
 
-<section class="slide" data-ring="4" data-sec="第四幕 · 抓錯與修音">
+<section class="slide" data-ring="4" data-sec="第四幕 · 抓錯、修音與把關">
   <div class="kicker">④ Loop · 規範</div>
   <h2>四個煞車，<span class="hl4">任何一個踩下去就停</span></h2>
   <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:28px">
@@ -722,8 +695,8 @@ rules:
   <aside class="notes">論文第 VI 章：四個終止條件是「或」的關係。迭代有效的條件是有外部、可靠的回饋訊號。</aside>
 </section>
 
-<section class="slide" data-ring="4" data-sec="第四幕 · 抓錯與修音">
-  <div class="kicker">④ Loop · 修音分級</div>
+<section class="slide has-ref" data-ring="4" data-sec="第四幕 · 抓錯、修音與把關">
+  <div class="kicker">④ Loop · 修音分級 <span class="cite">[2]</span></div>
   <h2>依嚴重度決定怎麼修</h2>
   <table class="t" style="font-size:28px">
     <tr><th style="width:120px">等級</th><th style="width:420px">例子</th><th>處理</th><th style="width:160px">狀態</th></tr>
@@ -732,27 +705,11 @@ rules:
     <tr><td class="en hl5">S3</td><td>語氣不當<br><span class="small">悲劇段落裡笑出來</span></td><td>剪掉笑聲；和說話重疊就剪整句</td><td><span class="tag" style="color:var(--ok)">現行</span></td></tr>
     <tr><td class="en hl4">S4</td><td>聲音裡說錯科學<br><span class="small">素材對，主持人自由發揮說錯</span></td><td>剪掉或替換；錯誤遍布就修正 prompt 後整集重生</td><td><span class="tag hl3">建議</span></td></tr>
   </table>
+  <div class="reffoot"><span class="rb">📄 發表的論文 [2]</span><span>Y.-K. Huang, “Engineering a children’s science podcast with large language models: A five-ring technical report on KidSciCast AI,” <i>ResearchGate preprint</i>, 2026, doi: <a class="doi" href="https://doi.org/10.13140/RG.2.2.23325.88807" target="_blank" rel="noopener">10.13140/RG.2.2.23325.88807</a>.</span></div>
   <aside class="notes">分級的目的不是官僚，而是讓修音的決策可以被重複、被檢查。S2 一定要修，因為對兒童節目來說，那不是瑕疵而是錯誤內容。</aside>
 </section>
 
-<section class="slide deep" data-ring="4" data-sec="第四幕 · 抓錯與修音">
-  <div class="ddtag">🔬 DEEP DIVE</div>
-  <div class="kicker">④ Loop · 停止條件的實務版</div>
-  <h2>修補，還是整集重新生成？</h2>
-  <div class="row" style="gap:32px;align-items:stretch">
-    <div class="card grow"><div class="tag hl4">修補的成本</div><p style="font-size:30px">Σ 每處修音分鐘 ＋ 修改處前後重聽</p></div>
-    <div class="card grow"><div class="tag hl2">重生的成本</div><p style="font-size:30px">重新生成 ＋ <b>整集重審 15–20 分鐘</b> ＋ 重新擲骰子：可能冒出新的錯</p></div>
-  </div>
-  <p class="big" style="font-size:40px">建議規則：同一集修補超過 <span class="hl4">N</span> 處，或累計超過 <span class="hl4">X</span> 分鐘 → 改為整集重生</p>
-  <div class="card" style="gap:14px">
-    <p style="font-size:28px"><b>修改之後，這些東西會「過期」，要重新檢查：</b></p>
-    <div class="row" style="gap:14px;flex-wrap:wrap"><span class="chip">逐字稿時間戳</span><span class="chip">說話者標籤</span><span class="chip">測驗題的根據</span><span class="chip">詞彙解釋</span><span class="chip">短影片字幕</span><span class="chip">重點時間點</span></div>
-  </div>
-  <p class="small">重生不保證比較好：同樣的 prompt，每次結果不同。</p>
-  <aside class="notes">這就是第四環的四個煞車在修音上的具體版本。N 和 X 要等完整工時資料出來才能訂。</aside>
-</section>
-
-<section class="slide" data-ring="5" data-sec="第五幕 · 工程規範" style="justify-content:center">
+<section class="slide" data-ring="5" data-sec="第四幕 · 抓錯、修音與把關" style="justify-content:center">
   <div class="bg right"><img src="img/ring5.jpg" alt="多台機器人在各自的工作站，中間是一位戴耳機、拿著核准印章的人類編輯"></div>
   <div class="z col" style="max-width:720px;gap:28px">
     <div class="tag hl5">RING 5 · GRAPH</div>
@@ -763,7 +720,7 @@ rules:
   <aside class="notes">最外圈：把每個迴圈放進一張流程圖。這種想法不新，工作流程系統早就有，我們只是重新發現。</aside>
 </section>
 
-<section class="slide" data-ring="5" data-sec="第五幕 · 工程規範">
+<section class="slide" data-ring="5" data-sec="第四幕 · 抓錯、修音與把關">
   <div class="kicker">⑤ Graph · 一集節目的流程圖</div>
   <h2>先過人耳，才開始做教材</h2>
   <svg viewBox="0 0 1664 560" width="1664" height="560" aria-label="流程圖：主線經過人工審核後，平行產生六種教材，最後完整性檢查與發布">
@@ -795,172 +752,183 @@ rules:
       <rect x="1490" y="210" width="174" height="140" rx="24" fill="#211F45" stroke="#8FE3B0" stroke-width="3"/><text x="1577" y="272" fill="#F5EFE0">👤 發布</text><text x="1577" y="308" font-size="22" fill="#ABA7CF">製作人授權</text>
     </g>
   </svg>
-  <aside class="notes">C2 的實際應用：審核放在衍生教材之前，錯字就不會被抄 30 次。但修音之後，下游的東西會「過期」，這就是第四幕要講的。完整性檢查 episode_check_all 只檢查 17 項是否存在且非空，不代表內容正確。</aside>
+  <aside class="notes">C2 的實際應用：審核放在衍生教材之前，錯字就不會被抄 30 次。但修音之後，下游的東西就要重新檢查；下一幕的Pro 模式，就是從這些痛點出發。完整性檢查 episode_check_all 只檢查 17 項是否存在且非空，不代表內容正確。</aside>
 </section>
 
-<section class="slide deep" data-ring="5" data-sec="第五幕 · 工程規範">
-  <div class="ddtag">🔬 DEEP DIVE</div>
-  <div class="kicker">⑤ Graph · 依架構文件重繪的完整 DAG</div>
-  <h2>關鍵路徑、扇出、扇入、故障隔離</h2>
-  <svg viewBox="0 0 1664 660" width="1664" height="660" aria-label="完整 DAG：上排關鍵路徑十個節點，人工閘門後扇出教育、視覺、影片三組分支，最後扇入彙整與完整性檢查">
-    <defs><marker id="ah3" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#ABA7CF"/></marker></defs>
-    <g id="cp" font-size="20" text-anchor="middle"></g>
-    <text x="0" y="22" font-size="22" fill="#FFC94A" font-family="IBM Plex Mono, monospace">CRITICAL PATH</text>
-    <path d="M 1590 158 L 1590 196 L 60 196 L 60 226" stroke="#FF7E9D" stroke-width="4" fill="none" marker-end="url(#ah3)"/>
-    <text x="830" y="188" text-anchor="middle" font-size="20" fill="#FF7E9D">通過人耳 → FAN-OUT</text>
-    <g font-size="20">
-      <rect x="0" y="236" width="520" height="250" rx="22" fill="none" stroke="#7CC4E8" stroke-width="2" stroke-dasharray="6 6"/>
-      <text x="20" y="268" fill="#7CC4E8" font-family="IBM Plex Mono, monospace">EDU · 6 平行</text>
-      <rect x="560" y="236" width="560" height="250" rx="22" fill="none" stroke="#B79CF0" stroke-width="2" stroke-dasharray="6 6"/>
-      <text x="580" y="268" fill="#B79CF0" font-family="IBM Plex Mono, monospace">VISUAL · 2 條鏈</text>
-      <rect x="1160" y="236" width="504" height="250" rx="22" fill="none" stroke="#FF8A3D" stroke-width="2" stroke-dasharray="6 6"/>
-      <text x="1180" y="268" fill="#FF8A3D" font-family="IBM Plex Mono, monospace">VIDEO · 1 條鏈</text>
-    </g>
-    <g id="branches" font-size="18" font-family="IBM Plex Mono, monospace"></g>
-    <path d="M 60 486 L 60 520 L 1600 520" stroke="#ABA7CF" stroke-width="3" fill="none"/>
-    <path d="M 830 520 L 830 548" stroke="#ABA7CF" stroke-width="3" marker-end="url(#ah3)"/>
-    <text x="1600" y="510" text-anchor="end" font-size="20" fill="#ABA7CF">FAN-IN</text>
-    <g font-size="20" text-anchor="middle">
-      <rect x="430" y="556" width="250" height="84" rx="18" fill="#2C2958"/><text x="555" y="592" fill="#F5EFE0">tags＋summary</text><text x="555" y="622" font-size="16" fill="#ABA7CF">標籤、家長小抄</text>
-      <rect x="720" y="556" width="220" height="84" rx="18" fill="#2C2958"/><text x="830" y="592" fill="#F5EFE0">promotion</text><text x="830" y="622" font-size="16" fill="#ABA7CF">推廣文案</text>
-      <rect x="980" y="556" width="250" height="84" rx="18" fill="#211F45" stroke="#FFC94A" stroke-width="3"/><text x="1105" y="592" fill="#F5EFE0">check_all</text><text x="1105" y="622" font-size="16" fill="#ABA7CF">17 項存在且非空</text>
-      <rect x="1270" y="556" width="220" height="84" rx="18" fill="#211F45" stroke="#8FE3B0" stroke-width="3"/><text x="1380" y="592" fill="#F5EFE0">COMPLETED</text><text x="1380" y="622" font-size="16" fill="#ABA7CF">flow.md</text>
-    </g>
-    <g stroke="#ABA7CF" stroke-width="3" marker-end="url(#ah3)"><line x1="680" y1="598" x2="716" y2="598"/><line x1="940" y1="598" x2="976" y2="598"/><line x1="1230" y1="598" x2="1266" y2="598"/></g>
-  </svg>
-  <p class="small">故障隔離：視覺分支因配額失敗，不阻擋音訊與題庫。注意 <code>check_all</code> 只檢查「存在且非空」，不代表內容正確。</p>
-  <aside class="notes">這是架構文件的 Phase 1 到 8。上排是讓節目「能被聽見」的關鍵路徑；人工閘門通過後才扇出 11 個以上的衍生 skill。哪些分支可以省略，應該由發布政策事先宣告，而不是看檔案有沒有生出來。</aside>
+<section class="slide" data-ring="0" data-sec="第五幕 · Pro 模式" style="justify-content:center">
+  <div class="row" style="gap:56px;align-items:center">
+    <div class="col" style="width:600px;gap:26px;flex:none">
+      <div class="tag hl1">第五幕 · Pro 模式</div>
+      <h1 style="font-size:84px">切換到<br>Pro 模式</h1>
+      <p class="big" style="font-size:40px"><span class="hl3">Gemini 3.8 Flash TTS</span><br>＋故事音效</p>
+      <p style="font-size:30px"><span class="tag hl3">2026 年 10 月底起 · 部分集數</span></p>
+      <p class="mist" style="font-size:28px">Auto 模式像手機相機的自動模式：按下去它幫你決定，大多很自然，偶爾翻車。Pro 模式像專業模式：聲線、台詞、演法、音效都自己調。自然度稍遜，換來發音和音效的控制</p>
+    </div>
+    <div class="col grow" style="gap:12px">
+      <img src="img/eras.jpg" alt="左邊是自由即興的錄音室，右邊是拿著劇本、旁邊有音效道具的導演控制室，底下一條時間軸" style="width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:28px">
+      <div class="row" style="justify-content:space-between;font-size:26px"><span class="hl2">Auto 模式 · 2025/5 起 · NotebookLM</span><span class="hl3">Pro 模式 · 2026/10 底起 · Gemini 3.8 TTS</span></div>
+    </div>
+  </div>
+  <aside class="notes">第四幕講的是Auto 模式的痛：黑盒子出錯只能事後剪。Gemini 3.8 TTS 推出後，2026 年 10 月底起，部分集數改用新技術。這一幕講換了什麼、得到什麼、失去什麼。</aside>
 </section>
 
-<section class="slide deep" data-ring="5" data-sec="第五幕 · 工程規範">
+<section class="slide" data-ring="0" data-sec="第五幕 · Pro 模式">
+  <div class="kicker">第五幕 · 兩種模式並存</div>
+  <h2>兩種工具，兩種取捨</h2>
+  <table class="t" style="font-size:29px">
+    <tr><th style="width:250px"></th><th>Auto 模式　<span class="hl2">NotebookLM</span>　2025/5 起</th><th>Pro 模式　<span class="hl3">Gemini 3.8 Flash TTS</span>　2026/10 底起</th></tr>
+    <tr><td class="mist">誰寫對話</td><td>NotebookLM 自己生成</td><td>我們寫劇本，<b>每一句</b>都定稿</td></tr>
+    <tr><td class="mist">自然度</td><td><b class="hl2">最自然</b>，會自己加梗</td><td>稍遜，但接話節奏可以導演</td></tr>
+    <tr><td class="mist">發音</td><td>只能給提示，錯了事後剪</td><td><b class="hl3">讀音代換寫進台詞</b>，錯了重念那一段</td></tr>
+    <tr><td class="mist">音效</td><td>成品出來後再疊上去</td><td><b class="hl3">寫劇本時就一起寫</b>，對話會停下來等音效</td></tr>
+    <tr><td class="mist">主持陣容</td><td>固定兩位</td><td>可選聲線，原版三人、青春版雙人</td></tr>
+  </table>
+  <p style="font-size:32px">不是誰取代誰：兩種工具並存，<b class="hl1">依每一集的需要選</b>。</p>
+  <aside class="notes">自然度這一點要誠實講：NotebookLM 的人味還是最好。Pro 模式換到的是控制權：發音能事先處理，音效能寫進故事裡。目前是部分集數使用新流程。</aside>
+</section>
+
+<section class="slide" data-ring="0" data-sec="第五幕 · Pro 模式">
+  <div class="kicker">第五幕 · Pro 模式的主線</div>
+  <h2>劇本、演法、音效，一起寫好再開錄</h2>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:22px">
+    <div class="card"><div class="row" style="justify-content:space-between;align-items:center"><span class="en hl1" style="font-size:40px">1</span><span class="tag hl1">①</span></div><code>episode_meta</code><p style="font-size:26px">大綱與人設：原版科學隊長＋好奇博士，青春版小可＋小博</p></div>
+    <div class="card"><div class="row" style="justify-content:space-between;align-items:center"><span class="en hl2" style="font-size:40px">2</span><span class="tag hl2">① ②</span></div><code>gemini_38_transcript</code><p style="font-size:26px">逐句寫台詞與演法，再逐句對照原稿自我查核</p></div>
+    <div class="card"><div class="row" style="justify-content:space-between;align-items:center"><span class="en hl5" style="font-size:40px">3</span><span class="tag hl5">⑤</span></div><code>story_beats.json</code><p style="font-size:26px">和劇本同時寫的音效表：哪裡停下、播什麼聲音、為什麼</p></div>
+    <div class="card"><div class="row" style="justify-content:space-between;align-items:center"><span class="en hl3" style="font-size:40px">4</span><span class="tag hl3">③</span></div><code>story_tts</code><p style="font-size:26px">語音＋音效一次組裝；語音段快取，只改音效不再花 TTS 費用</p></div>
+    <div class="card"><div class="row" style="justify-content:space-between;align-items:center"><span class="en hl4" style="font-size:40px">5</span><span class="tag hl4">④</span></div><code>ASR 逐段對稿</code><p style="font-size:26px">念錯的那一段單獨重錄，不用整集重來</p></div>
+    <div class="card" style="border-color:var(--r5)"><div class="row" style="justify-content:space-between;align-items:center"><span class="en hl5" style="font-size:40px">6</span><span class="tag hl5">⑤</span></div><code>平衡＋試聽頁</code><p style="font-size:26px">人聲、音效分軌平衡；試聽頁只放有音效的片段，人耳回饋</p></div>
+  </div>
+  <aside class="notes">和Auto 模式最大的差別：Auto 模式是素材進黑盒子、成品出來再修；Pro 模式是先把劇本、每句演法、音效表都寫好，再一次合成。錯了也只重做那一小段。</aside>
+</section>
+
+<section class="slide deep" data-ring="1" data-sec="第五幕 · Pro 模式">
   <div class="ddtag">🔬 DEEP DIVE</div>
-  <div class="kicker">契約 · 每個產物都是一個有狀態的物件</div>
-  <h2>程式跑完 ≠ 內容被接受</h2>
-  <div class="row" style="gap:48px;align-items:center">
-    <svg viewBox="0 0 980 470" width="980" height="470" aria-label="狀態機：pending、running、needs_review、accepted，另有 failed 與 stale">
-      <defs><marker id="ah4" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#ABA7CF"/></marker></defs>
-      <g font-size="24" text-anchor="middle" font-family="IBM Plex Mono, monospace">
-        <rect x="0" y="60" width="190" height="80" rx="40" fill="#2C2958"/><text x="95" y="108" fill="#F5EFE0">pending</text>
-        <rect x="250" y="60" width="190" height="80" rx="40" fill="#2C2958"/><text x="345" y="108" fill="#F5EFE0">running</text>
-        <rect x="500" y="60" width="230" height="80" rx="40" fill="#211F45" stroke="#FF7E9D" stroke-width="3"/><text x="615" y="108" fill="#F5EFE0">needs_review</text>
-        <rect x="790" y="60" width="190" height="80" rx="40" fill="#211F45" stroke="#8FE3B0" stroke-width="3"/><text x="885" y="108" fill="#F5EFE0">accepted</text>
-        <rect x="250" y="300" width="190" height="80" rx="40" fill="#211F45" stroke="#FF5A5F" stroke-width="3"/><text x="345" y="348" fill="#F5EFE0">failed</text>
-        <rect x="790" y="300" width="190" height="80" rx="40" fill="#211F45" stroke="#FF8A3D" stroke-width="3"/><text x="885" y="348" fill="#F5EFE0">stale</text>
-      </g>
-      <g stroke="#ABA7CF" stroke-width="3" fill="none" marker-end="url(#ah4)">
-        <line x1="190" y1="100" x2="246" y2="100"/><line x1="440" y1="100" x2="496" y2="100"/><line x1="730" y1="100" x2="786" y2="100"/>
-        <line x1="345" y1="140" x2="345" y2="296"/>
-        <line x1="885" y1="140" x2="885" y2="296"/>
-        <path d="M 790 360 C 500 460 120 440 95 144"/>
-        <path d="M 615 60 C 600 0 120 0 95 56"/>
-      </g>
-      <g font-size="20" fill="#ABA7CF">
-        <text x="360" y="230">技術失敗</text><text x="900" y="230">上游改了</text>
-        <text x="360" y="18">審查退回</text><text x="420" y="452">重跑</text>
-      </g>
-    </svg>
+  <div class="kicker">① Prompt · 劇本就是導演指令</div>
+  <h2>每一句都寫清楚：誰說、怎麼說、說什麼</h2>
+  <div class="row" style="gap:36px;align-items:stretch">
+    <pre class="mono" style="margin:0;font-size:24px;line-height:1.6;white-space:pre-wrap;width:1000px;color:var(--star);background:var(--night-2);border:2px solid var(--night-3);border-radius:28px;padding:36px 40px;box-sizing:border-box">{
+  "speaker": "<span class="hl1">小博</span>",   <span class="mist">// 聲線 Puck</span>
+  "style": "<span class="hl2">Standard Taiwanese Mandarin with a natural
+    Taiwan accent … no erhua</span>; excited on-site
+    report, immediate pickup",
+  "text": "我們現在在阿拉斯加、白令海峽和北極圈
+    附近的深海……這裡終年漆黑無光，<span class="hl3">|好黑！|</span>
+    只能靠探照燈照亮。"
+}</pre>
     <div class="col grow" style="gap:20px">
-      <div class="card"><div class="tag hl3">驗證結果另外記</div><p style="font-size:28px"><code>pass</code>　<code>fail</code>　<code>indeterminate</code><br><span class="small">附證據與範圍；「不確定」不能被當成通過</span></p></div>
-      <table class="t" style="font-size:24px">
-        <tr><th>產物</th><th>機械檢查</th><th>語意驗收</th></tr>
-        <tr><td>逐字稿</td><td class="mist">格式、時間戳範圍</td><td>和聲音一致</td></tr>
-        <tr><td>測驗題</td><td class="mist">題數、答案鍵</td><td>有根據、不模稜兩可</td></tr>
-        <tr><td>音檔</td><td class="mist">可解碼、長度</td><td>讀音、語氣、聽得懂</td></tr>
-      </table>
+      <div class="card"><div class="tag hl2">style</div><p style="font-size:26px">每句必填：口音錨點＋情緒＋接話節奏</p></div>
+      <div class="card"><div class="tag hl3">text</div><p style="font-size:26px">逐字照念。<b>讀音代換</b>直接寫進去，例如「鱔」寫成「善」</p></div>
+      <div class="card"><div class="tag hl1">接話</div><p style="font-size:26px">搶話處用「——」縮短停頓；<code>|好黑！|</code> 是另一人的短搭腔</p></div>
     </div>
   </div>
-  <aside class="notes">論文 §7.1 的提案。重點：程序結束不能被翻譯成「接受」；編輯退回和技術失敗要分開記。逐字稿可以通過時間戳檢查，同時把屎寫成水。</aside>
+  <aside class="notes">例句是 c35 青春版第 19 句的真實台詞，style 有縮短。Auto 模式我們只能給 NotebookLM 素材；Pro 模式每一句的字、演法、節奏都由我們決定，這就是控制權回到第一環。</aside>
 </section>
 
-<section class="slide" data-ring="5" data-sec="第五幕 · 工程規範">
-  <div class="kicker">第四幕 · 這是正規工程，不是玩具</div>
-  <div class="row grow" style="gap:64px;align-items:center">
-    <img src="img/expiry.jpg" alt="形狀像音檔的便當盒，上面的有效期限貼紙被打叉" style="width:760px;height:560px;object-fit:cover;border-radius:28px">
-    <div class="col grow" style="gap:28px">
-      <h2>審查是會過期的</h2>
-      <p>就像便當上的有效期限貼紙：<b class="hl5">內容一改，舊的「已審核」就失效</b>。</p>
-      <div class="card"><p class="small" style="font-size:28px;color:var(--star)">每一筆審查紀錄都綁定：</p>
-        <div class="row" style="flex-wrap:wrap;gap:14px"><span class="chip">內容雜湊</span><span class="chip">哪一集</span><span class="chip">哪一版政策</span><span class="chip">上游所有版本</span></div>
-      </div>
-    </div>
+<section class="slide" data-ring="3" data-sec="第五幕 · Pro 模式">
+  <div class="kicker">③ Harness · 一個真實的修正</div>
+  <h2>一句 prompt，讓博士變成大陸播音腔</h2>
+  <div class="row" style="gap:28px;align-items:stretch">
+    <div class="card grow"><div class="tag alarm">問題</div><p style="font-size:28px">每句 style 開頭寫著「捲舌音清楚到位」，把聲音推向<b>北京播音腔</b>。用 Gemini 盲測 4 次，舊版博士 4 次都被判成大陸口音</p></div>
+    <div class="card grow"><div class="tag hl1">修正</div><p style="font-size:28px">錨點改成「自然台灣口音、捲舌輕鬆不刻意、無兒化音」；博士改成「像台灣自然科老師日常說話」</p></div>
+    <div class="card grow" style="border-color:var(--r3)"><div class="tag hl3">修在哪裡</div><p style="font-size:28px">不是只改這一集：所有 skill 的預設一起換，style 沒寫錨點就自動補上，44 個測試全過</p></div>
   </div>
-  <aside class="notes">這是離線研究原型的設計，不是目前線上流程已經部署的東西。改了音檔，逐字稿的時間戳會位移，測驗題的根據可能消失；所以依賴它的下游全部標為過期，要重審。</aside>
+  <div class="card" style="gap:10px"><p style="font-size:28px"><b class="hl4">ASR 逐段對稿</b>也抓到一個：招牌句「上山下海」被聽成「上山上海」。只重錄那一段、加上讀音提示，兩次辨識都對了。</p></div>
+  <p class="small">盲測是模型判斷，不是人耳；最後選哪個版本，由製作人親耳決定</p>
+  <aside class="notes">這頁示範五環的定位：症狀是第一環的一句 prompt，但影響每一集，所以修在第三環，也就是工具本身的預設和測試。發音和口音是繁中節目最在意的事，Pro 模式終於能在合成前就處理。</aside>
 </section>
 
-<section class="slide deep" data-ring="5" data-sec="第五幕 · 工程規範">
-  <div class="ddtag">🔬 DEEP DIVE</div>
-  <div class="kicker">離線原型 schema-v2 · 審查綁定的對象</div>
-  <h2>每筆審查都簽在一個遞迴雜湊上</h2>
-  <div class="row" style="gap:48px;align-items:center">
-    <svg viewBox="0 0 900 500" width="900" height="500" aria-label="雜湊樹：測驗題依賴逐字稿，逐字稿依賴音檔，音檔依賴文章，每一層的 digest 都包含上游 digest">
-      <defs><marker id="ah5" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#7CC4E8"/></marker></defs>
-      <g font-family="IBM Plex Mono, monospace" font-size="22">
-        <rect x="0" y="10" width="400" height="90" rx="18" fill="#211F45" stroke="#FFC94A" stroke-width="3"/><text x="24" y="50" fill="#F5EFE0">article.md</text><text x="24" y="82" fill="#ABA7CF" font-size="18">H(payload, policy, locale…)</text>
-        <rect x="120" y="140" width="400" height="90" rx="18" fill="#211F45" stroke="#FF8A3D" stroke-width="3"/><text x="144" y="180" fill="#F5EFE0">audio.mp3</text><text x="144" y="212" fill="#ABA7CF" font-size="18">H(payload, …, H(article))</text>
-        <rect x="240" y="270" width="420" height="90" rx="18" fill="#211F45" stroke="#7CC4E8" stroke-width="3"/><text x="264" y="310" fill="#F5EFE0">transcript.json</text><text x="264" y="342" fill="#ABA7CF" font-size="18">H(payload, …, H(audio))</text>
-        <rect x="360" y="400" width="420" height="90" rx="18" fill="#211F45" stroke="#B79CF0" stroke-width="3"/><text x="384" y="440" fill="#F5EFE0">quiz.json</text><text x="384" y="472" fill="#ABA7CF" font-size="18">H(payload, …, H(transcript))</text>
-      </g>
-      <g stroke="#7CC4E8" stroke-width="3" fill="none" marker-end="url(#ah5)"><path d="M 60 100 L 60 185 L 116 185"/><path d="M 180 230 L 180 315 L 236 315"/><path d="M 300 360 L 300 445 L 356 445"/></g>
-      <text x="560" y="190" font-size="22" fill="#FF5A5F">改這裡 ✂</text>
-      <text x="690" y="320" font-size="22" fill="#FF8A3D">→ 失效</text><text x="810" y="450" font-size="22" fill="#FF8A3D">→ 失效</text>
-    </svg>
+<section class="slide" data-ring="5" data-sec="第五幕 · Pro 模式">
+  <div class="kicker">⑤ Graph · 故事音效</div>
+  <div class="row grow" style="gap:56px;align-items:center">
+    <img src="img/foley.jpg" alt="機器人實習生在音效工作室把玩具潛水艇放進水缸、敲鼓、看聲納螢幕" style="width:720px;height:405px;object-fit:cover;border-radius:28px">
     <div class="col grow" style="gap:22px">
-      <div class="card"><p class="mono" style="font-size:28px">Ready(e) = ⋀ Accepted(a)<br>　　　　 ∧ Consistent(e)<br>　　　　 ∧ Approved(e)</p></div>
-      <p style="font-size:26px"><code>validate(m, require_approval=False)</code><br><span class="small">預檢：不能當發布授權</span></p>
-      <p style="font-size:26px"><code>validate(m)</code><br><span class="small">正式：核准必須對上整份目前的清單</span></p>
-      <p class="small" style="color:var(--alarm)">威脅模型：digest 不是簽章。能改寫所有紀錄的人，就能偽造「新鮮的」審查。</p>
+      <h2 style="font-size:60px">為音效寫台詞</h2>
+      <div class="card"><div class="tag hl1">beat：停下來播完</div><p style="font-size:26px">「抓緊，潛水艇要下潛了——」→ 入水聲 →「潛水艇往下沉了……」前一句引進聲音，後一句回應聲音</p></div>
+      <div class="card"><div class="tag hl3">overlay：壓在台詞上</div><p style="font-size:26px">揭曉時的提示鈴、數到十隻的答對聲；用 ASR 對準那句話的位置</p></div>
     </div>
   </div>
-  <aside class="notes">target digest 包含 schema、集數、發布設定、政策、類型、版本、payload 雜湊、語系、宣告的上游，以及遞迴計算的上游 digest。改了音檔，下游所有審查的對象都變了，舊的審查自然失效。這是 v10 修補的漏洞。</aside>
-</section>
-
-<section class="slide" data-ring="5" data-sec="第五幕 · 工程規範">
-  <div class="kicker">第四幕 · 發布規範</div>
-  <h2>發布前要過三道關</h2>
-  <img src="img/gates.jpg" alt="一枚 Podcast 火箭依序通過掃描門、人類核准印章、最終雷射檢查門" style="width:100%;height:380px;object-fit:cover;border-radius:28px">
-  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:28px">
-    <div class="card"><div class="tag hl3">1 · Preflight</div><p style="font-size:30px">機器先檢查：素材齊不齊、審查有沒有過期、依賴對不對</p></div>
-    <div class="card" style="border-color:var(--r5)"><div class="tag hl5">2 · 人工批准</div><p style="font-size:30px">人批准的是<b>這一份確切的清單</b>，不是「大概這樣」</p></div>
-    <div class="card"><div class="tag hl1">3 · 最終驗證</div><p style="font-size:30px">批准之後再檢查一次，確認期間沒有東西被改過</p></div>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px">
+    <div class="col" style="gap:4px"><div class="bignum hl1" style="font-size:72px">1,956</div><p class="small">個小森平音效素材，加上程式合成的聲音</p></div>
+    <div class="col" style="gap:4px"><div class="bignum hl2" style="font-size:72px">10–16</div><p class="small">個 beat／15 分鐘，每個 1–5 秒，總長不超過 10%</p></div>
+    <div class="col" style="gap:4px"><div class="bignum hl3" style="font-size:72px">~24 s</div><p class="small">平均一個音效（beat＋overlay），不是每句都加</p></div>
+    <div class="col" style="gap:4px"><div class="bignum hl5" style="font-size:72px">−21</div><p class="small">LUFS 的 beat 音量，比人聲小一點；不放突發驚嚇</p></div>
   </div>
-  <aside class="notes">Preflight 通過不等於可以發布。Ready(e) = 必要素材都已接受 ∧ 一致 ∧ 已批准。這是參考政策，還不是原子化的發布實作。</aside>
+  <aside class="notes">音效表和劇本同時寫，是Pro 模式才做得到的事：NotebookLM 的對話不會為了音效停下來。合成的音效是聲音設計，不是實錄；原稿沒寫鯊魚，就不能放鯊魚出現的聲音。</aside>
+</section>
+
+<section class="slide" data-ring="5" data-sec="第五幕 · Pro 模式" data-player="dive">
+  <div class="col" style="gap:16px">
+    <div class="kicker">聽聽看 · 30 秒 · 青春版 c35 帝王蟹</div>
+    <h2>小可、小博搭潛水艇下潛</h2>
+  </div>
+  <div class="player grow" id="p-dive" style="justify-content:center">
+    <div class="ptop"><button class="play" aria-label="播放">▶</button><div class="wave"></div><div class="time">0.0 s</div></div>
+    <div class="lyrics"></div>
+  </div>
+  <p class="small">波形上的彩色區塊是故事音效：入水、氣泡、聲納。三個都是對話停下來、完整播完的 beat。</p>
+  <aside class="notes">直接播放。小博說「抓緊，潛水艇要下潛了——」，接著入水聲、氣泡，小可接「潛水艇往下沉了……」，再一聲聲納，小博報出所在位置和深度。這段聲音是 Gemini 3.8 TTS 的小可（Leda）和小博（Puck）。</aside>
+</section>
+
+<section class="slide has-ref" data-ring="0" data-sec="第五幕 · Pro 模式">
+  <div class="kicker">第五幕 · 用五環看兩種模式 <span class="cite">[2]</span></div>
+  <h2 style="font-size:60px">Auto 模式控制在外圈，Pro 模式控制回到內圈</h2>
+  <table class="t tight" style="font-size:23px">
+    <tr><th style="width:230px">環</th><th>Auto 模式　<span class="hl2">NotebookLM</span></th><th>Pro 模式　<span class="hl3">Gemini 3.8 TTS</span></th></tr>
+    <tr><td><span class="en hl1">① Prompt</span></td><td class="mist">只能給素材和人設</td><td>每句台詞、演法都由我們寫</td></tr>
+    <tr><td><span class="en hl2">② Context</span></td><td class="mist">發音標注只是建議</td><td>讀音代換寫進台詞，口音錨點每句都帶</td></tr>
+    <tr><td><span class="en hl3">③ Harness</span></td><td class="mist">聲音生成是黑盒子</td><td>分段合成、快取、請求可預覽</td></tr>
+    <tr><td><span class="en hl4">④ Loop</span></td><td class="mist">事後剪接修音</td><td>ASR 逐段對稿，只重錄那一段</td></tr>
+    <tr><td><span class="en hl5">⑤ Graph</span></td><td class="mist">人耳審核後才做教材</td><td>劇本＋音效表一起寫，試聽頁收回饋</td></tr>
+  </table>
+  <p style="font-size:30px">選工具，其實是在選：<b class="hl1">控制要放在哪一環</b>。人耳審核在兩種模式都省不掉。</p>
+  <div class="reffoot"><span class="rb">📄 發表的論文 [2]</span><span>Y.-K. Huang, “Engineering a children’s science podcast with large language models: A five-ring technical report on KidSciCast AI,” <i>ResearchGate preprint</i>, 2026, doi: <a class="doi" href="https://doi.org/10.13140/RG.2.2.23325.88807" target="_blank" rel="noopener">10.13140/RG.2.2.23325.88807</a>.</span></div>
+  <aside class="notes">這頁是全場的收束：五環不是只能拿來分析錯誤，也能拿來比較工具。Auto 模式用自然度換走了內圈的控制，只好在外圈補；Pro 模式把控制拿回內圈，但自然度稍遜。</aside>
 </section>
 
 
 
-<section class="slide" data-ring="0" data-sec="第五幕 · 工程規範">
-  <div class="kicker">第四幕 · 一集要花多少錢</div>
-  <h2>「便宜」是錯覺：<span class="hl2">人的時間</span>才是大頭</h2>
-  <p class="mono" style="font-size:34px;color:var(--star)">C = S/N + w·(h + b + p·r)/60 + U</p>
-  <svg viewBox="0 0 1664 420" width="1664" height="420" aria-label="四種情境的每集成本堆疊長條圖：只審核 8.17、偶爾修音 9.17、常常修音 13.17、嚴重修音 28.17 美元">
-    <g font-size="28" fill="#F5EFE0">
-      <text x="0" y="62">只審核</text><text x="0" y="162">偶爾修音</text><text x="0" y="262">常常修音</text><text x="0" y="362">嚴重修音</text>
-    </g>
-    <g font-size="22" fill="#ABA7CF">
-      <text x="0" y="92">p=0%</text><text x="0" y="192">p=10%, r=30 分</text><text x="0" y="292">p=25%, r=60 分</text><text x="0" y="392">p=50%, r=120 分</text>
-    </g>
-    <!-- scale: 1 USD = 44 px, origin x=240 -->
-    <g>
-      <rect x="240" y="36" width="66" height="56" fill="#7CC4E8"/><rect x="306" y="36" width="293" height="56" fill="#B79CF0"/>
-      <rect x="240" y="136" width="66" height="56" fill="#7CC4E8"/><rect x="306" y="136" width="293" height="56" fill="#B79CF0"/><rect x="599" y="136" width="44" height="56" fill="#FF8A3D"/>
-      <rect x="240" y="236" width="66" height="56" fill="#7CC4E8"/><rect x="306" y="236" width="293" height="56" fill="#B79CF0"/><rect x="599" y="236" width="220" height="56" fill="#FF8A3D"/>
-      <rect x="240" y="336" width="66" height="56" fill="#7CC4E8"/><rect x="306" y="336" width="293" height="56" fill="#B79CF0"/><rect x="599" y="336" width="880" height="56" fill="#FF8A3D"/>
-    </g>
-    <g font-size="32" fill="#F5EFE0" font-family="Bricolage Grotesque, sans-serif" font-weight="600">
-      <text x="616" y="75">$8.17</text><text x="660" y="175">$9.17</text><text x="836" y="275">$13.17</text><text x="1496" y="375">$28.17</text>
-    </g>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section class="slide has-ref" data-ring="0" data-sec="第六幕 · 成本與成果">
+  <div class="kicker">第六幕 · 一集要花多少錢 <span class="cite">[2]</span></div>
+  <h2>AI 的錢變得很便宜，<span class="hl2">人的時間</span>才是大頭</h2>
+  <svg viewBox="0 0 1664 280" width="1308" height="220" style="flex:none" aria-label="每集成本堆疊長條圖：Auto 模式 8.17 美元，Pro 模式 8.39 美元，兩者都以人工審核為主">
+    <g font-size="30" fill="#F5EFE0"><text x="0" y="78">Auto 模式</text><text x="0" y="218">Pro 模式</text></g>
+    <g font-size="22" fill="#ABA7CF"><text x="0" y="110">NotebookLM</text><text x="0" y="250">Gemini 3.8 TTS</text></g>
+    <!-- scale: 1 USD = 140 px, origin x=260 -->
+    <rect x="260" y="40" width="210" height="80" fill="#FF8A3D"/><rect x="470" y="40" width="934" height="80" fill="#B79CF0"/>
+    <rect x="260" y="180" width="210" height="80" fill="#FF8A3D"/><rect x="470" y="180" width="31" height="80" fill="#7CC4E8"/><rect x="501" y="180" width="934" height="80" fill="#B79CF0"/>
+    <g font-size="34" fill="#F5EFE0" font-family="Bricolage Grotesque, sans-serif" font-weight="600"><text x="1424" y="92">$8.17</text><text x="1455" y="232">$8.39</text></g>
+    <g font-size="22" fill="#17162F" font-family="Bricolage Grotesque, sans-serif" font-weight="600"><text x="365" y="88" text-anchor="middle">$1.50</text><text x="937" y="88" text-anchor="middle">人耳審核 $6.67</text><text x="365" y="228" text-anchor="middle">$1.50</text><text x="968" y="228" text-anchor="middle">人耳審核 $6.67</text></g>
+    <path d="M 486 176 L 486 150 L 560 150" stroke="#7CC4E8" stroke-width="2" fill="none"/><text x="568" y="157" font-size="22" fill="#7CC4E8">TTS $0.22</text>
   </svg>
-  <div class="row" style="gap:40px;align-items:center;font-size:26px">
-    <span class="row" style="gap:12px;align-items:center"><i style="width:26px;height:26px;background:var(--r3);border-radius:6px"></i>工具費 $1.50</span>
-    <span class="row" style="gap:12px;align-items:center"><i style="width:26px;height:26px;background:var(--r4);border-radius:6px"></i>審核 20 分鐘</span>
-    <span class="row" style="gap:12px;align-items:center"><i style="width:26px;height:26px;background:var(--r2);border-radius:6px"></i>修音工時</span>
-    <span class="small" style="margin-left:auto">假設：S=$30/月、N=20 集、w=$20/時、b=U=0</span>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:24px">
+    <div class="card" style="padding:24px 30px;gap:8px"><div class="bignum hl3" style="font-size:56px">$0.22</div><p class="small">Pro 模式一集 16 分鐘的 TTS 費用：輸入 3,478＋輸出 24,065 tokens</p></div>
+    <div class="card" style="padding:24px 30px;gap:8px"><div class="bignum hl3" style="font-size:56px">$0.00225</div><p class="small">重錄 10 秒的官方換算費用。念錯只重錄那一段</p></div>
+    <div class="card" style="padding:24px 30px;gap:8px"><div class="bignum hl2" style="font-size:56px">$1.50</div><p class="small">每月 ≤ US$30 工具費攤到每集；兩種模式都有</p></div>
+    <div class="card" style="padding:24px 30px;gap:8px"><div class="bignum hl4" style="font-size:56px">20 分</div><p class="small">人耳審核，兩種模式都省不掉</p></div>
   </div>
-  <aside class="notes">S 工具費、N 每月集數、w 時薪、h 審核分鐘、b 其他人工、p 需要修音的比例、r 每次修音多花的分鐘、U 其他費用。重點：月費 30 美元不代表整集很便宜；嚴重修音情境下，成本是只審核的 3.4 倍。也能反過來算：每集多花 2 分鐘做檢查，若能讓 30 分鐘的修音少發生 6.7 個百分點以上，就划算。</aside>
+  <p class="small" style="font-size:22px">假設：每月 20 集、時薪 US$20、審核 20 分鐘，不含修音；TTS 依 Google 官方 2026 牌價（輸入 $0.50、輸出 $9.00／百萬 tokens）與一集 960 秒實際用量</p>
+  <div class="reffoot"><span class="rb">📄 發表的論文 [2]</span><span>Y.-K. Huang, “Engineering a children’s science podcast with large language models: A five-ring technical report on KidSciCast AI,” <i>ResearchGate preprint</i>, 2026, doi: <a class="doi" href="https://doi.org/10.13140/RG.2.2.23325.88807" target="_blank" rel="noopener">10.13140/RG.2.2.23325.88807</a>.</span></div>
+  <aside class="notes">兩種模式的錢差不多：Pro 模式多了每集約 0.22 美元的 TTS，2027 年起牌價加倍，約 0.43 美元。真正的差別在修音：Auto 模式念錯要人工剪接；Pro 模式只要重錄那一段，10 秒約 0.00225 美元，再聽一次確認。這張圖沒有算修音時間，因為兩種模式都還沒有完整量測。寫劇本、查核用的模型費用，假設仍包含在每月 30 美元以內。</aside>
 </section>
 
-<section class="slide" data-ring="0" data-sec="第六幕 · 聽眾與證據">
-  <div class="kicker">第五幕 · 聽眾怎麼說</div>
+<section class="slide has-ref" data-ring="0" data-sec="第六幕 · 成本與成果">
+  <div class="kicker">第六幕 · 聽眾怎麼說 <span class="cite">[2]</span></div>
   <div class="row grow" style="gap:56px;align-items:center">
     <div class="col" style="width:760px;gap:28px">
       <img src="img/family.jpg" alt="早晨上學途中，家長開車，兩個孩子在後座聽 Podcast" style="width:760px;height:428px;object-fit:cover;border-radius:28px">
@@ -975,6 +943,7 @@ rules:
       <p class="small">例：家長說兩個孩子每天上學路上聽；孩子在課堂上答出節目裡聽過的知識；聽了兩個月的家庭來點題「細胞」。</p>
     </div>
   </div>
+  <div class="reffoot"><span class="rb">📄 發表的論文 [2]</span><span>Y.-K. Huang, “Engineering a children’s science podcast with large language models: A five-ring technical report on KidSciCast AI,” <i>ResearchGate preprint</i>, 2026, doi: <a class="doi" href="https://doi.org/10.13140/RG.2.2.23325.88807" target="_blank" rel="noopener">10.13140/RG.2.2.23325.88807</a>.</span></div>
   <aside class="notes">50 則是 Apple 臺灣評論 feed 依最新排序的第一頁，全部讀過，由 AI 協助編碼，屬探索性描述，不是代表性調查。課堂答題那則是軼事，不是學習成效評量。排行榜兩次觀察，直接下載第 2、索引快照第 1，不能說「長期霸榜」。</aside>
 </section>
 
@@ -993,10 +962,10 @@ rules:
       <p style="font-size:32px"><b class="en hl1">40+</b>　個 skill</p>
       <p style="font-size:32px"><b class="en hl2">30+</b>　條破音字規則</p>
       <p style="font-size:32px"><b class="en hl3">2</b>　家模型交叉查核</p>
-      <p style="font-size:32px"><b class="en hl4">1</b>　個修音迴圈</p>
+      <p style="font-size:32px"><b class="en hl4">2</b>　種製作模式</p>
       <p style="font-size:32px"><b class="en hl5">1</b>　道人耳閘門</p>
       <p style="font-size:32px"><b class="en hl1">17</b>　項素材檢查</p>
-      <p style="font-size:32px"><b class="en hl3">3</b>　道發布關卡</p>
+      <p style="font-size:32px"><b class="en hl3">1,956</b>　個音效素材</p>
       <p style="font-size:32px"><b class="en hl2">15–20</b>　分鐘人工審核</p>
     </div>
     <p class="big hl1" style="font-size:46px">一鍵生成的是音檔，<br>工程做出來的才是節目。</p>
@@ -1010,12 +979,14 @@ rules:
     <div class="kicker">帶走三句話</div>
     <div class="col" style="gap:28px">
       <p class="big" style="font-size:42px"><span class="hl1">1.</span> AI 沒有讓人消失，人負責最貴的判斷</p>
-      <p class="big" style="font-size:42px" data-step="1"><span class="hl3">2.</span> 先找出錯在哪一環，再決定要不要加一層</p>
+      <p class="big" style="font-size:42px" data-step="1"><span class="hl3">2.</span> 選工具，就是選控制要放在哪一環</p>
       <p class="big" style="font-size:42px" data-step="2"><span class="hl5">3.</span> 品質的上限，取決於驗收做得多好</p>
     </div>
   </div>
   <aside class="notes">第一句：避免 ring inflation，不要一出問題就加 agent。第二句：外圈越多，越需要說清楚誰批准、誰負責。第三句：論文第 IX 章的主線。</aside>
 </section>
+
+
 
 <section class="slide" data-ring="0" data-sec="收尾" style="justify-content:center;align-items:center;text-align:center">
   <div class="kicker">Q &amp; A</div>
@@ -1046,6 +1017,9 @@ const AUDIO = {
   reservoir:{src:"audio/reservoir.mp3",dur:6.58,reveal:0,pop:5.8,noLyrics:true,
     peaks:[0.0,0.0,0.0,0.0,0.0,0.2,0.53,0.51,0.18,0.1,0.4,0.42,0.31,0.18,0.01,0.01,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.46,0.77,0.54,0.56,0.17,0.33,0.77,0.74,0.43,0.08,0.1,0.41,0.1,0.0,0.32,0.42,0.44,0.41,0.14,0.23,0.78,0.49,0.09,0.5,0.36,0.02,0.0,0.0,0.63,0.57,0.54,0.47,0.42,0.15,0.05,0.27,0.85,1.0,0.88,0.42,0.24,0.21,0.24,0.25,0.19,0.07,0.01,0.02,0.02,0.02,0.02,0.01,0.0,0.09,0.11,0.1,0.1,0.09,0.69,0.73,0.48,0.06,0.14,0.07,0.58,0.53,0.07,0.01,0.33,0.37,0.18,0.13,0.08,0.41,0.41,0.38,0.16,0.01,0.0,0.0,0.0,0.0,0.31,0.42,0.42,0.39,0.56,0.62,0.61,0.31,0.05,0.1,0.9,0.76,0.55,0.54,0.55,0.69,0.72,0.58,0.31,0.4,0.38,0.34,0.0,0.01,0.19,0.32,0.31,0.26,0.07,0.1,0.17,0.56,0.41,0.12,0.4,0.33,0.12,0.16,0.17,0.16,0.16,0.24,0.23,0.27,0.2,0.25,0.36,0.37,0.33,0.31,0.19,0.01,0.01,0.01],
     words:[["不是，",0.0],["冰",0.5],["河",1.12],["是",1.3],["固",1.42],["態",1.68],["的",1.82],["冰",1.96],["塊",2.26],["耶，",2.52],["水",2.82],["庫",3.34],["不是",3.66],["應該",3.82],["裝",4.44],["滿",4.78],["了",5.0],["液",5.2],["態",5.46],["的",5.66],["屎",5.8,"bad"],["嗎？",6.1]]},
+  dive:{src:"audio/dive.mp3",dur:30.0,reveal:0,marks:[[11.7,13.9,"入水","var(--r5)"],[13.9,15.42,"氣泡","var(--r3)"],[24.15,26.02,"聲納","var(--r1)"]],
+    peaks:[0.2,0.52,0.43,0.46,0.21,0.7,0.32,0.53,0.62,0.56,0.18,0.5,0.77,0.47,0.6,0.79,0.37,0.8,0.7,0.0,0.01,0.55,0.7,0.75,0.79,0.05,0.43,0.3,0.76,0.31,0.42,0.38,0.53,0.3,0.38,0.75,0.57,0.0,0.09,0.5,0.74,0.73,0.67,0.5,0.83,0.81,0.14,0.0,0.0,0.81,0.64,0.0,0.01,0.18,0.49,0.63,0.64,0.9,0.84,0.8,0.08,0.0,0.26,1.0,0.26,0.13,0.33,0.27,0.13,0.15,0.22,0.09,0.03,0.01,0.36,0.65,0.67,0.66,0.74,0.54,0.0,0.0,0.0,0.0,0.06,0.35,0.38,0.41,0.16,0.34,0.35,0.17,0.27,0.02,0.0,0.0,0.0,0.0,0.15,0.32,0.28,0.29,0.16,0.26,0.35,0.01,0.01,0.41,0.18,0.27,0.33,0.01,0.01,0.0,0.0,0.03,0.34,0.48,0.03,0.0,0.0,0.34,0.29,0.41,0.44,0.44,0.41,0.0,0.51,0.46,0.21,0.09,0.05,0.02,0.01,0.01,0.0,0.0,0.0,0.0,0.5,0.53,0.46,0.68,0.76,0.71,0.26,0.76,0.73,0.37,0.28,0.21,0.7,0.47,0.29,0.15,0.35,0.36,0.17,0.09],
+    words:[["小博：……抓緊，潛水艇要下潛了——",0.05],["\n",11.6],["🌊 入水",11.7,"sfx"],["🫧 氣泡",13.9,"sfx"],["\n",15.7],["小可：潛水艇往下沉了……窗外越來越暗——小博，我們現在在哪裡？",15.82],["\n",24.1],["📡 聲納",24.15,"sfx"],["\n",26.2],["小博：我們現在在阿拉斯加、白令海峽和北極圈附近的深海……",26.32]]},
   cantonese:{src:"audio/cantonese.mp3",dur:12.62,reveal:0,pop:10.14,
     peaks:[0.7,0.58,0.53,0.62,0.42,0.36,0.87,0.89,0.46,0.3,0.02,0.0,0.0,0.0,0.0,0.03,0.91,0.56,0.08,0.28,0.33,0.35,0.73,0.63,0.59,0.75,0.64,0.6,0.73,0.49,0.07,0.0,0.0,0.72,0.5,0.02,0.0,0.0,0.02,0.04,0.23,0.17,0.64,0.59,0.25,0.14,0.13,0.12,0.14,0.01,0.0,0.0,0.0,0.0,0.01,0.03,0.6,0.35,0.21,0.51,0.4,0.52,0.36,0.63,0.58,0.23,0.36,0.27,0.17,0.3,0.27,0.07,0.42,0.54,0.39,0.07,0.17,0.28,0.26,0.24,0.1,0.32,0.35,0.15,0.42,0.41,0.36,0.34,0.31,0.23,0.13,0.0,0.0,0.8,0.86,0.67,0.15,0.0,0.0,0.0,0.0,0.0,0.0,0.67,0.83,0.34,0.57,0.47,0.43,0.52,0.63,0.97,0.74,0.39,0.59,0.39,0.38,0.46,0.48,0.47,0.23,0.75,0.38,0.3,0.99,0.93,0.59,0.7,0.63,0.1,0.01,0.3,0.79,0.81,0.74,0.46,0.35,0.37,0.17,0.78,0.85,0.59,0.75,0.97,0.7,0.02,0.0,0.02,0.23,0.95,0.93,0.63,0.29,0.66,1.0,0.87,0.48,0.62,0.29,0.02],
     words:[["像",0.82],["吉",1.22],["他",1.48],["那",1.74],["樣",1.88],["嗎？",2.06],["對，",2.34],["就是",2.74],["那個",3.2],["原",3.42],["理。",3.6],["\n",3.79],["所以",3.8],["他們",4.4],["的",4.7],["叫",4.88],["聲",5.02],["連",5.24],["好",5.44],["幾",5.68],["公",5.94],["里",6.1],["外",6.3],["都",6.5],["聽",6.64],["得",6.82],["到。",6.9],["\n",7.1],["哇，",7.2],["那",7.58],["他們",8.16],["這麼",8.42],["大",8.62],["聲",8.78],["是",9.0],["為",9.14],["了",9.28],["吵",9.4],["架",9.6],["嗎？",9.84],["\n",10.0],["嘿！",10.14,"fun"],["你",10.6,"fun"],["瞅",10.78,"fun"],["啥？",11.06,"fun"],["瞅",11.4,"fun"],["你",11.84,"fun"],["咋",11.98,"fun"],["地！",12.2,"fun"]]},
@@ -1086,6 +1060,7 @@ document.querySelectorAll('.player').forEach(el=>{
   const bars=[...wave.children];
   let mark=null;
   if(cfg.mark){mark=document.createElement('div');mark.className='mark';mark.style.left=(cfg.mark[0]/cfg.dur*100)+'%';mark.style.width=((cfg.mark[1]-cfg.mark[0])/cfg.dur*100)+'%';mark.innerHTML='<span>'+cfg.mark[2]+'</span>';wave.appendChild(mark);}
+  (cfg.marks||[]).forEach(([a,b,l,c])=>{const mk=document.createElement('div');mk.className='mark sfxmark';mk.style.left=(a/cfg.dur*100)+'%';mk.style.width=((b-a)/cfg.dur*100)+'%';mk.style.borderColor=c;mk.style.background='color-mix(in srgb, '+c+' 22%, transparent)';mk.innerHTML='<span style="color:'+c+'">'+l+'</span>';wave.appendChild(mk);});
   const spans=[];
   cfg.words.forEach(w=>{
     if(w[0]==='\n'){lyr.appendChild(document.createElement('br'));return;}
@@ -1227,4 +1202,3 @@ if(h>0) idx=Math.min(slides.length-1,h-1);
 render();
 })();
 </script>
-</html>
