@@ -336,21 +336,42 @@ td.ok{color:var(--ok)}td.alarm{color:var(--alarm)}
   <aside class="notes">這頁是論文的核心：一趟 harness 由三步組成，收集、動手、驗收。收集這一步裡面包著前兩環：先在預算內挑選要上桌的東西，再組裝成一個輸入。模型輸出之後，動手：呼叫工具或子代理。這裡是安全邊界真正被打破的地方，因為文字變成了行動。然後驗收，要回傳判定和證據。不通過就重試，但重試不是重擲骰子，而是重新收集：把失敗寫回桌上，下一趟才看得到。通過就寫回狀態，由外面的 Loop 決定要不要再跑；Loop 外面再包 Graph，負責分工、審核和人工核准。後面講 Pro 模式時，會一直回到這張圖。</aside>
 </section>
 <section class="slide has-ref" data-ring="0" data-sec="第二幕 · 五環理論">
-  <div class="kicker">第二幕 · 工作單位、故障、量尺 <span class="cite">[1]</span></div>
-  <h2 style="font-size:56px">每一環壞的方式不同，量它的尺也不同</h2>
-  <style>.tz td{padding:9px 14px!important;line-height:1.35!important}.tz th{padding:0 14px 10px!important;font-size:21px!important}</style><table class="t tight tz" style="font-size:22px;margin-top:-6px">
-    <tr><th style="width:190px">環・單位</th><th>典型故障</th><th style="width:470px">量測工具</th><th style="width:300px">這把尺量不到</th></tr>
-    <tr><td style="border-left:5px solid #FFC94A"><b style="color:#FFC94A">① Prompt</b><br><span style="font-size:19px">一次輸入</span></td>
-      <td>指示模糊、格式漂移；換個措辭結果就變</td><td>固定測試集上的輸出品質</td><td class="mist">需要的證據有沒有上桌</td></tr><tr><td style="border-left:5px solid #FF8A3D"><b style="color:#FF8A3D">② Context</b><br><span style="font-size:19px">一個視窗</span></td>
-      <td>需要的證據沒放進來、被埋在中間、被擠掉</td><td>證據覆蓋：有沒有在視窗裡、放在哪個位置</td><td class="mist">輸出對不對</td></tr><tr><td style="border-left:5px solid #7CC4E8"><b style="color:#7CC4E8">③ Harness</b><br><span style="font-size:19px">一趟</span></td>
-      <td>動作不安全或失敗；輸出沒有被檢查</td><td>每一趟的驗收判定；可執行檢查的通過比例</td><td class="mist">目標有沒有達成</td></tr><tr><td style="border-left:5px solid #B79CF0"><b style="color:#B79CF0">④ Loop</b><br><span style="font-size:19px">一次執行</span></td>
-      <td>停不下來、太早停、接受沒驗過的結果</td><td>固定成本下：完成或中止，附上原因</td><td class="mist">平行的部分有沒有協調好</td></tr><tr><td style="border-left:5px solid #FF7E9D"><b style="color:#FF7E9D">⑤ Graph</b><br><span style="font-size:19px">一次圖執行</span></td>
-      <td>協調與狀態錯誤；審核員一起犯同樣的錯</td><td>最終成品的接受度、軌跡稽核、核准品質</td><td class="mist">節點裡面的工作對不對</td></tr>
-  </table>
-  <p style="font-size:24px">每一列都要附上<b class="hl1">成本</b>：準確度可以用更多次呼叫買到，只報準確度、不報成本的數字無法比較。</p>
-  <div class="lit">文獻：Kapoor, Stroebl, Siegel, Nadgir &amp; Narayanan (2024), AI agents that matter, <i>Transactions on Machine Learning Research</i>, arXiv:2407.01502</div>
+  <div class="kicker">第二幕 · 五環在做什麼 <span class="cite">[1]</span></div>
+  <h2 style="font-size:60px">五環，就是做事時要回答的五個問題</h2>
+  <div class="row" style="gap:10px;align-items:stretch"><div class="card" style="flex:1;min-width:0;gap:12px;padding:0 0 22px;overflow:hidden;border-color:#FFC94A">
+      <div style="background:#FFC94A;color:#17162F;font-weight:800;font-size:28px;padding:12px 22px">① Prompt</div>
+      <div style="font-size:64px;line-height:1;padding:4px 22px 0">✍️</div>
+      <h3 style="font-size:30px;line-height:1.3;padding:0 22px;color:#FFC94A">要 AI 做什麼？</h3>
+      <p style="font-size:23px;line-height:1.45;padding:0 22px">🍽 寫好食譜</p>
+      <p style="font-size:20px;line-height:1.45;padding:0 22px;color:var(--mist)">🎧 請 AI 當科普作家，寫成小學生聽得懂的稿</p>
+    </div><div style="flex:none;align-self:center;font-size:40px;color:var(--mist)">→</div><div class="card" style="flex:1;min-width:0;gap:12px;padding:0 0 22px;overflow:hidden;border-color:#FF8A3D">
+      <div style="background:#FF8A3D;color:#17162F;font-weight:800;font-size:28px;padding:12px 22px">② Context</div>
+      <div style="font-size:64px;line-height:1;padding:4px 22px 0">🧺</div>
+      <h3 style="font-size:30px;line-height:1.3;padding:0 22px;color:#FF8A3D">讓它看哪些資料？</h3>
+      <p style="font-size:23px;line-height:1.45;padding:0 22px">🍽 只把要用的食材放上桌</p>
+      <p style="font-size:20px;line-height:1.45;padding:0 22px;color:var(--mist)">🎧 只放查核過的文章、主持人設定、讀音標注</p>
+    </div><div style="flex:none;align-self:center;font-size:40px;color:var(--mist)">→</div><div class="card" style="flex:1;min-width:0;gap:12px;padding:0 0 22px;overflow:hidden;border-color:#7CC4E8">
+      <div style="background:#7CC4E8;color:#17162F;font-weight:800;font-size:28px;padding:12px 22px">③ Harness</div>
+      <div style="font-size:64px;line-height:1;padding:4px 22px 0">🍳</div>
+      <h3 style="font-size:30px;line-height:1.3;padding:0 22px;color:#7CC4E8">動手做，做對了嗎？</h3>
+      <p style="font-size:23px;line-height:1.45;padding:0 22px">🍽 開火煮，再試一口味道</p>
+      <p style="font-size:20px;line-height:1.45;padding:0 22px;color:var(--mist)">🎧 AI 上網查證文章，疑點列成清單</p>
+    </div><div style="flex:none;align-self:center;font-size:40px;color:var(--mist)">→</div><div class="card" style="flex:1;min-width:0;gap:12px;padding:0 0 22px;overflow:hidden;border-color:#B79CF0">
+      <div style="background:#B79CF0;color:#17162F;font-weight:800;font-size:28px;padding:12px 22px">④ Loop</div>
+      <div style="font-size:64px;line-height:1;padding:4px 22px 0">🔁</div>
+      <h3 style="font-size:30px;line-height:1.3;padding:0 22px;color:#B79CF0">沒過就重來，何時停？</h3>
+      <p style="font-size:23px;line-height:1.45;padding:0 22px">🍽 不好吃就調整再煮，最多三次</p>
+      <p style="font-size:20px;line-height:1.45;padding:0 22px;color:var(--mist)">🎧 聽到錯字就修，再聽一次；修太多就整集重做</p>
+    </div><div style="flex:none;align-self:center;font-size:40px;color:var(--mist)">→</div><div class="card" style="flex:1;min-width:0;gap:12px;padding:0 0 22px;overflow:hidden;border-color:#FF7E9D">
+      <div style="background:#FF7E9D;color:#17162F;font-weight:800;font-size:28px;padding:12px 22px">⑤ Graph</div>
+      <div style="font-size:64px;line-height:1;padding:4px 22px 0">🧑‍🍳</div>
+      <h3 style="font-size:30px;line-height:1.3;padding:0 22px;color:#FF7E9D">誰做哪一段，誰簽核？</h3>
+      <p style="font-size:23px;line-height:1.45;padding:0 22px">🍽 整間廚房分工，主廚出菜前把關</p>
+      <p style="font-size:20px;line-height:1.45;padding:0 22px;color:var(--mist)">🎧 人耳通過，才產生測驗、詞彙、知識卡</p>
+    </div></div>
+  <p style="font-size:26px">一環包一環：<b class="hl1">裡面那環沒做好，外面加再多關卡也救不回來</b>（下一頁的 H1）。</p>
   <div class="reffoot"><span class="rb">📄 發表的論文 [1]</span><span>Y.-K. Huang, “The five concentric rings of large-language-model systems engineering: A harness-centered tutorial from prompts to topologies,” <i>ResearchGate preprint</i>, 2026, doi: <a class="doi" href="https://doi.org/10.13140/RG.2.2.35069.93920" target="_blank" rel="noopener">10.13140/RG.2.2.35069.93920</a>.</span></div>
-  <aside class="notes">這張表把五環放在同一個框架下比較。每一環的工作單位不同，壞掉的樣子不同，所以量它的尺也不同。最右邊一欄最重要：每把尺都有量不到的東西。例如第二環能量證據有沒有放進視窗，但量不到輸出對不對；第五環能稽核整條流程，但量不到節點裡面的工作對不對。這就是下一頁 H3 的內容。成本那一句引自 Kapoor 等人 2024 年的研究。</aside>
+  <aside class="notes">用煮菜來想五環。第一環 Prompt：先把食譜寫清楚，告訴 AI 要做什麼。第二環 Context：只把這道菜要用的食材放上桌，桌子很小，放錯東西反而礙事。第三環 Harness：開火煮，而且煮完要試一口，做完要有人驗收。第四環 Loop：不好吃就調整再煮，但要先定好最多煮幾次。第五環 Graph：整間廚房分工，最後主廚把關才出菜。每一環下面那一行，是《科學好好聽》裡實際對應的步驟。重點是一環包一環：食譜寫錯，後面怎麼把關都救不回來，這就是下一頁的 H1。</aside>
 </section>
 <section class="slide has-ref" data-ring="0" data-sec="第二幕 · 五環理論">
   <div class="kicker">第二幕 · 套疊之後的三條工作假設 <span class="cite">[1]</span></div>
